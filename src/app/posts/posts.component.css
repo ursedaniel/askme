@@ -3,6 +3,7 @@ mat-card {
   width: 60%;
 }
 
-mat-form-field, textarea {
+table {
   width: 100%;
+  margin-bottom: 15px;
 }

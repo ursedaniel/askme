@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatButtonModule, MatCardModule, MatInputModule, MatToolbarModule} from "@angular/material";
+import {MatButtonModule, MatCardModule, MatInputModule, MatTableModule, MatToolbarModule} from "@angular/material";
 import {FormsModule} from "@angular/forms";
 import { PostsComponent } from './posts/posts.component';
 import { HeaderComponent } from './header/header.component';
+import {PostService} from "./services/post.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -21,9 +23,12 @@ import { HeaderComponent } from './header/header.component';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule,
+    MatInputModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
