@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PostModel} from "../models/PostModel";
 import {PostService} from "../services/post.service";
+import {MatTable} from "@angular/material";
 
 @Component({
   selector: 'app-posts',
@@ -9,26 +10,35 @@ import {PostService} from "../services/post.service";
 })
 export class PostsComponent implements OnInit {
 
+  @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['id', 'title', 'content'];
-  public posts: Array<PostModel> = [
-    {id: 0, title: 'first title', content: 'first content'},
-    {id: 1, title: 'second title', content: 'second content'},
-    {id: 2, title: 'third title', content: 'third content'},
-    {id: 3, title: 'forth title', content: 'forth content'},
-  ];
+  public posts: Array<PostModel> = [];
 
-  constructor(private ps: PostService) { }
+  constructor(
+    private ps: PostService
+  ) {
+  }
 
   ngOnInit() {
-    // this.getPosts();
   }
 
   getPosts() {
-    this.ps.getPost().subscribe(
+    this.ps.getPosts().subscribe(
       (res) => {
         this.posts = res;
       }
     )
   }
 
+  addPost(form: HTMLFormElement) {
+    // @ts-ignore
+    this.ps.AddPost({title: form.title.value, content: form.content.value}).subscribe(
+      (res) => {
+        // @ts-ignore
+        this.posts.push({id: 0, content: form.content.value, title: form.title.value});
+        this.table.renderRows();
+        console.log(res);
+      }
+    )
+  }
 }
