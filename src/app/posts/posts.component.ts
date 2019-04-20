@@ -37,7 +37,6 @@ export class PostsComponent implements OnInit {
         // @ts-ignore
         this.posts.push({id: 0, content: form.content.value, title: form.title.value});
         this.table.renderRows();
-        console.log(res);
       }
     )
   }
