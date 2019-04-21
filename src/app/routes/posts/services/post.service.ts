@@ -23,7 +23,15 @@ export class PostService {
     })));
   }
 
-  AddPost(form: Object) {
-    return this.http.post<{ message: string }>('http://localhost:3000/api/post', form);
+  addPost(form: Object) {
+    return this.http.post<{ message: string }>('http://localhost:3000/api/posts', form);
+  }
+
+  updatePost(id: number, post: PostModel) {
+    return this.http.put<{ message: string }>('http://localhost:3000/api/posts/' + id, post);
+  }
+
+  deletePost(id: number) {
+    return this.http.delete<{message: string}>('http://localhost:3000/api/posts/' + id);
   }
 }

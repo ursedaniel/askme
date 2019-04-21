@@ -1,0 +1,10 @@
+img {
+  height: 30px;
+  margin-left: 10px;
+}
+
+.mat-toolbar.mat-primary {
+  background: transparent;
+  color: #fff;
+  position: fixed;
+}

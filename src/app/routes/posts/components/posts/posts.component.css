@@ -18,3 +18,7 @@ table {
 .example-full-width {
   width: 100%;
 }
+
+.delete-pointer {
+  cursor: pointer;
+}

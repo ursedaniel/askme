@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {PostModel} from "../models/PostModel";
-import {PostService} from "../services/post.service";
+import {PostModel} from "../../models/PostModel";
+import {PostService} from "../../services/post.service";
 import {MatTable} from "@angular/material";
 
 @Component({
@@ -11,7 +11,7 @@ import {MatTable} from "@angular/material";
 export class PostsComponent implements OnInit {
 
   @ViewChild(MatTable) table: MatTable<any>;
-  displayedColumns: string[] = ['id', 'title', 'content'];
+  displayedColumns: string[] = ['id', 'title', 'content', '#'];
   public posts: Array<PostModel> = [];
 
   constructor(
@@ -32,11 +32,20 @@ export class PostsComponent implements OnInit {
 
   addPost(form: HTMLFormElement) {
     // @ts-ignore
-    this.ps.AddPost({title: form.title.value, content: form.content.value}).subscribe(
+    this.ps.addPost({title: form.title.value, content: form.content.value}).subscribe(
       (res) => {
         // @ts-ignore
-        this.posts.push({id: 0, content: form.content.value, title: form.title.value});
+        alert(res.message);
+        this.getPosts();
         this.table.renderRows();
+      }
+    )
+  }
+
+  onDelete(id: number) {
+    this.ps.deletePost(id).subscribe(
+      (res) => {
+        this.getPosts();
       }
     )
   }

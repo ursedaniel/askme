@@ -5,16 +5,15 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatButtonModule, MatCardModule, MatInputModule, MatTableModule, MatToolbarModule} from "@angular/material";
 import {FormsModule} from "@angular/forms";
-import { PostsComponent } from './posts/posts.component';
-import { HeaderComponent } from './header/header.component';
-import {PostService} from "./services/post.service";
+import {PostService} from "./routes/posts/services/post.service";
 import {HttpClientModule} from "@angular/common/http";
+import {RouterModule} from '@angular/router';
+import {SharedModule} from './shared/shared.module';
+import {routing} from './routes';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostsComponent,
-    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -23,10 +22,12 @@ import {HttpClientModule} from "@angular/common/http";
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatToolbarModule,
     MatTableModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule,
+    SharedModule,
+    routing
   ],
   providers: [PostService],
   bootstrap: [AppComponent]
