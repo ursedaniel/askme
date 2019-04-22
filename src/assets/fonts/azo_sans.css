@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Azo Sans';
+  src: url('azo-sans/azo-sans-web-normal.eot');
+  src: url('azo-sans/azo-sans-web-normal.eot?#iefix') format('embedded-opentype'),
+       url('azo-sans/azo-sans-web-normal.woff2') format('woff2'),
+       url('azo-sans/azo-sans-web-normal.woff') format('woff'),
+       url('azo-sans/azo-sans-web-normal.ttf') format('truetype');
+  font-style:normal;font-weight:400;
+}
+
+@font-face {
+  font-family: 'Azo Sans Bold';
+  src: url('azo-sans/azo-sans-web-bold.eot');
+  src: url('azo-sans/azo-sans-web-bold.eot?#iefix') format('embedded-opentype'),
+       url('azo-sans/azo-sans-web-bold.woff2') format('woff2'),
+       url('azo-sans/azo-sans-web-bold.woff') format('woff'),
+       url('azo-sans/azo-sans-web-bold.ttf') format('truetype');
+  font-style:normal;font-weight:700;
+}
+
+
+

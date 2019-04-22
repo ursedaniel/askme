@@ -7,4 +7,5 @@ img {
   background: transparent;
   color: #fff;
   position: fixed;
+  z-index: 1;
 }
