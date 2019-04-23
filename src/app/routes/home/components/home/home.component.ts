@@ -90,9 +90,9 @@ export class HomeComponent implements OnInit {
 
     //--------------------------------------------------------
 
-    document.onmousemove = onMouseMoveHandler;
-    document.onmouseleave = onMouseLeaveHandler;
-    document.onmouseenter = onMouseEnterHandler;
+    header.onmousemove = onMouseMoveHandler;
+    header.onmouseleave = onMouseLeaveHandler;
+    header.onmouseenter = onMouseEnterHandler;
 
   }
 
