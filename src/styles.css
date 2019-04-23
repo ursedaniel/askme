@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face { font-family: azo-sans-web; src: url('assets/fonts/azo-sans/azo-sans-web-bold.eot'); }
+
 body {
   margin: 0 ;
+  transition: left .2s;
+  left: 0;
+  font-family: azo-sans-web,sans-serif;
 }

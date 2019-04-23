@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
 
   mouseFloat() {
     // Init
-    let container = document.getElementById('container'),
+    let container = document.getElementsByClassName('container')[0],
       inner = document.getElementById('floatingBox'),
       header = document.getElementById('header-home');
 

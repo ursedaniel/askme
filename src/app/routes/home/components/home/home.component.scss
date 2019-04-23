@@ -1,21 +1,33 @@
 @keyframes show-hero{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
 
-section {
+section#header-home {
   background-image: linear-gradient(45deg, rgb(88, 231, 245) 0px, rgb(1, 207, 227) 15%, rgb(79, 59, 219) 100%);
   background: #01cfe3;
   color: #fff;
   padding: 4rem 0 8rem;
-  height: calc(75vh + 4rem);
+  height: calc(80vh + 4rem);
   min-height: 40rem;
   overflow: hidden;
+  position: relative;
 }
 
-section img {
+section#header-home img {
   display: block;
   margin: 0 auto;
 }
 
-h1{
+section#header-home:after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 4rem;
+  left: 0;
+  background: linear-gradient(-182deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 50%,#fff 51%,#fff 100%);
+  content: " ";
+  bottom: 0;
+}
+
+section#header-home h1{
   font-family: 'monospace', sans-serif;
   font-size: 60px;
   font-weight: bold;
@@ -23,9 +35,10 @@ h1{
   margin: 0 auto;
 }
 
-#container {
+.container {
   perspective: 30px;
-  width: 50%;
+  width: 90%;
+  max-width: 1300px;
   margin: 0 auto;
   display: flex;
   height: 100%;
@@ -39,16 +52,94 @@ h1{
   box-shadow: 4px 4px 50px gray;
 }
 
-/*============================================================
- * EXTRAS
- *============================================================*/
-
 #floatingBox{
-  /* Photo by David Marcu on Unsplash */
-  //transition: transform 0.3s;
-  //-webkit-transition: transform 0.3s;
   background-size: cover;
   background-repeat: no-repeat;
   align-self:center;
   animation: 1.15s .25s backwards cubic-bezier(.24,.96,.46,1.01) show-hero;
+  margin: 0 auto;
+}
+
+/*============================================================
+ * ABOUT-SECTION
+ *============================================================*/
+
+.about-image {
+  display: block;
+  width: 60%;
+  height: 0;
+  position: relative;
+  padding-bottom: 40%;
+}
+
+.left-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.about-image-layer1 {
+  animation: .5s 50ms forwards slide-upwards cubic-bezier(.71,.01,.38,1.01);
+  background-image: url("/assets/images/digital-product-layer1@1x.jpg");
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  z-index: 101;
+}
+
+.about-image-layer2 {
+  animation: .5s 50ms forwards slide-upwards cubic-bezier(.71,.01,.38,1.01);
+  background-image: url("/assets/images/digital-product-layer2@1x.png");
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  z-index: 102;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 40%;
+  padding: 5rem 2.5%;
+}
+
+.about-text-title {
+  font-size: 3.25rem;
+  font-weight: 700;
+  line-height: .92307;
+  color: #435068;
+  font-family: azo-sans-web,sans-serif;
+  font-style: normal;
+}
+
+.about-text-large {
+  white-space: nowrap;
+}
+
+.about-subtitle {
+  font-size: 1.625rem;
+  display: block;
+  font-weight: 500;
+  margin-top: .5rem;
+  color: #435068;
+  font-family: azo-sans-web,sans-serif;
+  font-style: normal;
+}
+
+.about-description {
+  font-size: 1.1875rem;
+  color: #78859d;
+  font-weight: 400;
 }
