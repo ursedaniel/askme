@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
     };
 
     let onMouseLeaveHandler = function() {
+      // @ts-ignore
       inner.style = '';
     };
 
