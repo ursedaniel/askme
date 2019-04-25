@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit {
       updateTransformStyle(
         (mouse.y / inner.offsetHeight / 2).toFixed(2),
         (mouse.x / inner.offsetWidth / 2).toFixed(2),
-        Math.abs(mouse.x / window.innerWidth) * 200
+        Math.abs(event.pageX  / inner.offsetWidth + 0.1) * 50
       );
     };
 
@@ -158,8 +158,8 @@ export class HomeComponent implements OnInit {
     //--------------------------------------------------------
 
     header.onmousemove = onMouseMoveHandler;
-    header.onmouseleave = onMouseLeaveHandler;
-    header.onmouseenter = onMouseEnterHandler;
+    // header.onmouseleave = onMouseLeaveHandler;
+    // header.onmouseenter = onMouseEnterHandler;
 
   }
 
