@@ -1,11 +1,41 @@
-img {
-  height: 30px;
-  margin-left: 10px;
+.mat-toolbar.mat-primary {
+  color: white;
+  position: fixed;
+  z-index: 99999999;
+  border-bottom: 1px solid lightblue;
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 55px;
+  top: 0;
 }
 
-.mat-toolbar.mat-primary {
-  background: transparent;
-  color: #fff;
-  position: fixed;
-  z-index: 1;
+.center-nav-body {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.left-area-nav {
+  width: 50%;
+  float:left;
+}
+
+a{
+  color: white;
+  text-decoration: none;
+}
+
+.left-area-nav img {
+  height: 30px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.left-area-nav span {
+  vertical-align: middle;
+}
+
+.right-area-nav {
+  width: 50%;
+  float: right;
 }

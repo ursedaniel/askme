@@ -1,0 +1,59 @@
+.container {
+  width: 35%;
+  margin-top: 150px;
+}
+
+.mat-card {
+  border-radius: 0 0 4px 4px;
+  padding-left: 8%;
+  padding-right: 8%;
+  padding-top: 25px;
+}
+
+.header {
+  height: auto;
+  background-color: #673ab7;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+}
+
+.header span {
+  color: white;
+  font-size: 1.2rem;
+}
+
+.form-login {
+  min-width: 150px;
+  width: 100%;
+}
+
+input:-internal-autofill-selected {
+  background-color: transparent !important;
+}
+
+.form-login .mat-raised-button {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.form-login .mat-button:focus {
+  outline: none;
+}
+
+.component-rgb-background {
+  overflow-y: hidden;
+}
+
+.mat-form-field:nth-child(2) {
+  margin-top: 15px;
+}
+
+.mat-spinner {
+  margin: 0 auto;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}

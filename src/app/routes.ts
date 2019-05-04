@@ -6,7 +6,7 @@ export const routes = [
 
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', loadChildren: './routes/home/home.module#HomeModule'},
-  // {path: 'login', loadChildren: './routes/login/login.module#LoginModule'},
+  {path: 'auth', loadChildren: './routes/auth/auth.module#AuthModule'},
   // {path: 'register', loadChildren: './routes/register/register.module#RegisterModule'},
   // {path: 'account', loadChildren: './routes/account/account.module#AccountModule',  canActivate: [AuthGuardService]},
 

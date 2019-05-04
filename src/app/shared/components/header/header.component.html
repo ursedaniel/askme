@@ -1,4 +1,15 @@
 <mat-toolbar color="primary">
-    <span>AskMe</span>
-    <img src="../../../../assets/icons/logo.png">
+  <div class="center-nav-body">
+    <div class="left-area-nav">
+      <a routerLink="home">
+        <span>AskMe</span>
+        <img src="../../../../assets/icons/logo.png">
+      </a>
+    </div>
+
+    <div class="right-area-nav">
+      <button [routerLink]="['/auth/login']" mat-button class="float-right" routerLinkActive="mat-accent">Login</button>
+      <button [routerLink]="['/auth/register']" mat-button class="float-right" routerLinkActive="mat-accent">Register</button>
+    </div>
+  </div>
 </mat-toolbar>
