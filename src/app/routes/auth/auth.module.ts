@@ -5,6 +5,7 @@ import {routing} from './routes/routes';
 import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
@@ -18,6 +19,7 @@ import { RegisterComponent } from './components/register/register.component';
     ReactiveFormsModule,
     FormsModule,
     MatProgressSpinnerModule,
+    RouterModule
   ]
 })
 export class AuthModule { }

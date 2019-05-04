@@ -1,5 +1,6 @@
 import {ModuleWithProviders} from '@angular/core';
 import {RouterModule} from '@angular/router';
+import {AuthGuard} from './routes/auth/guards/auth.guard';
 // import {AuthGuardService} from './shared/services/auth-guard.service';
 
 export const routes = [
@@ -7,6 +8,7 @@ export const routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', loadChildren: './routes/home/home.module#HomeModule'},
   {path: 'auth', loadChildren: './routes/auth/auth.module#AuthModule'},
+  {path: 'posts', loadChildren: './routes/posts/posts.module#PostsModule', canActivate: [AuthGuard]},
   // {path: 'register', loadChildren: './routes/register/register.module#RegisterModule'},
   // {path: 'account', loadChildren: './routes/account/account.module#AccountModule',  canActivate: [AuthGuardService]},
 
