@@ -9,6 +9,7 @@ export const routes = [
   {path: 'home', loadChildren: './routes/home/home.module#HomeModule'},
   {path: 'auth', loadChildren: './routes/auth/auth.module#AuthModule'},
   {path: 'posts', loadChildren: './routes/posts/posts.module#PostsModule', canActivate: [AuthGuard]},
+  {path: 'stream', loadChildren: './routes/stream/stream.module#StreamModule', canActivate: [AuthGuard]},
   // {path: 'register', loadChildren: './routes/register/register.module#RegisterModule'},
   // {path: 'account', loadChildren: './routes/account/account.module#AccountModule',  canActivate: [AuthGuardService]},
 

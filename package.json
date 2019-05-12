@@ -2,13 +2,9 @@
   "name": "ask-me",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
+    "start": "ng serve --host 0.0.0.0",
     "start:server": "nodemon server.js",
-    "e2e": "ng e2e"
+    "build": "ng build"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +18,7 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "angular-agora-rtc": "^0.1.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",

@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="remote-containers">
+    <div class="remote_calls" *ngFor="let remote of remoteCalls;" [id]="remote"></div>
+  </div>
+  <div id="my-stream"></div>
+  <div id="main_stream">
+    <div *ngIf="remoteCalls?.length == 0">
+      <img src="../../../../../assets/images/start%20stream.png" class="stream-off" *ngIf="!streamOff">
+      <img src="../../../../../assets/images/play-stream.png" class="stream-off-play" title="Start Stream"
+           *ngIf="!isLoading" (click)="startCall()">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <div class="buffering-text" *ngIf="isLoading">
+        Waiting for the call to begin...
+      </div>
+    </div>
+  </div>
+</div>

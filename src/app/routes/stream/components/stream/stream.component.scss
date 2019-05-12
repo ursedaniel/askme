@@ -1,0 +1,58 @@
+#main_stream{
+  height: 500px;
+  width: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+#my-stream {
+  width: 18%;
+  height: 23%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  right: 15px;
+}
+
+.remote-containers div{
+  height: 500px;
+  width: 100%;
+}
+
+.container {
+  width: 60%;
+  margin-top: 150px;
+  position: relative;
+}
+
+.stream-off {
+  width: 100%;
+}
+
+.stream-off-play {
+  display: block;
+  position: absolute;
+  width: 8%;
+  top: 45%;
+  left: 45%;
+  cursor: pointer;
+}
+
+.mat-progress-spinner {
+  z-index: 9999;
+  position: absolute;
+  width: 5%;
+  top: 40%;
+  left: 43%;
+}
+
+.buffering-text {
+  z-index: 9999;
+  position: absolute;
+  width: auto;
+  top: 62%;
+  left: 40%;
+  padding: 10px;
+  background-color: azure;
+  color: #673ab7;
+}
