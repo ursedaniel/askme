@@ -10,6 +10,7 @@ import {AuthService} from '../../services/auth.service';
 export class RegisterComponent implements OnInit {
 
   isLoading: boolean;
+  badCredentials: boolean;
 
   constructor(private auth: AuthService) {
   }
@@ -28,6 +29,7 @@ export class RegisterComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
+        this.badCredentials = true;
       }
     )
   }

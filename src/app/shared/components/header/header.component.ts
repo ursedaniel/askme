@@ -10,13 +10,16 @@ import {Subscription} from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean;
   private authListenerSubs: Subscription;
+  userType: string;
 
   constructor(private auth: AuthService) { }
 
   ngOnInit() {
     this.userIsAuthenticated = this.auth.getIsAuth();
+    this.userType = localStorage.getItem('type');
     this.authListenerSubs = this.auth.getAuthStatusListener().subscribe(isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;
+      this.userType = localStorage.getItem('type');
     });
   }
 
@@ -26,6 +29,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
       this.auth.logOut();
+  }
+
+  updateType() {
+    this.auth.changeType().subscribe();
   }
 
 }

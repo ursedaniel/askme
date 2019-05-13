@@ -11,6 +11,7 @@ import {AuthService} from '../../services/auth.service';
 export class LoginComponent implements OnInit {
 
   isLoading: boolean;
+  badCredentials: boolean;
 
   constructor(private auth: AuthService) {
   }
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(form: NgForm) {
+    this.badCredentials = false;
     if (form.invalid) {
       return;
     }
@@ -29,6 +31,7 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
+        this.badCredentials = true;
       }
     )
   }

@@ -3,13 +3,14 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const checkAuth = require('../middleware/check-auth');
 
 router.post('/register', (req, res, next) => {
-  console.log('intra');
   bcrypt.hash(req.body.password, 10).then(hash => {
     const user = new User({
       email: req.body.email,
-      password: hash
+      password: hash,
+      type: 0
     });
     user.save().then(result => {
       res.status(201).json({
@@ -45,13 +46,18 @@ router.post('/login', (req, res, next) => {
       email: fetchedUser.email,
       userId: fetchedUser._id
     }, 'secret_this_should_be_longer', {expiresIn: "1h"});
-    res.status(200).json({token: token, expiresIn: 3600});
+    res.status(200).json({token: token, expiresIn: 3600, type: fetchedUser.type});
   }).catch(err => {
     return res.status(401).json({
       message: 'Auth failed'
     })
   });
 
+});
+
+router.get('/type', checkAuth, (req, res, next) => {
+  var User = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
+  // console.log(test);
 });
 
 module.exports = router;

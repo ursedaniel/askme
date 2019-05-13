@@ -12,6 +12,7 @@ export class AuthService {
 
   private registerAPI = 'http://localhost:3000/api/auth/register/';
   private loginAPI = 'http://localhost:3000/api/auth/login/';
+  private typeAPI = 'http://localhost:3000/api/auth/type/';
   private token: string;
   private tokenTimer: any;
   private authStatusToken = new Subject<boolean>();
@@ -43,12 +44,13 @@ export class AuthService {
 
   logIn(email: string, password: string) {
     let authData: AuthDataModel = {email: email, password: password};
-    return this.http.post<{ token: string, expiresIn: number }>(this.loginAPI, authData).pipe(map((res => {
+    return this.http.post<{ token: string, expiresIn: number, type: number }>(this.loginAPI, authData).pipe(map((res => {
       this.token = res.token;
       if (res.token) {
         const expiresIn = res.expiresIn;
         this.setAuthTimer(expiresIn);
         this.isAuthenticated = true;
+        localStorage.setItem('type', res.type.toString());
         this.authStatusToken.next(true);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresIn * 1000);
@@ -108,6 +110,15 @@ export class AuthService {
       token: token,
       expiration: new Date(expiration)
     };
+  }
 
+  changeType() {
+    return this.http.get<any>(this.typeAPI).pipe(map((postData => {
+      return postData.map(post => {
+        return {
+          type: post.type
+        }
+      });
+    })));
   }
 }

@@ -18,6 +18,7 @@
           <mat-error *ngIf="password.invalid">Please enter the password</mat-error>
         </mat-form-field>
 
+        <mat-error *ngIf="badCredentials" style="margin-top: 10px;">Email address already in use.</mat-error>
         <button type="submit" mat-raised-button color="primary">Sign up</button>
       </form>
     </mat-card>
