@@ -1,0 +1,42 @@
+<div class="container mt-80">
+  <div class="header">
+    <span>ASK - Get answers right now!</span>
+  </div>
+
+  <mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="true">
+    <mat-step [completed]="categorySelected">
+      <ng-template matStepLabel>Choose category</ng-template>
+      <mat-grid-list cols="5" rowHeight="150px">
+        <mat-grid-tile>
+          <div>AUDIO</div>
+          <div>
+            <i class="fas fa-headphones"></i></div>
+        </mat-grid-tile>
+        <mat-grid-tile>2</mat-grid-tile>
+        <mat-grid-tile>3</mat-grid-tile>
+        <mat-grid-tile>4</mat-grid-tile>
+        <mat-grid-tile>5</mat-grid-tile>
+      </mat-grid-list>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" optional>
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Fill out your address</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="Address" formControlName="secondCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      You are now done.
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

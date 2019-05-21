@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private auth: AuthService) { }
 
   ngOnInit() {
+    this.getType();
     this.userIsAuthenticated = this.auth.getIsAuth();
     this.userType = localStorage.getItem('type');
     this.authListenerSubs = this.auth.getAuthStatusListener().subscribe(isAuthenticated => {
@@ -32,7 +33,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   updateType() {
-    this.auth.changeType().subscribe();
+    this.auth.changeType().subscribe(response => {
+        this.userType = response.type.toString();
+        localStorage.setItem('type', response.type.toString());
+    });
+  }
+
+  getType() {
+    this.auth.getType().subscribe(response => {
+      this.userType = response.type.toString();
+    });
   }
 
 }

@@ -113,12 +113,10 @@ export class AuthService {
   }
 
   changeType() {
-    return this.http.get<any>(this.typeAPI).pipe(map((postData => {
-      return postData.map(post => {
-        return {
-          type: post.type
-        }
-      });
-    })));
+    return this.http.get<{message: string, type: boolean}>(this.typeAPI + 'update');
+  }
+
+  getType() {
+    return this.http.get<{message: string, type: boolean}>(this.typeAPI);
   }
 }

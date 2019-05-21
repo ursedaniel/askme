@@ -24,6 +24,7 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               {
                 "input": "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css"
               },

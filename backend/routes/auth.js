@@ -55,9 +55,33 @@ router.post('/login', (req, res, next) => {
 
 });
 
+router.get('/type/update', checkAuth, (req, res, next) => {
+  let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
+  if (fetchedUser != null)
+    User.findOne({email: fetchedUser.email}).then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: 'Auth failed'
+        })
+      }
+      fetchedUser = user;
+      fetchedUser.type = !fetchedUser.type;
+      fetchedUser.save();
+      return res.status(200).json({message: 'Changed user type', type: fetchedUser.type});
+    });
+});
+
 router.get('/type', checkAuth, (req, res, next) => {
-  var User = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
-  // console.log(test);
+  let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
+  if (fetchedUser != null)
+    User.findOne({email: fetchedUser.email}).then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: 'Auth failed'
+        })
+      }
+      return res.status(200).json({type: user.type});
+    });
 });
 
 module.exports = router;
