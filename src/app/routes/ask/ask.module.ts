@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoriesComponent } from './components/categories/categories.component';
 import {routing} from './routes/routes';
-import {MatButtonModule, MatFormFieldModule, MatGridListModule, MatInputModule, MatStepperModule} from '@angular/material';
+import {MatButtonModule, MatFormFieldModule, MatInputModule, MatStepperModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
@@ -15,8 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatButtonModule,
-    MatGridListModule,
+    MatButtonModule
   ]
 })
 export class AskModule { }

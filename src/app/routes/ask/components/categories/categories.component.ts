@@ -11,6 +11,19 @@ export class CategoriesComponent implements OnInit {
   secondFormGroup: FormGroup;
   categorySelected: boolean;
 
+  categoriesList = [
+    {title: 'AUDIO', class: 'fas fa-headphones'},
+    {title: 'ANALYTICS', class: 'fas fa-chart-pie'},
+    {title: 'ANIMALS', class: 'fas fa-dragon'},
+    {title: 'AUTOMOTIVE', class: 'fas fa-car'},
+    {title: 'BUILDINGS', class: 'fas fa-building'},
+    {title: 'NETWORK', class: 'fas fa-sitemap'},
+    {title: 'A.I.', class: 'fas fa-robot'},
+    {title: 'CODING', class: 'fas fa-code'},
+    {title: 'DATABASE', class: 'fas fa-database'},
+    {title: 'COMPUTERS', class: 'fas fa-laptop'},
+    ];
+
   constructor(private _formBuilder: FormBuilder) {}
 
   ngOnInit() {

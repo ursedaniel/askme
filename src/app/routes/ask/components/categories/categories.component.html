@@ -6,17 +6,18 @@
   <mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="true">
     <mat-step [completed]="categorySelected">
       <ng-template matStepLabel>Choose category</ng-template>
-      <mat-grid-list cols="5" rowHeight="150px">
-        <mat-grid-tile>
-          <div>AUDIO</div>
-          <div>
-            <i class="fas fa-headphones"></i></div>
-        </mat-grid-tile>
-        <mat-grid-tile>2</mat-grid-tile>
-        <mat-grid-tile>3</mat-grid-tile>
-        <mat-grid-tile>4</mat-grid-tile>
-        <mat-grid-tile>5</mat-grid-tile>
-      </mat-grid-list>
+
+      <div class="row">
+        <ng-container *ngFor="let grid of categoriesList; let i = index;">
+          <div class="col-lg-2 grid">
+            <div>
+              <div class="header-title">{{grid.title}}</div>
+              <div class="icon"><i class="{{grid.class}}"></i></div>
+            </div>
+          </div>
+<!--          <tr *ngIf="i % 6 == 0"></tr>-->
+        </ng-container>
+      </div>
     </mat-step>
     <mat-step [stepControl]="secondFormGroup" optional>
       <form [formGroup]="secondFormGroup">

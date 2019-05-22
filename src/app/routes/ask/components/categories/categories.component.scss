@@ -1,3 +1,20 @@
-i {
+.grid .header-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.grid .icon {
   font-size: 80px;
+  text-align: center;
+}
+
+.grid {
+  padding-top:10px;
+  cursor: pointer;
+  margin-top:10px;
+}
+
+.col-lg-2:hover {
+  background-color: #673ab7;
+  color: white;
 }
