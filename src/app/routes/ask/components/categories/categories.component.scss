@@ -14,7 +14,15 @@
   margin-top:10px;
 }
 
-.col-lg-2:hover {
+.col-lg-2:hover, .selected-grid  {
   background-color: #673ab7;
   color: white;
+}
+
+hr {
+  width: 100%;
+}
+
+.form-question .mat-form-field {
+  width: 50%;
 }

@@ -9,21 +9,21 @@
 
       <div class="row">
         <ng-container *ngFor="let grid of categoriesList; let i = index;">
-          <div class="col-lg-2 grid">
+          <div class="col-lg-2 grid" [class.selected-grid]="categorySelectedId == i" (click)="categorySelected = true; categorySelectedId = i;goForward(stepper)">
             <div>
               <div class="header-title">{{grid.title}}</div>
               <div class="icon"><i class="{{grid.class}}"></i></div>
             </div>
           </div>
-<!--          <tr *ngIf="i % 6 == 0"></tr>-->
+          <hr *ngIf="(i+1) % 6 == 0">
         </ng-container>
       </div>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" optional>
-      <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Fill out your address</ng-template>
+    <mat-step [stepControl]="questionForm">
+      <form [formGroup]="questionForm" class="form-question">
+        <ng-template matStepLabel>Fill out your question</ng-template>
         <mat-form-field>
-          <input matInput placeholder="Address" formControlName="secondCtrl" required>
+          <input matInput placeholder="Write your question shorthandly" formControlName="question" required>
         </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Back</button>
