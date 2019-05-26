@@ -4,6 +4,7 @@ import {AuthDataModel} from '../models/AuthDataModel';
 import {map} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
+import {Socket} from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,16 @@ export class AuthService {
   private tokenTimer: any;
   private authStatusToken = new Subject<boolean>();
   private isAuthenticated = false;
-  private authInformation: any;
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private socket: Socket
   ) {
+  }
+
+  getSocket() {
+    this.socket.emit('getDoc');
   }
 
   getIsAuth() {
