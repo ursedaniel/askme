@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, NgForm, Validators} from '@angular/forms';
 import {AuthDataModel} from '../../models/AuthDataModel';
 import {AuthService} from '../../services/auth.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-login',

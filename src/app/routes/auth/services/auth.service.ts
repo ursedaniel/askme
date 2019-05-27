@@ -26,10 +26,6 @@ export class AuthService {
   ) {
   }
 
-  getSocket() {
-    this.socket.emit('getDoc');
-  }
-
   getIsAuth() {
     return this.isAuthenticated;
   }
@@ -49,6 +45,9 @@ export class AuthService {
 
   logIn(email: string, password: string) {
     let authData: AuthDataModel = {email: email, password: password};
+    this.socket.on('connect',function(){
+      socket.emit('login', 'Hello server');
+    });
     return this.http.post<{ token: string, expiresIn: number, type: number }>(this.loginAPI, authData).pipe(map((res => {
       this.token = res.token;
       if (res.token) {

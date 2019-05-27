@@ -8,13 +8,13 @@ import {AuthService} from './routes/auth/services/auth.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private auth: AuthService) {
+  constructor(
+    private auth: AuthService) {
 
   }
 
   ngOnInit(): void {
     this.auth.autoAuthUser();
-    this.auth.getSocket();
   }
 
 }

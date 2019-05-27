@@ -84,5 +84,26 @@ router.get('/type', checkAuth, (req, res, next) => {
     });
 });
 
-module.exports = router;
+module.exports = function (io) {
+  //Socket.IO
+  io.on('connection', socket =>  {
+    console.log('Socket admin');
+    // Socket event for gist created
+    socket.on('login', (data) => {
+      console.log('intra login');
+      io.emit(data);
+    });
+
+    // Socket event for gist updated
+    socket.on('gistUpdated', function (gistUpdated) {
+      io.emit('gistUpdated', gistUpdated);
+    });
+
+    socket.on('disconnect', function () {
+      console.log('Socket disconnected');
+      io.emit('user disconnected');
+    });
+  });
+  return router;
+};
 
