@@ -8,7 +8,7 @@
     </div>
 
     <div class="right-area-nav">
-      <button mat-button class="float-right" routerLinkActive="mat-accent"  *ngIf="userIsAuthenticated" (click)="onLogout()" i>Logout</button>
+      <button mat-button class="float-right" routerLinkActive="mat-accent"  *ngIf="userIsAuthenticated" (click)="onLogout()" >Logout</button>
       <button [routerLink]="['/auth/login']" mat-button class="float-right" routerLinkActive="mat-accent"  *ngIf="!userIsAuthenticated">Login</button>
       <button [routerLink]="['/auth/register']" mat-button class="float-right" routerLinkActive="mat-accent" *ngIf="!userIsAuthenticated">Register</button>
 <!--      <button [routerLink]="['/posts']" mat-button class="float-right" routerLinkActive="mat-accent" *ngIf="userIsAuthenticated">Posts</button>-->

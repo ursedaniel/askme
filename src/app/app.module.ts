@@ -13,13 +13,6 @@ import {AuthGuard} from './routes/auth/guards/auth.guard';
 import {AuthService} from './routes/auth/services/auth.service';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
 
-import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
-
-const config: SocketIoConfig = {
-  url: 'http://localhost:3000/api', options: {}
-};
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +23,6 @@ const config: SocketIoConfig = {
     RouterModule,
     SharedModule,
     BrowserAnimationsModule,
-    SocketIoModule.forRoot(config),
     ToastrModule.forRoot({
       timeOut: 7000,
       positionClass: 'toast-bottom-center',

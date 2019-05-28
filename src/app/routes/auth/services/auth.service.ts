@@ -4,7 +4,7 @@ import {AuthDataModel} from '../models/AuthDataModel';
 import {map} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
-import {Socket} from 'ngx-socket-io';
+import * as io from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,13 @@ export class AuthService {
   private tokenTimer: any;
   private authStatusToken = new Subject<boolean>();
   private isAuthenticated = false;
+  socket: any;
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private socket: Socket
+    private router: Router
   ) {
+    this.socket = io('http://localhost:3000');
   }
 
   getIsAuth() {
@@ -45,10 +46,11 @@ export class AuthService {
 
   logIn(email: string, password: string) {
     let authData: AuthDataModel = {email: email, password: password};
-    this.socket.on('connect',function(){
-      socket.emit('login', 'Hello server');
+    this.socket.on('message',function(data){
+      console.log(data)
     });
     return this.http.post<{ token: string, expiresIn: number, type: number }>(this.loginAPI, authData).pipe(map((res => {
+      this.socket.emit('login', authData.email);
       this.token = res.token;
       if (res.token) {
         const expiresIn = res.expiresIn;
@@ -58,7 +60,7 @@ export class AuthService {
         this.authStatusToken.next(true);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresIn * 1000);
-        this.saveAuthData(this.token, expirationDate);
+        this.saveAuthData(this.token, expirationDate, authData.email);
         this.router.navigateByUrl('');
       }
     })));
@@ -75,12 +77,13 @@ export class AuthService {
 
   autoAuthUser() {
     const authInformation = this.getAuthData();
-    if(!authInformation) {
+    if (!authInformation) {
       return;
     }
     const now = new Date();
     const expiresIn = authInformation.expiration.getTime() - now.getTime();
-    if(expiresIn > 0) {
+    if (expiresIn > 0) {
+      this.socket.emit('login', localStorage.getItem('email'));
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.authStatusToken.next(true);
@@ -94,33 +97,38 @@ export class AuthService {
     }, duration * 1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date) {
+  private saveAuthData(token: string, expirationDate: Date, email: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
+    localStorage.setItem('email', email);
   }
 
   private clearAuthData() {
+    this.socket.emit('disconnectNow', localStorage.getItem('email'));
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
+    localStorage.removeItem('email');
   }
 
   private getAuthData() {
     const token = localStorage.getItem('token');
     const expiration = localStorage.getItem('expiration');
+    const email = localStorage.getItem('email');
     if (!token || !expiration) {
       return;
     }
     return {
       token: token,
-      expiration: new Date(expiration)
+      expiration: new Date(expiration),
+      email: email
     };
   }
 
   changeType() {
-    return this.http.get<{message: string, type: boolean}>(this.typeAPI + 'update');
+    return this.http.get<{ message: string, type: boolean }>(this.typeAPI + 'update');
   }
 
   getType() {
-    return this.http.get<{message: string, type: boolean}>(this.typeAPI);
+    return this.http.get<{ message: string, type: boolean }>(this.typeAPI);
   }
 }

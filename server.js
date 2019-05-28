@@ -24,10 +24,17 @@ const port = process.env.PORT || '3000';
 app.set('port', port);
 
 
-const server = http.createServer(app);
+const server = http.Server(app);
 // Socket.io for real time communication
-var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
 server.listen(port, () => console.log(`API running on localhost:${port}`));
+
+// io.on('connection', (socket) => {
+//   socket.on('login', (data) => {
+//     console.log('intra');
+//     socket.emit('message','smecherie');
+//   })
+// });
 
 app.io.attach(server);
 

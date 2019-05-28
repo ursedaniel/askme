@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './routes/auth/services/auth.service';
+import * as socketIo from "socket.io-client";
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,12 @@ export class AppComponent implements OnInit {
 
   constructor(
     private auth: AuthService) {
-
   }
 
   ngOnInit(): void {
     this.auth.autoAuthUser();
+    // const socket = socketIo('http://localhost:3000');
+    // socket.on('login', (data)=> console.log(data));
   }
 
 }

@@ -84,23 +84,50 @@ router.get('/type', checkAuth, (req, res, next) => {
     });
 });
 
+let users = [];
+
 module.exports = function (io) {
   //Socket.IO
   io.on('connection', socket =>  {
-    console.log('Socket admin');
+    console.log('Socket connection ' + socket.id);
+    var userEmail;
     // Socket event for gist created
     socket.on('login', (data) => {
-      console.log('intra login');
-      io.emit(data);
+      User.findOne({email: data}).then(user => {
+        if (user) {
+          user.online = true;
+          user.save();
+          users.push(data);
+          userEmail = data;
+          io.emit(data);
+        }
+      });
     });
 
-    // Socket event for gist updated
-    socket.on('gistUpdated', function (gistUpdated) {
-      io.emit('gistUpdated', gistUpdated);
+    socket.on('disconnectNow', data => {
+      User.findOne({email: data}).then(user => {
+        if (user) {
+          user.online = false;
+          users = users.filter(function( obj ) {
+            return obj !== data;
+          });
+          user.save();
+        }
+      });
+      socket.disconnect();
+      io.emit('user disconnected');
     });
 
     socket.on('disconnect', function () {
-      console.log('Socket disconnected');
+      User.findOne({email: userEmail}).then(user => {
+        if (user) {
+          user.online = false;
+          users = users.filter(function( obj ) {
+            return obj !== userEmail;
+          });
+          user.save();
+        }
+      });
       io.emit('user disconnected');
     });
   });
