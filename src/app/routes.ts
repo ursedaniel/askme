@@ -11,6 +11,7 @@ export const routes = [
   {path: 'posts', loadChildren: './routes/posts/posts.module#PostsModule', canActivate: [AuthGuard]},
   {path: 'stream', loadChildren: './routes/stream/stream.module#StreamModule', canActivate: [AuthGuard]},
   {path: 'ask', loadChildren: './routes/ask/ask.module#AskModule', canActivate: [AuthGuard]},
+  {path: 'user', loadChildren: './routes/user/user.module#UserModule', canActivate: [AuthGuard]},
   // {path: 'register', loadChildren: './routes/register/register.module#RegisterModule'},
   // {path: 'account', loadChildren: './routes/account/account.module#AccountModule',  canActivate: [AuthGuardService]},
 

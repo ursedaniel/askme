@@ -7,19 +7,64 @@
     </div>
     <mat-card>
       <mat-spinner *ngIf="isLoading"></mat-spinner>
-      <form  *ngIf="!isLoading" class="form-login" (ngSubmit)="submitForm(f)" #f="ngForm">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Email" type="email" ngModel required email name="email" #email="ngModel">
-          <mat-error *ngIf="email.invalid">Please enter a valid email.</mat-error>
-        </mat-form-field>
+<!--      <form  *ngIf="!isLoading" class="form-login" (ngSubmit)="submitForm(f)" #f="ngForm">-->
+<!--        <mat-form-field class="full-width">-->
+<!--          <input matInput placeholder="Email" type="email" ngModel required email name="email" #email="ngModel">-->
+<!--          <mat-error *ngIf="email.invalid">Please enter a valid email.</mat-error>-->
+<!--        </mat-form-field>-->
 
-        <mat-form-field class="full-width">
-          <input type="password" matInput placeholder="Password" ngModel required name="password" #password="ngModel">
-          <mat-error *ngIf="password.invalid">Please enter the password</mat-error>
-        </mat-form-field>
+<!--        <mat-form-field class="full-width">-->
+<!--          <input type="password" matInput placeholder="Password" ngModel required name="password" #password="ngModel">-->
+<!--          <mat-error *ngIf="password.invalid">Please enter the password</mat-error>-->
+<!--        </mat-form-field>-->
 
-        <mat-error *ngIf="badCredentials" style="margin-top: 10px;">Email address already in use.</mat-error>
-        <button type="submit" mat-raised-button color="primary">Sign up</button>
+<!--        <mat-error *ngIf="badCredentials" style="margin-top: 10px;">Email address already in use.</mat-error>-->
+<!--        <button type="submit" mat-raised-button color="primary">Sign up</button>-->
+<!--      </form>-->
+
+      <form class="form-validate" #f="ngForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit(f.valid)">
+
+          <div class="input-material">
+            <mat-form-field>
+              <input matInput placeholder="First Name" formControlName="firstName" required class="name">
+              <mat-error>{{ formErrors.firstName }}</mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="input-material">
+            <mat-form-field>
+              <input matInput placeholder="Last Name" formControlName="surName" required class="name">
+              <mat-error>{{ formErrors.surName }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="input-material">
+            <mat-form-field>
+              <input matInput placeholder="Email" formControlName="email" required type="email">
+              <mat-error>{{ formErrors.email }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="input-material">
+            <mat-form-field>
+              <input matInput placeholder="Password" formControlName="password" required type="password">
+              <mat-error>{{ formErrors.password }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="input-material">
+            <mat-form-field>
+              <input matInput placeholder="Confirm password" formControlName="confirmPassword" required type="password">
+              <mat-error>{{ formErrors.confirmPassword }}</mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="form-group mt-20">
+           <button type="submit" mat-raised-button color="primary">Register</button>
+           <button type="button" mat-raised-button color="accent" class="ml-10" routerLink="/auth/login">Login</button>
+          </div>
       </form>
     </mat-card>
   </div>

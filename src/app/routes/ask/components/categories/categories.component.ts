@@ -39,10 +39,6 @@ export class CategoriesComponent implements OnInit {
               private toastr: ToastrService) {
   }
 
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
-  }
-
   ngOnInit() {
     this.questionForm = this._formBuilder.group({
       question: ['', Validators.required]

@@ -30,10 +30,6 @@
   width: 100%;
 }
 
-input:-internal-autofill-selected {
-  background-color: transparent !important;
-}
-
 .form-login .mat-raised-button {
   width: 100%;
   margin-top: 15px;
@@ -56,4 +52,22 @@ input:-internal-autofill-selected {
   margin: 0 auto;
   margin-top: 10px !important;
   margin-bottom: 10px !important;
+}
+
+.name {
+  text-transform: capitalize;
+}
+
+.input-material {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.input-material > * {
+  width: 100%;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
 }

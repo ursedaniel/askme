@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import * as io from 'socket.io-client';
+import {RegisterModel} from '../models/RegisterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -39,9 +40,8 @@ export class AuthService {
     return this.authStatusToken.asObservable();
   }
 
-  signUp(email: string, password: string) {
-    let authData: AuthDataModel = {email: email, password: password};
-    return this.http.post<{ message: string }>(this.registerAPI, authData);
+  register(registerModel: RegisterModel) {
+    return this.http.post<{ message: string }>(this.registerAPI, registerModel);
   }
 
   logIn(email: string, password: string) {
