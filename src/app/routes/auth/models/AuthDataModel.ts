@@ -1,5 +1,6 @@
 export interface AuthDataModel {
-  email: string;
+  email?: string;
+  username: string;
   password: string;
   type?: boolean;
   online?: boolean;

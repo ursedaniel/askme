@@ -1,0 +1,10 @@
+.loading-indicator {
+  background: url('../../../../assets/images/gifs/loader.gif') no-repeat center center;
+}
+.loading-indicator-overlay {
+  z-index:9999;
+  position: fixed;
+  background-color: #ddd;
+  filter: alpha(opacity=50);
+  opacity: .5;
+}

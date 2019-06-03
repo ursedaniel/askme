@@ -3,7 +3,55 @@
     <span>Edit your profile</span>
   </div>
   <div class="container flex mt-20">
-      <img src="../../../../assets/icons/user-icon.png" class="user-image" title="Change your image">
+    <div class="user-image" title="Change your image"></div>
   </div>
+
+  <div class="rating align-center">
+    <span class='star-rating' [title]="user.rating">
+    <ng-container>
+      <span>{{user.reviews}} reviews</span> <br/>
+      <i *ngFor='let n of range; let $index = index;' class="to-display" [ngClass]='isMarked($index)'></i>
+    </ng-container>
+    </span>
+  </div>
+
+  <form class="form-validate" #f="ngForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit(f.valid)">
+
+    <div class="input-material">
+      <mat-form-field>
+        <input matInput placeholder="Full name" formControlName="name" required class="name" [(ngModel)]="user.name">
+        <mat-error>{{ formErrors.name }}</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div class="input-material">
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="username" [(ngModel)]="user.username"
+               [attr.disabled]="true">
+      </mat-form-field>
+    </div>
+
+    <div class="input-material">
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" required type="email" [(ngModel)]="user.email">
+        <mat-error>{{ formErrors.email }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="input-material">
+      <mat-form-field>
+        <input matInput placeholder="Password" formControlName="password" required type="password"
+               [(ngModel)]="user.password">
+        <mat-error>{{ formErrors.password }}</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div class="form-group mt-20">
+      <button type="submit" mat-raised-button color="primary">Update profile</button>
+    </div>
+  </form>
+
 
 </div>

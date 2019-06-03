@@ -37,10 +37,12 @@
       Get your asnwers below by choosing the type of search method you want to use:
       <div class="mt-20">
         <button mat-button color="primary">Find me an user</button>
-        <button mat-button color="accent">Let me choose the user</button>
+        <button mat-button color="accent" (click)="getConnections()">Let me choose the user</button>
         <button mat-button matStepperPrevious>Back</button>
 <!--        <button mat-button (click)="stepper.reset()">Reset</button>-->
       </div>
     </mat-step>
   </mat-horizontal-stepper>
+
+  <app-findconnection *ngIf="!showConnections" #connectionsComponent></app-findconnection>
 </div>

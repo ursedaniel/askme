@@ -7,4 +7,60 @@
   width: 250px;
   height: 250px;
   cursor: pointer;
+  background-image: url('../../../../../assets/icons/user-icon.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.name {
+  text-transform: capitalize;
+}
+
+.input-material {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.input-material > * {
+  width: 100%;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+}
+
+.mat-form-field-placeholder {
+  display:block !important;
+}
+
+.form-validate {
+  width: 40%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.rating {
+  margin: 20px auto;
+  width: 110px;
+}
+
+.star-rating{
+  margin-top: 10px;
+  .to-rate{
+    cursor: pointer;
+    padding: 0 3px;
+  }
+  .fas.fa-star{
+    color: green;
+  }
+  .fa-star-half-alt{
+    color: green;
+  }
+  .far.fa-star{
+    color: green;
+  }
+  .to-display{
+    padding: 0 2px;
+  }
 }

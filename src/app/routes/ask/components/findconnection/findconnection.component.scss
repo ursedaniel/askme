@@ -1,0 +1,38 @@
+.connections .col-lg-4 {
+  margin-top: 40px;
+  float: left;
+}
+
+.user-image {
+  width: 250px;
+  height: 250px;
+  background-image: url('../../../../../assets/icons/user-icon.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0 auto;
+}
+
+.user-name {
+  margin-top: 5px;
+  font-size: 21px;
+}
+
+.star-rating{
+  margin-top: 10px;
+  .to-rate{
+    cursor: pointer;
+    padding: 0 3px;
+  }
+  .fas.fa-star{
+    color: green;
+  }
+  .fa-star-half-alt{
+    color: green;
+  }
+  .far.fa-star{
+    color: green;
+  }
+  .to-display{
+    padding: 0 2px;
+  }
+}

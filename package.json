@@ -28,6 +28,7 @@
     "jquery": "^3.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.2",
+    "mongoose-float": "^1.0.4",
     "mongoose-unique-validator": "^2.0.3",
     "ngx-socket-io": "^2.1.1",
     "ngx-toastr": "^10.0.4",

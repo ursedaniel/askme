@@ -22,20 +22,20 @@
 <!--        <button type="submit" mat-raised-button color="primary">Sign up</button>-->
 <!--      </form>-->
 
-      <form class="form-validate" #f="ngForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit(f.valid)">
+      <form class="form-validate" #f="ngForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit(f.valid)" *ngIf="!isLoading">
 
           <div class="input-material">
             <mat-form-field>
-              <input matInput placeholder="First Name" formControlName="firstName" required class="name">
-              <mat-error>{{ formErrors.firstName }}</mat-error>
+              <input matInput placeholder="Full name" formControlName="name" required class="name">
+              <mat-error>{{ formErrors.name }}</mat-error>
             </mat-form-field>
           </div>
 
 
           <div class="input-material">
             <mat-form-field>
-              <input matInput placeholder="Last Name" formControlName="surName" required class="name">
-              <mat-error>{{ formErrors.surName }}</mat-error>
+              <input matInput placeholder="Username" formControlName="username" required>
+              <mat-error>{{ formErrors.username }}</mat-error>
             </mat-form-field>
           </div>
 

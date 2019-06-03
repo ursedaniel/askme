@@ -12,6 +12,7 @@ import {AuthInterceptor} from './routes/auth/services/auth-interceptor';
 import {AuthGuard} from './routes/auth/guards/auth.guard';
 import {AuthService} from './routes/auth/services/auth.service';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
+import {LoaderService} from "./shared/services/loader.service";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {ToastrModule, ToastrService} from 'ngx-toastr';
     PostService,
     AuthService,
     AuthGuard,
-    ToastrService
+    ToastrService,
+    LoaderService
   ],
   bootstrap: [AppComponent]
 })

@@ -4,8 +4,8 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {debounceTime} from 'rxjs/operators';
-import {RegisterModel} from '../../models/RegisterModel';
 import {RegisterValidator} from '../../validators/RegisterValidator';
+import {UserModel} from "../../../user/models/UserModel";
 
 @Component({
   selector: 'app-register',
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
   isLoading: boolean;
   error: string;
   registerForm: FormGroup;
-  registerModel: RegisterModel = new RegisterModel();
+  registerModel: UserModel = new UserModel();
   submitted = false;
 
 
@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
       (succes) => {
         this.toastr.success('Succes', 'Te-ai inregistrat cu succes. Te rugam sa te autentifici.');
         this.isLoading = false;
-        this.router.navigateByUrl('/register/success');
+        this.router.navigateByUrl('auth/login');
       },
       (error) => {
         this.isLoading = false;
@@ -65,8 +65,8 @@ export class RegisterComponent implements OnInit {
       email: [this.registerModel.email, [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$')]],
       password: [this.registerModel.password, [Validators.required]],
       confirmPassword: [this.registerModel.confirmPassword, [Validators.required]],
-      firstName: [this.registerModel.firstName, [Validators.required]],
-      surName: [this.registerModel.surName, [Validators.required]],
+      name: [this.registerModel.name, [Validators.required]],
+      username: [this.registerModel.username, [Validators.required]],
     }, {
       validator: RegisterValidator.matchPassword,
     });
@@ -101,8 +101,8 @@ export class RegisterComponent implements OnInit {
     'email': '',
     'password': '',
     'confirmPassword': '',
-    'firstName': '',
-    'surName': '',
+    'name': '',
+    'username': '',
     'phone': ''
   };
 
@@ -120,11 +120,12 @@ export class RegisterComponent implements OnInit {
       'required': "Confirm your password",
       'errorConfirm': "Passwords does not match"
     },
-    'firstName': {
-      'required': 'Enter your first name',
+    'name': {
+      'required': 'Enter your full name',
     },
-    'surName': {
-      'required': 'Enter your last name',
+    'username': {
+      'required': 'Enter your username',
+      'pattern': 'Only letters allowed'
     },
   };
 
@@ -132,8 +133,8 @@ export class RegisterComponent implements OnInit {
     this.registerModel.email = data['email'];
     this.registerModel.password = data['password'];
     this.registerModel.confirmPassword = data['confirmPassword'];
-    this.registerModel.firstName = data['firstName'];
-    this.registerModel.surName = data['surName'];
+    this.registerModel.name = data['name'];
+    this.registerModel.username = data['username'];
   }
 
 }

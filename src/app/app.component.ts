@@ -15,8 +15,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.autoAuthUser();
-    // const socket = socketIo('http://localhost:3000');
-    // socket.on('login', (data)=> console.log(data));
   }
 
 }

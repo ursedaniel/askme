@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import * as io from 'socket.io-client';
-import {RegisterModel} from '../models/RegisterModel';
+import {UserModel} from '../../user/models/UserModel';
 
 @Injectable({
   providedIn: 'root'
@@ -40,27 +40,27 @@ export class AuthService {
     return this.authStatusToken.asObservable();
   }
 
-  register(registerModel: RegisterModel) {
+  register(registerModel: UserModel) {
     return this.http.post<{ message: string }>(this.registerAPI, registerModel);
   }
 
-  logIn(email: string, password: string) {
-    let authData: AuthDataModel = {email: email, password: password};
+  logIn(username: string, password: string) {
+    let authData: AuthDataModel = {username: username, password: password};
     this.socket.on('message',function(data){
       console.log(data)
     });
     return this.http.post<{ token: string, expiresIn: number, type: number }>(this.loginAPI, authData).pipe(map((res => {
-      this.socket.emit('login', authData.email);
       this.token = res.token;
       if (res.token) {
+        this.socket.emit('auth', authData.username);
         const expiresIn = res.expiresIn;
         this.setAuthTimer(expiresIn);
         this.isAuthenticated = true;
-        localStorage.setItem('type', res.type.toString());
         this.authStatusToken.next(true);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresIn * 1000);
-        this.saveAuthData(this.token, expirationDate, authData.email);
+        this.saveAuthData(this.token, expirationDate, authData.username);
+        localStorage.setItem('type', res.type.toString());
         this.router.navigateByUrl('');
       }
     })));
@@ -83,7 +83,7 @@ export class AuthService {
     const now = new Date();
     const expiresIn = authInformation.expiration.getTime() - now.getTime();
     if (expiresIn > 0) {
-      this.socket.emit('login', localStorage.getItem('email'));
+      this.socket.emit('auth', localStorage.getItem('username'));
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.authStatusToken.next(true);
@@ -97,23 +97,23 @@ export class AuthService {
     }, duration * 1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date, email: string) {
+  private saveAuthData(token: string, expirationDate: Date, username: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
-    localStorage.setItem('email', email);
+    localStorage.setItem('username', username);
   }
 
   private clearAuthData() {
-    this.socket.emit('disconnectNow', localStorage.getItem('email'));
+    this.socket.emit('disconnectNow', localStorage.getItem('username'));
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
-    localStorage.removeItem('email');
+    localStorage.removeItem('username');
   }
 
   private getAuthData() {
     const token = localStorage.getItem('token');
     const expiration = localStorage.getItem('expiration');
-    const email = localStorage.getItem('email');
+    const email = localStorage.getItem('username');
     if (!token || !expiration) {
       return;
     }

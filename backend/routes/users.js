@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
 
-router.post('/register', (req, res, next) => {
+router.post('/myuser', (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
     const user = new User({
       email: req.body.email,
@@ -13,9 +13,6 @@ router.post('/register', (req, res, next) => {
       password: hash,
       type: 0,
       reviews: 0,
-      rating: 0.0,
-      name: req.body.name,
-      online: false
     });
     user.save().then(result => {
       res.status(201).json({
@@ -60,7 +57,7 @@ router.post('/login', (req, res, next) => {
 
 });
 
-router.get('/type/update', checkAuth, (req, res, next) => {
+router.get('/myuser', checkAuth, (req, res, next) => {
   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
   if (fetchedUser != null)
     User.findOne({username: fetchedUser.username}).then(user => {
@@ -70,72 +67,18 @@ router.get('/type/update', checkAuth, (req, res, next) => {
         })
       }
       fetchedUser = user;
-      fetchedUser.type = !fetchedUser.type;
-      fetchedUser.save();
-      return res.status(200).json({message: 'Changed user type', type: fetchedUser.type});
+      return res.status(200).json({message: 'User found.', user: fetchedUser});
     });
 });
 
-router.get('/type', checkAuth, (req, res, next) => {
+router.get('/connections', checkAuth, (req, res, next) => {
   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
   if (fetchedUser != null)
-    User.findOne({email: fetchedUser.email}).then(user => {
-      if (!user) {
-        return res.status(401).json({
-          message: 'Auth failed'
-        })
-      }
-      return res.status(200).json({type: user.type});
+    User.find({online: true}).then(connections => {
+      return res.status(200).json({message: 'Connections found', connections: connections});
     });
+  else
+    return res.status(200).json({message: 'No connection available', connections: []});
 });
 
-let users = [];
-
-module.exports = function (io) {
-  //Socket.IO
-  io.on('connection', socket =>  {
-    console.log('Socket connection ' + socket.id);
-    var userName;
-    // Socket event for gist created
-    socket.on('auth', (data) => {
-      User.findOne({username: data}).then(user => {
-        if (user) {
-          user.online = true;
-          users.push(data);
-          userName = data;
-          io.emit(data);
-          user.save();
-        }
-      });
-    });
-
-    socket.on('disconnectNow', data => {
-      User.findOne({username: data}).then(user => {
-        if (user) {
-          user.online = false;
-          users = users.filter(function( obj ) {
-            return obj !== data;
-          });
-          user.save();
-        }
-      });
-      socket.disconnect();
-      io.emit('user disconnected');
-    });
-
-    socket.on('disconnect', function () {
-      User.findOne({username: userName}).then(user => {
-        if (user) {
-          user.online = false;
-          users = users.filter(function( obj ) {
-            return obj !== userName;
-          });
-          user.save();
-        }
-      });
-      io.emit('user disconnected');
-    });
-  });
-  return router;
-};
-
+module.exports = router;

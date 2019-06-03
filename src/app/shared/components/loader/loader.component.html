@@ -1,0 +1,6 @@
+<div *ngIf="show" style="position: absolute;z-index: 9999;"
+     [ngStyle]="{'width':width+'px','height':height+'px','top':top+'px','left':left+'px'}"
+     id="loading-indicator-list-view-overlay" class="loading-indicator-overlay">
+  <div id="loading-indicator-list-view" class="loading-indicator"
+       [ngStyle]="{'width':width+'px','height':height+'px'}"></div>
+</div>

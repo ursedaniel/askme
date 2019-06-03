@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {ToastrService} from 'ngx-toastr';
+import {FindconnectionComponent} from "../findconnection/findconnection.component";
 
 @Component({
   selector: 'app-categories',
@@ -13,6 +14,9 @@ export class CategoriesComponent implements OnInit {
   secondFormGroup: FormGroup;
   categorySelectedId: number;
   categorySelected: boolean;
+  showConnections: boolean;
+  @ViewChild('connectionsComponent') connectionsComponent: FindconnectionComponent;
+
 
   categoriesList = [
     {title: 'A.I.', class: 'fas fa-robot'},
@@ -62,5 +66,10 @@ export class CategoriesComponent implements OnInit {
         stepper.next();
       }, 0);
     }
+  }
+
+  getConnections() {
+    // this.showConnections = true;
+    this.connectionsComponent.getConnections();
   }
 }

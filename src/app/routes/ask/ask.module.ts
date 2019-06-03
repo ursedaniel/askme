@@ -4,9 +4,11 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import {routing} from './routes/routes';
 import {MatButtonModule, MatFormFieldModule, MatInputModule, MatStepperModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FindconnectionComponent } from './components/findconnection/findconnection.component';
+import {UserService} from "../user/services/user.service";
 
 @NgModule({
-  declarations: [CategoriesComponent],
+  declarations: [CategoriesComponent, FindconnectionComponent],
   imports: [
     CommonModule,
     routing,
@@ -16,6 +18,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FormsModule,
     MatInputModule,
     MatButtonModule
+  ],
+  providers: [
+    UserService
   ]
 })
 export class AskModule { }

@@ -3,6 +3,7 @@ import {FormControl, NgForm, Validators} from '@angular/forms';
 import {AuthDataModel} from '../../models/AuthDataModel';
 import {AuthService} from '../../services/auth.service';
 import { Socket } from 'ngx-socket-io';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,10 @@ export class LoginComponent implements OnInit {
   isLoading: boolean;
   badCredentials: boolean;
 
-  constructor(private auth: AuthService) {
+  constructor(
+    private auth: AuthService,
+    private toastr: ToastrService,
+  ) {
   }
 
   ngOnInit() {
@@ -26,8 +30,9 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.auth.logIn(form.value.email, form.value.password).subscribe(
+    this.auth.logIn(form.value.username, form.value.password).subscribe(
       (succes) => {
+        this.toastr.success('Succes', 'Te-ai autentificat');
         this.isLoading = false;
       },
       (error) => {
