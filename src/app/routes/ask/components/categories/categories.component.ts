@@ -69,7 +69,9 @@ export class CategoriesComponent implements OnInit {
   }
 
   getConnections() {
-    // this.showConnections = true;
-    this.connectionsComponent.getConnections();
+    this.showConnections = true;
+    setTimeout( () => {
+      this.connectionsComponent.getConnections();
+    },0);
   }
 }

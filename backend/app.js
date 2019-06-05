@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
-app.io = require('socket.io')();
+app.io = require('socket.io')({
+  transports: ['websocket']
+});
 const postsRoutes = require('./routes/posts');
 const usersRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth')(app.io);

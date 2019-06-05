@@ -74,7 +74,7 @@ router.get('/myuser', checkAuth, (req, res, next) => {
 router.get('/connections', checkAuth, (req, res, next) => {
   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
   if (fetchedUser != null)
-    User.find({online: true}).then(connections => {
+    User.find({online: true, username: {$ne: fetchedUser.username}}).then(connections => {
       return res.status(200).json({message: 'Connections found', connections: connections});
     });
   else

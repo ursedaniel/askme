@@ -88,3 +88,7 @@ body {
 .align-center {
   text-align: center;
 }
+
+.pointer {
+  cursor: pointer;
+}

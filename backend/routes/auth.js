@@ -4,6 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+const socketAuth = require('socketio-auth');
 
 router.post('/register', (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
@@ -79,7 +80,7 @@ router.get('/type/update', checkAuth, (req, res, next) => {
 router.get('/type', checkAuth, (req, res, next) => {
   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
   if (fetchedUser != null)
-    User.findOne({email: fetchedUser.email}).then(user => {
+    User.findOne({username: fetchedUser.username}).then(user => {
       if (!user) {
         return res.status(401).json({
           message: 'Auth failed'
@@ -89,12 +90,77 @@ router.get('/type', checkAuth, (req, res, next) => {
     });
 });
 
+async function verifyUser(token) {
+  return new Promise((resolve, reject) => {
+    // setTimeout to mock a cache or database call
+    setTimeout(() => {
+      let fetchedUser = jwt.decode(token, 'secret_this_should_be_longer');
+      // this information should come from your cache or database
+      User.findOne({username: fetchedUser.username}).then(user => {
+        if (!user) {
+          return reject('USER_NOT_FOUND');
+        }
+        return resolve(user);
+      });
+
+    }, 200);
+  });
+}
+
 let users = [];
 
 module.exports = function (io) {
-  //Socket.IO
-  io.on('connection', socket =>  {
-    console.log('Socket connection ' + socket.id);
+
+  socketAuth(io, {
+    authenticate: async (socket, data, callback) => {
+      const { token } = data;
+
+      try {
+        const user = await verifyUser(token);
+
+        socket.user = user;
+
+        return callback(null, true);
+      } catch (e) {
+        console.log(`Socket ${socket.id} unauthorized.`);
+        return callback({ message: 'UNAUTHORIZED' });
+      }
+    },
+    postAuthenticate: (socket) => {
+      console.log(`Socket ${socket.id} authenticated.`);
+    },
+    disconnect: (socket) => {
+      console.log(`Socket ${socket.id} disconnected.`);
+    },
+    auth: async (socket,data) => {
+      console.log('test');
+      User.findOne({username: data}).then(user => {
+        if (user) {
+          user.online = true;
+          users.push(data);
+          userName = data;
+          io.emit(data);
+          user.save();
+        }
+      });
+    },
+
+  disconnectNow: (socket,data) => {
+    User.findOne({username: data}).then(user => {
+      if (user) {
+        user.online = false;
+        users = users.filter(function (obj) {
+          return obj !== data;
+        });
+        user.save();
+      }
+    });
+    socket.disconnect();
+    io.emit('user disconnected');
+  },
+});
+
+  io.on('connection', socket => {
     var userName;
     // Socket event for gist created
     socket.on('auth', (data) => {
@@ -109,11 +175,15 @@ module.exports = function (io) {
       });
     });
 
+    socket.on('reconnect_attempt', () => {
+      socket.io.opts.transports = ['polling', 'websocket'];
+    });
+
     socket.on('disconnectNow', data => {
       User.findOne({username: data}).then(user => {
         if (user) {
           user.online = false;
-          users = users.filter(function( obj ) {
+          users = users.filter(function (obj) {
             return obj !== data;
           });
           user.save();
@@ -127,7 +197,7 @@ module.exports = function (io) {
       User.findOne({username: userName}).then(user => {
         if (user) {
           user.online = false;
-          users = users.filter(function( obj ) {
+          users = users.filter(function (obj) {
             return obj !== userName;
           });
           user.save();
@@ -136,6 +206,8 @@ module.exports = function (io) {
       io.emit('user disconnected');
     });
   });
+
+
   return router;
 };
 

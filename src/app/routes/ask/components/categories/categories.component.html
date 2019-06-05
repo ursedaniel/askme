@@ -1,48 +1,53 @@
 <div class="container mt-80">
-  <div class="header">
-    <span>ASK - Get answers right now!</span>
+
+  <div *ngIf="!showConnections">
+    <div class="header">
+      <span>ASK - Get answers right now!</span>
+    </div>
+
+    <mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="true">
+      <mat-step [completed]="categorySelected">
+        <ng-template matStepLabel>Choose category</ng-template>
+
+        <div class="row">
+          <ng-container *ngFor="let grid of categoriesList; let i = index;">
+            <div class="col-lg-2 grid" [class.selected-grid]="categorySelectedId == i"
+                 (click)="categorySelected = true; categorySelectedId = i;goForward(stepper)">
+              <div>
+                <div class="header-title">{{grid.title}}</div>
+                <div class="icon"><i class="{{grid.class}}"></i></div>
+              </div>
+            </div>
+            <hr *ngIf="(i+1) % 6 == 0">
+          </ng-container>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="questionForm">
+        <form [formGroup]="questionForm" class="form-question">
+          <ng-template matStepLabel>Fill out your question</ng-template>
+          <mat-form-field>
+            <textarea matInput placeholder="Write your question shorthandly" formControlName="question" [rows]="1"
+                      required></textarea>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext (click)="goStep2(stepper)">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        Everything set! <br/>
+        Get your asnwers below by choosing the type of search method you want to use:
+        <div class="mt-20">
+          <button mat-button color="primary">Find me an user</button>
+          <button mat-button color="accent" (click)="getConnections()">Let me choose the user</button>
+          <button mat-button matStepperPrevious>Back</button>
+          <!--        <button mat-button (click)="stepper.reset()">Reset</button>-->
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
   </div>
 
-  <mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="true">
-    <mat-step [completed]="categorySelected">
-      <ng-template matStepLabel>Choose category</ng-template>
-
-      <div class="row">
-        <ng-container *ngFor="let grid of categoriesList; let i = index;">
-          <div class="col-lg-2 grid" [class.selected-grid]="categorySelectedId == i" (click)="categorySelected = true; categorySelectedId = i;goForward(stepper)">
-            <div>
-              <div class="header-title">{{grid.title}}</div>
-              <div class="icon"><i class="{{grid.class}}"></i></div>
-            </div>
-          </div>
-          <hr *ngIf="(i+1) % 6 == 0">
-        </ng-container>
-      </div>
-    </mat-step>
-    <mat-step [stepControl]="questionForm">
-      <form [formGroup]="questionForm" class="form-question">
-        <ng-template matStepLabel>Fill out your question</ng-template>
-        <mat-form-field>
-          <textarea matInput placeholder="Write your question shorthandly" formControlName="question" [rows]="1" required></textarea>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click)="goStep2(stepper)">Next</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      Everything set! <br/>
-      Get your asnwers below by choosing the type of search method you want to use:
-      <div class="mt-20">
-        <button mat-button color="primary">Find me an user</button>
-        <button mat-button color="accent" (click)="getConnections()">Let me choose the user</button>
-        <button mat-button matStepperPrevious>Back</button>
-<!--        <button mat-button (click)="stepper.reset()">Reset</button>-->
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
-
-  <app-findconnection *ngIf="!showConnections" #connectionsComponent></app-findconnection>
+  <app-findconnection *ngIf="showConnections" #connectionsComponent></app-findconnection>
 </div>

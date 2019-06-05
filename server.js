@@ -26,7 +26,7 @@ app.set('port', port);
 
 const server = http.Server(app);
 // Socket.io for real time communication
-var io = require('socket.io')(server);
+// var io = require('socket.io')(server);
 server.listen(port, () => console.log(`API running on localhost:${port}`));
 
 // io.on('connection', (socket) => {
@@ -37,5 +37,3 @@ server.listen(port, () => console.log(`API running on localhost:${port}`));
 // });
 
 app.io.attach(server);
-
-

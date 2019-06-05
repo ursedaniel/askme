@@ -19,13 +19,13 @@ export class AuthService {
   private tokenTimer: any;
   private authStatusToken = new Subject<boolean>();
   private isAuthenticated = false;
-  socket: any;
+  socket = io('http://localhost:3000', {autoConnect: false, rejectUnauthorized: null});
+  // socket = io('wss://localhost:3000/ws', { autoConnect: false, transports: ['websocket'], rejectUnauthorized: false });
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
-    this.socket = io('http://localhost:3000');
   }
 
   getIsAuth() {
@@ -46,13 +46,21 @@ export class AuthService {
 
   logIn(username: string, password: string) {
     let authData: AuthDataModel = {username: username, password: password};
-    this.socket.on('message',function(data){
-      console.log(data)
-    });
+    // this.socket.on('message',function(data){
+    //   console.log(data)
+    // });
     return this.http.post<{ token: string, expiresIn: number, type: number }>(this.loginAPI, authData).pipe(map((res => {
       this.token = res.token;
       if (res.token) {
-        this.socket.emit('auth', authData.username);
+        // this.socket.emit('auth', authData.username);
+        this.socket.on('connect', () => {
+          console.log('Connected');
+
+          this.socket.emit('authentication', {
+            token: res.token
+          });
+        });
+        this.socket.open();
         const expiresIn = res.expiresIn;
         this.setAuthTimer(expiresIn);
         this.isAuthenticated = true;
@@ -83,7 +91,16 @@ export class AuthService {
     const now = new Date();
     const expiresIn = authInformation.expiration.getTime() - now.getTime();
     if (expiresIn > 0) {
+      this.socket.on('connect', () => {
+        console.log('Connected');
+
+        this.socket.emit('authentication', {
+          token: authInformation.token
+        });
+      });
       this.socket.emit('auth', localStorage.getItem('username'));
+      this.socket.open();
+      // this.socket.emit('auth', localStorage.getItem('username'));
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.authStatusToken.next(true);

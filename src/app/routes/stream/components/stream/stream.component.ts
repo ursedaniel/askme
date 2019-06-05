@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularAgoraRtcService, Stream} from 'angular-agora-rtc';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-stream',
@@ -12,11 +13,21 @@ export class StreamComponent {
   remoteCalls: any = [];
   streamOff: boolean;
   isLoading: boolean;
+  user1: string;
+  user2: string;
 
   constructor(
-    private agoraService: AngularAgoraRtcService
+    private agoraService: AngularAgoraRtcService,
+    private route: ActivatedRoute,
   ) {
     this.agoraService.createClient();
+    this.user1 = this.route.snapshot.queryParams["connection1"];
+    this.user2 = this.route.snapshot.queryParams["connection2"];
+    console.log(this.user1);
+    console.log(this.user2);
+  }
+
+  ngOnInit() {
   }
 
   startCall() {
