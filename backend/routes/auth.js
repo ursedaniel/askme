@@ -90,6 +90,8 @@ router.get('/type', checkAuth, (req, res, next) => {
     });
 });
 
+let users = [];
+
 async function verifyUser(token) {
   return new Promise((resolve, reject) => {
     // setTimeout to mock a cache or database call
@@ -97,6 +99,7 @@ async function verifyUser(token) {
       let fetchedUser = jwt.decode(token, 'secret_this_should_be_longer');
       // this information should come from your cache or database
       User.findOne({username: fetchedUser.username}).then(user => {
+
         if (!user) {
           return reject('USER_NOT_FOUND');
         }
@@ -107,73 +110,75 @@ async function verifyUser(token) {
   });
 }
 
-let users = [];
-
 module.exports = function (io) {
 
   socketAuth(io, {
     authenticate: async (socket, data, callback) => {
-      const { token } = data;
+      const {token} = data;
 
       try {
         const user = await verifyUser(token);
-
-        socket.user = user;
-
+        let ok = false;
+        if (users.length > 0)
+          users.filter(function (obj) {
+            if (obj.username === user.username) {
+              console.log(`Socket ${socket.id} already logged.`);
+              ok = true;
+            }
+          });
+        if (!ok) {
+          socket.user = user;
+          users.push({socket: socket.id, username: user.username});
+          User.findOne({username: user.username}).then(user => {
+            if (user) {
+              user.online = true;
+              user.save();
+            }
+          });
+          console.log(users);
+        } else {
+          return;
+        }
         return callback(null, true);
       } catch (e) {
         console.log(`Socket ${socket.id} unauthorized.`);
-        return callback({ message: 'UNAUTHORIZED' });
+        return callback({message: 'UNAUTHORIZED'});
       }
     },
     postAuthenticate: (socket) => {
       console.log(`Socket ${socket.id} authenticated.`);
     },
     disconnect: (socket) => {
-      console.log(`Socket ${socket.id} disconnected.`);
-    },
-    auth: async (socket,data) => {
-      console.log('test');
-      User.findOne({username: data}).then(user => {
-        if (user) {
-          user.online = true;
-          users.push(data);
-          userName = data;
-          io.emit(data);
-          user.save();
+      users = users.filter(function (obj) {
+        if (obj.socket === socket.id) {
+          User.findOne({username: obj.username}).then(user => {
+            if (user) {
+              user.online = false;
+              user.save();
+              return true;
+            }
+          });
         }
       });
-    },
-
-  disconnectNow: (socket,data) => {
-    User.findOne({username: data}).then(user => {
-      if (user) {
-        user.online = false;
-        users = users.filter(function (obj) {
-          return obj !== data;
-        });
-        user.save();
-      }
-    });
-    socket.disconnect();
-    io.emit('user disconnected');
-  },
-});
+      io.emit('user disconnected');
+      console.log(`Socket ${socket.id} disconnected.`);
+    }
+  });
 
   io.on('connection', socket => {
     var userName;
     // Socket event for gist created
-    socket.on('auth', (data) => {
-      User.findOne({username: data}).then(user => {
-        if (user) {
-          user.online = true;
-          users.push(data);
-          userName = data;
-          io.emit(data);
-          user.save();
-        }
-      });
-    });
+    // socket.on('auth', (data) => {
+    //   User.findOne({username: data}).then(user => {
+    //     if (user) {
+    //       user.online = true;
+    //       users.push({socket: socket.id, username: data});
+    //       userName = data;
+    //       io.emit(data);
+    //       user.save();
+    //     }
+    //   });
+    // });
 
     socket.on('reconnect_attempt', () => {
       socket.io.opts.transports = ['polling', 'websocket'];
@@ -186,6 +191,7 @@ module.exports = function (io) {
           users = users.filter(function (obj) {
             return obj !== data;
           });
+          console.log(users);
           user.save();
         }
       });
@@ -193,18 +199,20 @@ module.exports = function (io) {
       io.emit('user disconnected');
     });
 
-    socket.on('disconnect', function () {
-      User.findOne({username: userName}).then(user => {
-        if (user) {
-          user.online = false;
-          users = users.filter(function (obj) {
-            return obj !== userName;
-          });
-          user.save();
-        }
-      });
-      io.emit('user disconnected');
-    });
+    // socket.on('disconnect', function () {
+    //   User.findOne({username: userName}).then(user => {
+    //     if (user) {
+    //       user.online = false;
+    //       users = users.filter(function (obj) {
+    //         return obj !== userName;
+    //       });
+    //       console.log(users);
+    //       user.save();
+    //     }
+    //   });
+    //   io.emit('user disconnected');
+    //   console.log(`Socket ${socket.id} disconnected.`);
+    // });
   });
 
 

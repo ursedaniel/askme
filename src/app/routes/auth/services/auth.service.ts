@@ -98,7 +98,7 @@ export class AuthService {
           token: authInformation.token
         });
       });
-      this.socket.emit('auth', localStorage.getItem('username'));
+      // this.socket.emit('auth', localStorage.getItem('username'));
       this.socket.open();
       // this.socket.emit('auth', localStorage.getItem('username'));
       this.token = authInformation.token;
