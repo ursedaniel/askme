@@ -25,6 +25,7 @@
         <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/myaccount">My profile</button>
         <button mat-menu-item routerLinkActive="mat-accent" (click)="onLogout()">Logout</button>
       </mat-menu>
+      <i class="far fa-bell float-right" *ngIf="userIsAuthenticated" title="Notifications"></i>
       <button [routerLink]="['/ask/categories']" mat-button class="float-right" routerLinkActive="mat-accent"
               *ngIf="userIsAuthenticated && userType == 'true'">Ask
       </button>

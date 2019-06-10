@@ -1,0 +1,36 @@
+<div class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
+     [ngStyle]="{'display': 'flex' , 'opacity': visibleAnimate ? 1 : 0}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="panel panel-body login-form">
+          <ng-container *ngIf="conn!=undefined && conn.streaming == 2">
+            <div class="text-center">
+              <img src="../../../../assets/icons/pacman.gif">
+              <h5 class="content-group" *ngIf="conn != undefined">Hello, user {{conn.conn}} wants to connect with
+                you!</h5>
+            </div>
+            <div class="align-center mt-20">
+              <button type="submit" mat-raised-button color="primary" (click)="startStream()">Accept</button>
+              <button type="button" mat-raised-button color="accent" class="ml-10">Decline</button>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="conn!=undefined && conn.streaming == 0">
+            <div class="text-center">
+              <i class="far fa-sad-tear" style="font-size: 90px;"></i>
+              <h5 class="content-group" *ngIf="conn != undefined">Ooops, user {{conn.conn}} closed the connection
+                request with you!</h5>
+            </div>
+            <div class="align-center mt-20">
+              <button type="submit" mat-raised-button color="primary" routerLink="/home" (click)="hide(false)">Close</button>
+            </div>
+          </ng-container>
+          <!--<span class="help-block text-center no-margin">By continuing, you're confirming that you've read our <a-->
+          <!--href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AngularAgoraRtcService, Stream} from 'angular-agora-rtc';
 import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../../../auth/services/auth.service";
 
 @Component({
   selector: 'app-stream',
   templateUrl: './stream.component.html',
   styleUrls: ['./stream.component.scss']
 })
-export class StreamComponent {
+export class StreamComponent implements OnInit, OnDestroy{
 
   localStream: Stream;
   remoteCalls: any = [];
@@ -19,24 +20,34 @@ export class StreamComponent {
   constructor(
     private agoraService: AngularAgoraRtcService,
     private route: ActivatedRoute,
+    private auth: AuthService
   ) {
     this.agoraService.createClient();
     this.user1 = this.route.snapshot.queryParams["connection1"];
     this.user2 = this.route.snapshot.queryParams["connection2"];
-    console.log(this.user1);
-    console.log(this.user2);
   }
 
   ngOnInit() {
   }
 
+
   startCall() {
     this.isLoading = true;
-    this.agoraService.client.join(null, '1000', null, (uid) => {
-      this.localStream = this.agoraService.createStream(uid, true, null, null, true, false);
-      this.localStream.setVideoProfile('720p_3');
-      this.subscribeToStreams();
+    this.auth.socket.emit('stream', {
+      token: localStorage.getItem('token'),
+      user1: window.atob(this.user1),
+      user2: window.atob(this.user2),
     });
+    this.auth.socket.on('startstream', data => {
+      console.log(data);
+
+      this.agoraService.client.join(null, '1000', null, (uid) => {
+        this.localStream = this.agoraService.createStream(uid, true, null, null, true, false);
+        this.localStream.setVideoProfile('720p_3');
+        this.subscribeToStreams();
+      });
+    });
+    this.auth.socket.open();
   }
 
   private subscribeToStreams() {
@@ -51,13 +62,13 @@ export class StreamComponent {
     this.localStream.init(() => {
       console.log('getUserMedia successfully');
       this.localStream.play('my-stream');
-      this.agoraService.client.publish(this.localStream, function(err) {
+      this.agoraService.client.publish(this.localStream, function (err) {
         console.log('Publish local stream error: ' + err);
       });
-      this.agoraService.client.on('stream-published', function(evt) {
+      this.agoraService.client.on('stream-published', function (evt) {
         console.log('Publish local stream successfully');
       });
-    }, function(err) {
+    }, function (err) {
       console.log('getUserMedia failed', err);
     });
 
@@ -82,7 +93,6 @@ export class StreamComponent {
     this.agoraService.client.on('stream-subscribed', (evt) => {
       const stream = evt.stream;
       if (!this.remoteCalls.includes(`agora_remote${stream.getId()}`)) {
-        //alert('intra');
         this.remoteCalls.push(`agora_remote${stream.getId()}`);
       }
       setTimeout(() => {
@@ -107,6 +117,10 @@ export class StreamComponent {
         console.log(`${evt.uid} left from this channel`);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.auth.socket.emit('closestream', localStorage.getItem('token'));
   }
 
 }

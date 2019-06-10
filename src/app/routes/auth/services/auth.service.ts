@@ -53,9 +53,9 @@ export class AuthService {
       this.token = res.token;
       if (res.token) {
         // this.socket.emit('auth', authData.username);
-        this.socket.on('connect', () => {
+        this.socket.on('connect', (data) => {
           console.log('Connected');
-
+          console.log(data);
           this.socket.emit('authentication', {
             token: res.token
           });

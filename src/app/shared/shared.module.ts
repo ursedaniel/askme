@@ -4,11 +4,13 @@ import {HeaderComponent} from './components/header/header.component';
 import {MatButtonModule, MatMenuModule, MatToolbarModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {LoaderComponent} from "./components/loader/loader.component";
+import { ConnectionmodalComponent } from './components/connectionmodal/connectionmodal.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    LoaderComponent
+    LoaderComponent,
+    ConnectionmodalComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import {LoaderComponent} from "./components/loader/loader.component";
   ],
   exports: [
     HeaderComponent,
-    LoaderComponent
+    LoaderComponent,
+    ConnectionmodalComponent
   ]
 })
 export class SharedModule { }

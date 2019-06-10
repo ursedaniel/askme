@@ -44,7 +44,7 @@ a{
   width: 35px;
   float: right;
   cursor: pointer;
-  margin-left: 5px;
+  margin-left: 16px;
 }
 
 .user-status {
@@ -65,4 +65,11 @@ button:focus {
   position: relative;
   width: 0;
   float: right;
+}
+
+.fa-bell {
+  margin-top: 9px;
+  margin-right: 16px;
+  margin-left: 16px;
+  cursor: pointer;
 }

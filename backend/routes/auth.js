@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Notification = require('../models/Notification');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
@@ -110,6 +111,22 @@ async function verifyUser(token) {
   });
 }
 
+function addLog(user1, user2, io) {
+  const log = new Notification({
+    date: new Date(),
+    username: user1.username,
+    message: user2.username + ' closed the connection with you.',
+    checked: false,
+  });
+  console.log(log);
+  log.save().then(result => {
+    console.log('intra');
+    Notification.find({username: user1.username}).then(notifications => {
+      io.sockets.connected[user1.socket].emit("updatenotifications", notifications);
+    });
+  })
+}
+
 module.exports = function (io) {
 
   socketAuth(io, {
@@ -123,22 +140,21 @@ module.exports = function (io) {
           users.filter(function (obj) {
             if (obj.username === user.username) {
               console.log(`Socket ${socket.id} already logged.`);
+              obj.socket = socket.id;
               ok = true;
             }
           });
         if (!ok) {
           socket.user = user;
-          users.push({socket: socket.id, username: user.username});
-          User.findOne({username: user.username}).then(user => {
-            if (user) {
-              user.online = true;
-              user.save();
-            }
-          });
-          console.log(users);
-        } else {
-          return;
+          users.push({socket: socket.id, username: user.username, streaming: 0, conn: ''});
         }
+        User.findOne({username: user.username}).then(user => {
+          if (user) {
+            user.online = true;
+            user.save();
+          }
+        });
+        // console.log(users);
         return callback(null, true);
       } catch (e) {
         console.log(`Socket ${socket.id} unauthorized.`);
@@ -146,39 +162,42 @@ module.exports = function (io) {
       }
     },
     postAuthenticate: (socket) => {
+      users.forEach(user => {
+        if (user.socket == socket.id && user.streaming == 2) {
+          io.sockets.connected[user.socket].emit("stream", user);
+        }
+      });
       console.log(`Socket ${socket.id} authenticated.`);
     },
     disconnect: (socket) => {
-      users = users.filter(function (obj) {
+      users.filter(function (obj) {
         if (obj.socket === socket.id) {
           User.findOne({username: obj.username}).then(user => {
             if (user) {
               user.online = false;
               user.save();
-              return true;
+              users.filter(function (obj) {
+                if (obj.username === user.username && obj.streaming === 1) {
+                  obj.streaming = 0;
+                  obj.conn = '';
+                }
+                if (obj.conn === user.username && obj.streaming === 2) {
+                  obj.streaming = 0;
+                  obj.conn = '';
+                  io.sockets.connected[obj.socket].emit("streamclose", obj);
+                  addLog(obj,user, io);
+                }
+              });
+              // users.splice(index,1);
             }
           });
         }
       });
-      io.emit('user disconnected');
       console.log(`Socket ${socket.id} disconnected.`);
     }
   });
 
   io.on('connection', socket => {
-    var userName;
-    // Socket event for gist created
-    // socket.on('auth', (data) => {
-    //   User.findOne({username: data}).then(user => {
-    //     if (user) {
-    //       user.online = true;
-    //       users.push({socket: socket.id, username: data});
-    //       userName = data;
-    //       io.emit(data);
-    //       user.save();
-    //     }
-    //   });
-    // });
 
     socket.on('reconnect_attempt', () => {
       socket.io.opts.transports = ['polling', 'websocket'];
@@ -191,7 +210,6 @@ module.exports = function (io) {
           users = users.filter(function (obj) {
             return obj !== data;
           });
-          console.log(users);
           user.save();
         }
       });
@@ -199,20 +217,51 @@ module.exports = function (io) {
       io.emit('user disconnected');
     });
 
-    // socket.on('disconnect', function () {
-    //   User.findOne({username: userName}).then(user => {
-    //     if (user) {
-    //       user.online = false;
-    //       users = users.filter(function (obj) {
-    //         return obj !== userName;
-    //       });
-    //       console.log(users);
-    //       user.save();
-    //     }
-    //   });
-    //   io.emit('user disconnected');
-    //   console.log(`Socket ${socket.id} disconnected.`);
-    // });
+    socket.on('closestream', token => {
+      let fetchedUser = jwt.decode(token, 'secret_this_should_be_longer');
+      User.findOne({username: fetchedUser.username}).then(user => {
+        if (user) {
+          users.filter(function (obj) {
+            if (obj.username === user.username && obj.streaming === 1) {
+              obj.streaming = 0;
+              obj.conn = '';
+            }
+            if (obj.conn === user.username && obj.streaming === 2) {
+              obj.streaming = 0;
+              obj.conn = '';
+              io.sockets.connected[obj.socket].emit("streamclose", obj);
+              addLog(obj,user, io);
+            }
+          });
+          // users.splice(index,1);
+        }
+      });
+    });
+
+    socket.on('stream', data => {
+      let fetchedUser = jwt.decode(data.token, 'secret_this_should_be_longer');
+      // this information should come from your cache or database
+      User.findOne({username: fetchedUser.username}).then(user => {
+
+        if (!user) {
+          return reject('USER_NOT_FOUND');
+        }
+        fetchedUser = user;
+      });
+      if (fetchedUser.username == data.user1) {
+        users.map(user => {
+          if (user.username == data.user2) {
+            user.conn = data.user1;
+            user.streaming = 2;
+            io.sockets.connected[user.socket].emit("stream", user);
+          }
+          if (user.username == data.user1) {
+            user.streaming = 1;
+            user.conn = data.user2;
+          }
+        })
+      }
+    });
   });
 
 

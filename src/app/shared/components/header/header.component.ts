@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../../routes/auth/services/auth.service';
 import {Subscription} from 'rxjs';
+import {NotificationModel} from "../../models/NotificationModel";
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean;
   private authListenerSubs: Subscription;
   userType: string;
+  notifications: Array<NotificationModel> = [];
 
   constructor(private auth: AuthService) { }
 
@@ -23,6 +25,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userIsAuthenticated = isAuthenticated;
       this.userType = localStorage.getItem('type');
     });
+
+    this.getNotifications();
   }
 
   ngOnDestroy(): void {
@@ -44,6 +48,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.auth.getType().subscribe(response => {
       this.userType = response.type.toString();
     });
+  }
+
+  getNotifications() {
+    this.auth.socket.on('updatenotifications', notifications => {
+      this.notifications = notifications;
+    })
   }
 
 }
