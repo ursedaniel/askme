@@ -8,6 +8,7 @@ export class UserModel {
   online: boolean;
   reviews: number;
   rating: number;
+  price: number;
   type: string;
   constructor() {
   }

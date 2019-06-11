@@ -24,11 +24,16 @@
       </mat-form-field>
     </div>
 
+    <div class="input-material">
+      <mat-form-field>
+        <input matInput placeholder="Price per minute" formControlName="price" required [(ngModel)]="user.price">
+        <mat-error>{{ formErrors.price }}</mat-error>
+      </mat-form-field>
+    </div>
 
     <div class="input-material">
       <mat-form-field>
-        <input matInput placeholder="Username" formControlName="username" [(ngModel)]="user.username"
-               [attr.disabled]="true">
+        <input matInput placeholder="Username" formControlName="username" [(ngModel)]="user.username">
       </mat-form-field>
     </div>
 

@@ -30,7 +30,7 @@ export class ConnectionmodalComponent implements OnInit {
   }
 
   startStream() {
-    this.router.navigateByUrl('/stream?connection1=' + this.conn.conn + '&connection2=' + window.btoa(this.conn.username));
+    this.router.navigateByUrl('/stream?connection1=' +  window.btoa(this.conn.conn) + '&connection2=' + window.btoa(this.conn.username));
     this.hide(false);
   }
 }

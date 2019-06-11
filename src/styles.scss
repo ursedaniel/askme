@@ -12,6 +12,20 @@ body {
   margin-top: 55px;
 }
 
+html ::-webkit-scrollbar-thumb {
+  background-color: darkgrey !important;
+  outline: 1px solid slategrey !important;
+}
+
+html ::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
+}
+
+html  ::-webkit-scrollbar {
+  cursor: pointer !important;
+  width: 10px !important;
+}
+
 .float-right {
   float: right;
 }
@@ -91,4 +105,8 @@ body {
 
 .pointer {
   cursor: pointer;
+}
+
+.modal {
+  z-index: 999;
 }

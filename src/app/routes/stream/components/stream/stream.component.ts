@@ -8,7 +8,7 @@ import {AuthService} from "../../../auth/services/auth.service";
   templateUrl: './stream.component.html',
   styleUrls: ['./stream.component.scss']
 })
-export class StreamComponent implements OnInit, OnDestroy{
+export class StreamComponent implements OnInit, OnDestroy {
 
   localStream: Stream;
   remoteCalls: any = [];
@@ -39,7 +39,6 @@ export class StreamComponent implements OnInit, OnDestroy{
       user2: window.atob(this.user2),
     });
     this.auth.socket.on('startstream', data => {
-      console.log(data);
 
       this.agoraService.client.join(null, '1000', null, (uid) => {
         this.localStream = this.agoraService.createStream(uid, true, null, null, true, false);
@@ -99,6 +98,12 @@ export class StreamComponent implements OnInit, OnDestroy{
         stream.play(`agora_remote${stream.getId()}`);
         this.isLoading = false;
         this.streamOff = true;
+        if (localStorage.getItem('username') == window.atob(this.user2))
+          this.auth.socket.emit('logstream', {
+            token: localStorage.getItem('token'),
+            user1: window.atob(this.user1),
+            user2: window.atob(this.user2),
+          });
       }, 2000);
     });
 
@@ -120,7 +125,21 @@ export class StreamComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy() {
-    this.auth.socket.emit('closestream', localStorage.getItem('token'));
+    // this.auth.socket.emit('closestream', localStorage.getItem('token'));
+    this.leave();
+  }
+
+  leave() {
+    this.agoraService.client.leave(() => {
+      console.log("Leavel channel successfully");
+    }, (err) => {
+      console.log("Leave channel failed");
+    });
+    this.auth.socket.emit('endstreamlog', {
+      token: localStorage.getItem('token'),
+      user1: window.atob(this.user1),
+      user2: window.atob(this.user2),
+    });
   }
 
 }

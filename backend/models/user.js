@@ -11,7 +11,8 @@ const userSchema = mongoose.Schema({
   name: {type: String, required: false},
   rating: {type: Float, required: false},
   reviews: {type: Number, required: false},
-  id: {type: Number, required: false}
+  id: {type: Number, required: false,  unique: true},
+  price: {type: Number, required: false}
 });
 
 userSchema.plugin(uniqueValidator);

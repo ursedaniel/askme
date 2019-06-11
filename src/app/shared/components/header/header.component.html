@@ -18,22 +18,36 @@
       <!--      <button [routerLink]="['/stream']" mat-button class="float-right" routerLinkActive="mat-accent" *ngIf="userIsAuthenticated">Stream</button>-->
       <img src="../../../../assets/icons/user-icon.png" class="user-icon" *ngIf="userIsAuthenticated"
            [matMenuTriggerFor]="menu">
-      <div class="status-container"  *ngIf="userIsAuthenticated">
+      <div class="status-container" *ngIf="userIsAuthenticated">
         <span class="user-status"></span>
       </div>
       <mat-menu #menu="matMenu" xPosition="before">
         <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/myaccount">My profile</button>
         <button mat-menu-item routerLinkActive="mat-accent" (click)="onLogout()">Logout</button>
       </mat-menu>
-      <i class="far fa-bell float-right" *ngIf="userIsAuthenticated" title="Notifications"></i>
+      <div class="float-right position-relative" *ngIf="userIsAuthenticated">
+        <div (click)="showNotifications = !showNotifications">
+          <i class="far fa-bell" [ngClass]="notifications.length > 0 && newNots > 0 ? 'fas fa-bell' : 'far fa-bell'"
+             title="Notifications"></i>
+          <span class="notifications-counter" *ngIf="notifications?.length > 0">{{newNots}}</span>
+        </div>
+        <div [ngClass]="{'in': showNotifications}" *ngIf="showNotifications" class="notifications-block">
+          <div *ngFor="let n of notifications; let i = index"
+               [ngClass]="{'new-not': n.checked == false, 'checked-not': n.checked == true}"
+               [ngStyle]="{'border-top' : i==0 ? 'none' : '1px solid white'}">
+            {{n.message}}
+            <i class="fas fa-circle" title="Mark as read" (click)="readNotification(n)"></i>
+          </div>
+        </div>
+      </div>
       <button [routerLink]="['/ask/categories']" mat-button class="float-right" routerLinkActive="mat-accent"
               *ngIf="userIsAuthenticated && userType == 'true'">Ask
       </button>
       <button mat-button class="float-right" routerLinkActive="mat-accent"
-              *ngIf="userIsAuthenticated && userType == 'false'" color="warn" (click)="updateType()">Change to Buyer
+              *ngIf="userIsAuthenticated && userType == 'false'" (click)="updateType()">Change to Buyer
       </button>
       <button mat-button class="float-right" routerLinkActive="mat-accent"
-              *ngIf="userIsAuthenticated && userType == 'true'" color="warn" (click)="updateType()">Change to Seller
+              *ngIf="userIsAuthenticated && userType == 'true'" (click)="updateType()">Change to Seller
       </button>
     </div>
   </div>

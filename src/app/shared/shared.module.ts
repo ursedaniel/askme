@@ -5,6 +5,7 @@ import {MatButtonModule, MatMenuModule, MatToolbarModule} from '@angular/materia
 import {RouterModule} from '@angular/router';
 import {LoaderComponent} from "./components/loader/loader.component";
 import { ConnectionmodalComponent } from './components/connectionmodal/connectionmodal.component';
+import {NotificationService} from "./services/notification.service";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,9 @@ import { ConnectionmodalComponent } from './components/connectionmodal/connectio
     HeaderComponent,
     LoaderComponent,
     ConnectionmodalComponent
+  ],
+  providers: [
+    NotificationService
   ]
 })
 export class SharedModule { }

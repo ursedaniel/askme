@@ -2,31 +2,48 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../../routes/auth/services/auth.service';
 import {Subscription} from 'rxjs';
 import {NotificationModel} from "../../models/NotificationModel";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean;
   private authListenerSubs: Subscription;
   userType: string;
   notifications: Array<NotificationModel> = [];
+  newNots: number = 0;
+  showNotifications: boolean;
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    private ns: NotificationService
+  ) {
+  }
 
   ngOnInit() {
     this.userIsAuthenticated = this.auth.getIsAuth();
     this.userType = localStorage.getItem('type');
-    if(this.userType == undefined || this.userType == null || this.userType == '')
+    if (this.userType == undefined || this.userType == null || this.userType == '')
       this.getType();
     this.authListenerSubs = this.auth.getAuthStatusListener().subscribe(isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;
       this.userType = localStorage.getItem('type');
+      this.getNotifications();
     });
 
     this.getNotifications();
+
+    this.auth.socket.on('updatenotifications', notifications => {
+      this.notifications = notifications;
+      this.newNots = 0;
+      this.notifications.forEach(notification => {
+        if (notification.checked == false)
+          this.newNots++;
+      })
+    })
   }
 
   ngOnDestroy(): void {
@@ -34,13 +51,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-      this.auth.logOut();
+    this.newNots = 0;
+    this.auth.logOut();
   }
 
   updateType() {
     this.auth.changeType().subscribe(response => {
-        this.userType = response.type.toString();
-        localStorage.setItem('type', response.type.toString());
+      this.userType = response.type.toString();
+      localStorage.setItem('type', response.type.toString());
     });
   }
 
@@ -51,9 +69,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getNotifications() {
-    this.auth.socket.on('updatenotifications', notifications => {
-      this.notifications = notifications;
-    })
+    this.newNots = 0;
+    this.ns.getNotifications().subscribe(
+      (response) => {
+        this.notifications = response;
+        this.notifications.forEach(notification => {
+          if (notification.checked == false)
+            this.newNots++;
+        })
+      }
+    );
+  }
+
+  readNotification(n) {
+    this.ns.checkNotification(n).subscribe(
+      (succes) => {
+        setTimeout(() => {
+          this.getNotifications();
+        }, 500);
+      }
+    )
   }
 
 }

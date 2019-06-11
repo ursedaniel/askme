@@ -1,0 +1,145 @@
+.mat-toolbar.mat-primary {
+  color: white;
+  position: fixed;
+  z-index: 99999999;
+  border-bottom: 1px solid lightblue;
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 55px;
+  top: 0;
+}
+
+.center-nav-body {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.left-area-nav {
+  width: 50%;
+  float: left;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+.left-area-nav img {
+  height: 30px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.left-area-nav span {
+  vertical-align: middle;
+}
+
+.right-area-nav {
+  width: 50%;
+  float: right;
+}
+
+.user-icon {
+  width: 35px;
+  float: right;
+  cursor: pointer;
+  margin-left: 16px;
+}
+
+.user-status {
+  height: 13px;
+  width: 13px;
+  background-color: #0cc50c;
+  border-radius: 50%;
+  position: absolute;
+  right: -52px;
+  top: -3px;
+}
+
+button:focus {
+  outline: none;
+}
+
+.status-container {
+  position: relative;
+  width: 0;
+  float: right;
+}
+
+.far.fa-bell {
+  margin-top: 9px;
+  margin-right: 16px;
+  margin-left: 16px;
+  cursor: pointer;
+}
+
+.fas.fa-bell {
+  margin-top: 9px;
+  margin-right: 16px;
+  margin-left: 16px;
+  cursor: pointer;
+  color: #ffd740;
+}
+
+.notifications-counter {
+  position: absolute;
+  top: -9px;
+  font-size: 15px;
+  padding-left: 6px;
+  padding-right: 6px;
+  right: -4px;
+  color: #ffd740;
+  cursor: pointer;
+}
+
+.notifications-block {
+  position: absolute;
+  left: -90px;
+  top: 44px;
+  font-size: 11px;
+  width: 290px;
+  color: white;
+  max-height: 195px;
+  overflow-y: auto;
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+
+  ::-webkit-scrollbar {
+    cursor: pointer;
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.98);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+}
+
+.notifications-block > div {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top: 1px solid black;
+}
+
+.new-not {
+  background-color: #4970e0;
+}
+
+.checked-not {
+  background-color: #673ab7;
+}
+
+.fa-circle {
+  float: right;
+  margin-top: 13px;
+  font-size: 8px;
+  cursor: pointer;
+}

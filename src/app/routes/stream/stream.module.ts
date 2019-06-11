@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {AgoraConfig, AngularAgoraRtcModule} from 'angular-agora-rtc';
 import { StreamComponent } from './components/stream/stream.component';
 import {routing} from './routes/routes';
-import {MatProgressSpinnerModule} from '@angular/material';
+import {MatButtonModule, MatProgressSpinnerModule} from '@angular/material';
 
 const agoraConfig: AgoraConfig = {
   AppID: 'fed2cfa365604af79c0cbe062495dabe',
@@ -15,7 +15,8 @@ const agoraConfig: AgoraConfig = {
     CommonModule,
     AngularAgoraRtcModule.forRoot(agoraConfig),
     routing,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatButtonModule
   ]
 })
 export class StreamModule { }

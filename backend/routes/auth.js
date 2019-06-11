@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Notification = require('../models/Notification');
+const Log = require('../models/Log');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
@@ -15,6 +16,7 @@ router.post('/register', (req, res, next) => {
       password: hash,
       type: 0,
       reviews: 0,
+      price: 0,
       rating: 0.0,
       name: req.body.name,
       online: false
@@ -111,20 +113,72 @@ async function verifyUser(token) {
   });
 }
 
-function addLog(user1, user2, io) {
-  const log = new Notification({
+function addNotification(user1, user2, io, message) {
+  const notification = new Notification({
     date: new Date(),
     username: user1.username,
-    message: user2.username + ' closed the connection with you.',
+    message: user2.username + message,
     checked: false,
   });
-  console.log(log);
-  log.save().then(result => {
-    console.log('intra');
-    Notification.find({username: user1.username}).then(notifications => {
+  notification.save().then(result => {
+    Notification.find({username: user1.username}).sort({date: 'desc'}).then(notifications => {
       io.sockets.connected[user1.socket].emit("updatenotifications", notifications);
     });
   })
+}
+
+function addLog(data) {
+  const log = new Log({
+    dateStart: new Date(),
+    dateEnd: new Date(),
+    username1: data.user1,
+    username2: data.user2,
+    price: 0,
+  });
+  log.save().then(result => {
+  });
+}
+
+function updateLog(type, user) {
+  if (type == 1)
+    Log.findOne({username1: user.username}).then(log => {
+      console.log(log);
+      // notificationNew = notification;
+      // notificationNew.checked = !notificationNew.checked;
+      // notificationNew.save();
+      // res.status(201).json();
+    });
+  else {
+    Log.findOne({username2: user.username}).then(log => {
+      console.log(log);
+      // notificationNew = notification;
+      // notificationNew.checked = !notificationNew.checked;
+      // notificationNew.save();
+      // res.status(201).json();
+    });
+  }
+}
+
+function closeLog(data) {
+  Log.find({username1: data.user1, username2: data.user2}).sort({dateStart: 'desc'}).then(logs => {
+    var log = logs[0];
+    log.dateEnd = new Date();
+    User.findOne({username: data.user2}).then((user) => {
+      var diffMs = (log.dateEnd - log.dateStart);
+      console.log(log);
+      console.log(diffMs);
+      if (diffMs >= 60000) {
+        var minutes = Math.ceil(diffMs / 60000);
+        log.price = minutes * user.price;
+      } else
+        log.price = user.price;
+      log.save();
+    })
+    // notificationNew = notification;
+    // notificationNew.checked = !notificationNew.checked;
+    // notificationNew.save();
+    // res.status(201).json();
+  });
 }
 
 module.exports = function (io) {
@@ -178,14 +232,16 @@ module.exports = function (io) {
               user.save();
               users.filter(function (obj) {
                 if (obj.username === user.username && obj.streaming === 1) {
+                  updateLog(obj.streaming, user);
                   obj.streaming = 0;
                   obj.conn = '';
                 }
                 if (obj.conn === user.username && obj.streaming === 2) {
+                  updateLog(obj.streaming, user);
                   obj.streaming = 0;
                   obj.conn = '';
                   io.sockets.connected[obj.socket].emit("streamclose", obj);
-                  addLog(obj,user, io);
+                  addNotification(obj, user, io, ' has closed the connection.');
                 }
               });
               // users.splice(index,1);
@@ -230,7 +286,7 @@ module.exports = function (io) {
               obj.streaming = 0;
               obj.conn = '';
               io.sockets.connected[obj.socket].emit("streamclose", obj);
-              addLog(obj,user, io);
+              addNotification(obj, user, io, ' has closed the connection.');
             }
           });
           // users.splice(index,1);
@@ -254,13 +310,32 @@ module.exports = function (io) {
             user.conn = data.user1;
             user.streaming = 2;
             io.sockets.connected[user.socket].emit("stream", user);
+            addNotification({
+              username: data.user2,
+              socket: user.socket
+            }, {username: data.user1}, io, ' wants to connect.');
           }
           if (user.username == data.user1) {
             user.streaming = 1;
             user.conn = data.user2;
           }
         })
+      } else {
+        users.map(user => {
+          if (user.username == data.user2 || user.username == data.user1) {
+            io.sockets.connected[user.socket].emit("startstream", user);
+            // addNotification({username: data.user2, socket: user.socket}, {username: data.user1}, io, ' wants to connect.');
+          }
+        })
       }
+    });
+
+    socket.on('logstream', data => {
+      addLog(data);
+    });
+
+    socket.on('endstreamlog', data => {
+      closeLog(data);
     });
   });
 

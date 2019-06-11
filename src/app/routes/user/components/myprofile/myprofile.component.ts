@@ -91,7 +91,8 @@ export class MyprofileComponent implements OnInit {
       email: [this.user.email, [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$')]],
       password: [this.user.password, [Validators.required]],
       name: [this.user.name, [Validators.required]],
-      username: [this.user.username],
+      price: [this.user.price, [Validators.required]],
+      username: [this.user.username,  [Validators.required]],
     }, {
       validator: UserValidator.validatePassowrd,
     });
@@ -127,7 +128,7 @@ export class MyprofileComponent implements OnInit {
     'confirmPassword': '',
     'name': '',
     'username': '',
-    'phone': ''
+    'price': ''
   };
 
   validationMessages = {
@@ -147,6 +148,10 @@ export class MyprofileComponent implements OnInit {
       'required': 'Enter your username',
       'pattern': 'Only letters allowed'
     },
+    'price': {
+      'required': 'Enter the price',
+      'pattern': 'Only digits allowed'
+    }
   };
 
   public setObjectForm(data: AbstractControl) {

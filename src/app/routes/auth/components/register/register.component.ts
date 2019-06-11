@@ -125,7 +125,7 @@ export class RegisterComponent implements OnInit {
     },
     'username': {
       'required': 'Enter your username',
-      'pattern': 'Only letters allowed'
+      'pattern': 'Only letters/digits allowed'
     },
   };
 
