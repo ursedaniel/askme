@@ -330,6 +330,22 @@ module.exports = function (io) {
       }
     });
 
+    socket.on('cancelstream', data => {
+      console.log(data);
+      users.filter(function (obj) {
+        if (obj.username === data.conn) {
+          obj.streaming = 0;
+          obj.conn = '';
+          io.sockets.connected[obj.socket].emit("hostcancelstream", obj);
+        }
+        if (obj.username === data.username) {
+          obj.streaming = 0;
+          obj.conn = '';
+        }
+      });
+    });
+
+
     socket.on('logstream', data => {
       addLog(data);
     });

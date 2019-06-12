@@ -5,7 +5,12 @@
   <div id="my-stream"></div>
   <div id="main_stream">
     <div *ngIf="remoteCalls?.length == 0">
-      <img src="../../../../../assets/images/start%20stream.png" class="stream-off" *ngIf="!streamOff">
+      <div class="stream-off"  *ngIf="!streamOff">
+        <h2>Start connection with
+          <span *ngIf="currentUser == user1">{{user2}}</span>
+          <span *ngIf="currentUser == user2">{{user1}}</span>
+        </h2>
+      </div>
       <img src="../../../../../assets/images/play-stream.png" class="stream-off-play" title="Start Stream"
            *ngIf="!isLoading" (click)="startCall()">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
@@ -14,5 +19,5 @@
       </div>
     </div>
   </div>
-  <button type="submit" mat-raised-button color="primary" (click)="leave()">Close connection</button>
+  <button type="button" mat-raised-button color="primary" class="center-button" (click)="leave()"  *ngIf="streamOff && currentUser == user1">Finish connection</button>
 </div>

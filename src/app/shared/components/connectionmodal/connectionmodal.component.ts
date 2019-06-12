@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthService} from "../../../routes/auth/services/auth.service";
 
 @Component({
   selector: 'app-connectionmodal',
@@ -14,7 +15,10 @@ export class ConnectionmodalComponent implements OnInit {
   @Input() conn: any;
   visibleAnimate: boolean = true;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) { }
 
   ngOnInit() {
   }
@@ -27,6 +31,12 @@ export class ConnectionmodalComponent implements OnInit {
 
   hide(value){
     this.notify.emit(value);
+  }
+
+  closeConnection() {
+    this.auth.socket.emit('cancelstream', this.conn);
+    this.auth.socket.open();
+    this.hide(false);
   }
 
   startStream() {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './routes/auth/services/auth.service';
-import * as socketIo from "socket.io-client";
+import {Router, NavigationStart} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -11,24 +11,36 @@ export class AppComponent implements OnInit {
 
   showModal: boolean;
   conn: any;
+  currentRoute: string;
 
   constructor(
-    private auth: AuthService) {
+    private auth: AuthService,
+    private router: Router
+  ) {
+    router.events.forEach((event) => {
+        if (event instanceof NavigationStart) {
+          this.currentRoute = event.url.split('?')[0];
+          console.log(this.currentRoute);
+        }
+      }
+    );
   }
 
   ngOnInit(): void {
     this.auth.socket.on('stream', (data) => {
       console.log('Request stream');
-      console.log(data);
       if (data.streaming == 2)
         this.showModal = true;
       this.conn = data;
+      if (this.currentRoute == '/stream')
+        this.router.navigateByUrl('/home');
     });
     this.auth.socket.on('streamclose', () => {
       console.log('Closed stream');
       this.conn.streaming = 0;
       this.showModal = true;
-      console.log(this.showModal);
+      if (this.currentRoute == '/stream')
+        this.router.navigateByUrl('/home');
     });
     this.auth.autoAuthUser();
   }

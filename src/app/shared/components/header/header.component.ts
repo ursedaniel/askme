@@ -26,15 +26,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userIsAuthenticated = this.auth.getIsAuth();
     this.userType = localStorage.getItem('type');
-    if (this.userType == undefined || this.userType == null || this.userType == '')
-      this.getType();
     this.authListenerSubs = this.auth.getAuthStatusListener().subscribe(isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;
+      if (this.userType == undefined || this.userType == null || this.userType == '')
+        this.getType();
       this.userType = localStorage.getItem('type');
       this.getNotifications();
     });
 
-    this.getNotifications();
+    if (this.userIsAuthenticated)
+      this.getNotifications();
 
     this.auth.socket.on('updatenotifications', notifications => {
       this.notifications = notifications;

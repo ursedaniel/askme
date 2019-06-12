@@ -1,22 +1,22 @@
 #main_stream{
-  height: 500px;
-  width: 500px;
+  width: 888px;
   display: block;
   margin: 0 auto;
 }
 
 #my-stream {
-  width: 36%;
+  width: 20%;
   height: 23%;
   position: absolute;
   overflow: hidden;
   top: -50px;
-  right: -100px;
+  right: -102px;
 }
 
 .remote-containers div{
   height: 500px;
-  width: 100%;
+  width: 888px;
+  margin: 0 auto;
 }
 
 .container {
@@ -26,15 +26,25 @@
 }
 
 .stream-off {
-  width: 100%;
+  width: 888px;
+  background-image: url('../../../../../assets/images/streamphoto.jpg');
+  height: 500px;
+  background-size: cover;
+  text-align: center;
+  background-position-y: 22px;
+}
+
+.stream-off h2 {
+  background-color: #673ab7;
+  color: white;
 }
 
 .stream-off-play {
   display: block;
   position: absolute;
-  width: 8%;
-  top: 45%;
-  left: 45%;
+  width: 10%;
+  top: 37%;
+  left: 43%;
   cursor: pointer;
 }
 
@@ -55,4 +65,10 @@
   padding: 10px;
   background-color: azure;
   color: #673ab7;
+}
+
+.center-button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
 }

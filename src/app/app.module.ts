@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {PostService} from "./routes/posts/services/post.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {RouterModule} from '@angular/router';
+import {ActivatedRouteSnapshot, RouterModule} from '@angular/router';
 import {SharedModule} from './shared/shared.module';
 import {routing} from './routes';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -31,7 +31,7 @@ import {LoaderService} from "./shared/services/loader.service";
       progressAnimation: 'increasing',
       progressBar: true,
     }),
-    routing
+    routing,
   ],
   providers: [
     [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
@@ -39,7 +39,7 @@ import {LoaderService} from "./shared/services/loader.service";
     AuthService,
     AuthGuard,
     ToastrService,
-    LoaderService
+    LoaderService,
   ],
   bootstrap: [AppComponent]
 })

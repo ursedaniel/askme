@@ -16,6 +16,7 @@ export class StreamComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   user1: string;
   user2: string;
+  currentUser: string;
 
   constructor(
     private agoraService: AngularAgoraRtcService,
@@ -23,8 +24,9 @@ export class StreamComponent implements OnInit, OnDestroy {
     private auth: AuthService
   ) {
     this.agoraService.createClient();
-    this.user1 = this.route.snapshot.queryParams["connection1"];
-    this.user2 = this.route.snapshot.queryParams["connection2"];
+    this.user1 = window.atob(this.route.snapshot.queryParams["connection1"]);
+    this.user2 = window.atob(this.route.snapshot.queryParams["connection2"]);
+    this.currentUser = localStorage.getItem('username');
   }
 
   ngOnInit() {
@@ -35,8 +37,8 @@ export class StreamComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.auth.socket.emit('stream', {
       token: localStorage.getItem('token'),
-      user1: window.atob(this.user1),
-      user2: window.atob(this.user2),
+      user1: this.user1,
+      user2: this.user2,
     });
     this.auth.socket.on('startstream', data => {
 
@@ -45,6 +47,11 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.localStream.setVideoProfile('720p_3');
         this.subscribeToStreams();
       });
+    });
+
+    this.auth.socket.on('hostcancelstream', data => {
+      alert('canceled stream');
+      this.isLoading = false;
     });
     this.auth.socket.open();
   }
@@ -98,11 +105,11 @@ export class StreamComponent implements OnInit, OnDestroy {
         stream.play(`agora_remote${stream.getId()}`);
         this.isLoading = false;
         this.streamOff = true;
-        if (localStorage.getItem('username') == window.atob(this.user2))
+        if (localStorage.getItem('username') == this.user2)
           this.auth.socket.emit('logstream', {
             token: localStorage.getItem('token'),
-            user1: window.atob(this.user1),
-            user2: window.atob(this.user2),
+            user1: this.user1,
+            user2: this.user2,
           });
       }, 2000);
     });
@@ -137,8 +144,8 @@ export class StreamComponent implements OnInit, OnDestroy {
     });
     this.auth.socket.emit('endstreamlog', {
       token: localStorage.getItem('token'),
-      user1: window.atob(this.user1),
-      user2: window.atob(this.user2),
+      user1: this.user1,
+      user2: this.user2,
     });
   }
 
