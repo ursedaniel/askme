@@ -19,5 +19,7 @@
       </div>
     </div>
   </div>
+  <span *ngIf="streamOff" class="timer-stream"><i class="far fa-clock" style="padding-right: 5px;"></i> Timer: <label id="minutes">00</label>:<label id="seconds">00</label></span>
+  <span *ngIf="streamOff" class="price-stream"><i class="fas fa-coins" style="padding-right: 10px;"></i>Price: <label id="price">0</label></span>
   <button type="button" mat-raised-button color="primary" class="center-button" (click)="leave()"  *ngIf="streamOff && currentUser == user1">Finish connection</button>
 </div>

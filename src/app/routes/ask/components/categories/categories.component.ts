@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {ToastrService} from 'ngx-toastr';
 import {FindconnectionComponent} from "../findconnection/findconnection.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-categories',
@@ -11,12 +12,10 @@ import {FindconnectionComponent} from "../findconnection/findconnection.componen
 })
 export class CategoriesComponent implements OnInit {
   questionForm: FormGroup;
-  secondFormGroup: FormGroup;
+  question: string;
   categorySelectedId: number;
+  categorySelectedName: string;
   categorySelected: boolean;
-  showConnections: boolean;
-  @ViewChild('connectionsComponent') connectionsComponent: FindconnectionComponent;
-
 
   categoriesList = [
     {title: 'A.I.', class: 'fas fa-robot'},
@@ -40,15 +39,13 @@ export class CategoriesComponent implements OnInit {
   ];
 
   constructor(private _formBuilder: FormBuilder,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.questionForm = this._formBuilder.group({
       question: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
     });
   }
 
@@ -69,9 +66,9 @@ export class CategoriesComponent implements OnInit {
   }
 
   getConnections() {
-    this.showConnections = true;
-    setTimeout( () => {
-      this.connectionsComponent.getConnections();
-    },0);
+    localStorage.setItem('question', this.question);
+    localStorage.setItem('categoryName', this.categorySelectedName);
+    localStorage.setItem('categoryId', this.categorySelectedId.toString());
+    this.router.navigateByUrl('/ask/connections');
   }
 }

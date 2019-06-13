@@ -1,6 +1,6 @@
 <div class="container mt-80">
 
-  <div *ngIf="!showConnections">
+  <div>
     <div class="header">
       <span>ASK - Get answers right now!</span>
     </div>
@@ -12,7 +12,7 @@
         <div class="row">
           <ng-container *ngFor="let grid of categoriesList; let i = index;">
             <div class="col-lg-2 grid" [class.selected-grid]="categorySelectedId == i"
-                 (click)="categorySelected = true; categorySelectedId = i;goForward(stepper)">
+                 (click)="categorySelected = true; categorySelectedId = i;goForward(stepper);categorySelectedName = grid.title">
               <div>
                 <div class="header-title">{{grid.title}}</div>
                 <div class="icon"><i class="{{grid.class}}"></i></div>
@@ -27,7 +27,7 @@
           <ng-template matStepLabel>Fill out your question</ng-template>
           <mat-form-field>
             <textarea matInput placeholder="Write your question shorthandly" formControlName="question" [rows]="1"
-                      required></textarea>
+                      required [(ngModel)]="question"></textarea>
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>
@@ -40,8 +40,8 @@
         Everything set! <br/>
         Get your asnwers below by choosing the type of search method you want to use:
         <div class="mt-20">
-          <button mat-button color="primary">Find me an user</button>
-          <button mat-button color="accent" (click)="getConnections()">Let me choose the user</button>
+<!--          <button mat-button color="primary">Find me an user</button>-->
+          <button mat-button color="primary" (click)="getConnections()">Find your connection</button>
           <button mat-button matStepperPrevious>Back</button>
           <!--        <button mat-button (click)="stepper.reset()">Reset</button>-->
         </div>
@@ -49,5 +49,4 @@
     </mat-horizontal-stepper>
   </div>
 
-  <app-findconnection *ngIf="showConnections" #connectionsComponent></app-findconnection>
 </div>

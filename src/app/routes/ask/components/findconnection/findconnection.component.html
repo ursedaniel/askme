@@ -1,16 +1,19 @@
-<div class="container mt-40">
-  <div class="header">
-    <span>Choose your connection</span>
-  </div>
+<div class="container mt-80">
 
-  <div class="connections" *ngIf="connections?.length > 0">
-    <div class="col-lg-4 align-center" *ngFor="let con of connections; let conIndex = index">
-      <div class="user-image pointer" (click)="connectUser(con.username)"></div>
-      <div class="user-name pointer" (click)="connectUser(con.username)">{{con.username}}</div>
-      <span class='star-rating' [title]="con.rating">
+  <div>
+    <div class="header">
+      <span>Choose your connection</span>
+    </div>
+
+    <div class="connections" *ngIf="connections?.length > 0">
+      <div class="col-lg-4 align-center" *ngFor="let con of connections; let conIndex = index">
+        <div class="user-image pointer" (click)="connectUser(con.username)"></div>
+        <div class="user-name pointer" (click)="connectUser(con.username)">{{con.username}}</div>
+        <span class='star-rating' [title]="con.rating">
       <span>{{con.reviews}} reviews</span> <br/>
       <i *ngFor='let n of range; let $index = index;' class="to-display" [ngClass]='isMarked($index, conIndex)'></i>
     </span>
+      </div>
     </div>
   </div>
 </div>

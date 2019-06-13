@@ -165,8 +165,6 @@ function closeLog(data) {
     log.dateEnd = new Date();
     User.findOne({username: data.user2}).then((user) => {
       var diffMs = (log.dateEnd - log.dateStart);
-      console.log(log);
-      console.log(diffMs);
       if (diffMs >= 60000) {
         var minutes = Math.ceil(diffMs / 60000);
         log.price = minutes * user.price;
@@ -174,10 +172,6 @@ function closeLog(data) {
         log.price = user.price;
       log.save();
     })
-    // notificationNew = notification;
-    // notificationNew.checked = !notificationNew.checked;
-    // notificationNew.save();
-    // res.status(201).json();
   });
 }
 
@@ -200,7 +194,7 @@ module.exports = function (io) {
           });
         if (!ok) {
           socket.user = user;
-          users.push({socket: socket.id, username: user.username, streaming: 0, conn: ''});
+          users.push({socket: socket.id, username: user.username, streaming: 0, conn: '', price: user.price});
         }
         User.findOne({username: user.username}).then(user => {
           if (user) {
@@ -309,6 +303,8 @@ module.exports = function (io) {
           if (user.username == data.user2) {
             user.conn = data.user1;
             user.streaming = 2;
+            user.question = data.question;
+            user.categoryName = data.categoryName;
             io.sockets.connected[user.socket].emit("stream", user);
             addNotification({
               username: data.user2,
@@ -318,6 +314,10 @@ module.exports = function (io) {
           if (user.username == data.user1) {
             user.streaming = 1;
             user.conn = data.user2;
+            users.map(user2 => {
+              if(user2.username == data.user2)
+                user.price = user2.price;
+            })
           }
         })
       } else {
@@ -331,7 +331,6 @@ module.exports = function (io) {
     });
 
     socket.on('cancelstream', data => {
-      console.log(data);
       users.filter(function (obj) {
         if (obj.username === data.conn) {
           obj.streaming = 0;
@@ -352,6 +351,17 @@ module.exports = function (io) {
 
     socket.on('endstreamlog', data => {
       closeLog(data);
+      users.filter(function (obj) {
+        if (obj.username === data.user1) {
+          obj.streaming = 0;
+          obj.conn = '';
+        }
+        if (obj.username === data.user2) {
+          obj.streaming = 0;
+          obj.conn = '';
+          io.sockets.connected[obj.socket].emit("streamend", obj);
+        }
+      });
     });
   });
 

@@ -17,11 +17,14 @@ export class StreamComponent implements OnInit, OnDestroy {
   user1: string;
   user2: string;
   currentUser: string;
+  question: string;
+  categoryName: string;
 
   constructor(
     private agoraService: AngularAgoraRtcService,
     private route: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) {
     this.agoraService.createClient();
     this.user1 = window.atob(this.route.snapshot.queryParams["connection1"]);
@@ -30,6 +33,8 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.question = localStorage.getItem('question');
+    this.categoryName = localStorage.getItem('categoryName');
   }
 
 
@@ -39,13 +44,20 @@ export class StreamComponent implements OnInit, OnDestroy {
       token: localStorage.getItem('token'),
       user1: this.user1,
       user2: this.user2,
+      question: this.question,
+      categoryName: this.categoryName,
     });
-    this.auth.socket.on('startstream', data => {
-
+    this.auth.socket.on('startstream', (data) => {
+      localStorage.setItem('price', data.price.toString());
       this.agoraService.client.join(null, '1000', null, (uid) => {
         this.localStream = this.agoraService.createStream(uid, true, null, null, true, false);
         this.localStream.setVideoProfile('720p_3');
         this.subscribeToStreams();
+      });
+
+      this.auth.socket.on('streamend', () => {
+        this.remoteCalls = [];
+        this.router.navigateByUrl('/review?connection1=' + window.btoa(this.user1) + '&connection2=' + window.btoa(this.user2));
       });
     });
 
@@ -111,7 +123,31 @@ export class StreamComponent implements OnInit, OnDestroy {
             user1: this.user1,
             user2: this.user2,
           });
-      }, 2000);
+        var totalSeconds = 0;
+        setInterval(setTime, 1000);
+
+        function setTime() {
+          ++totalSeconds;
+          var minutesLabel = document.getElementById("minutes");
+          var secondsLabel = document.getElementById("seconds");
+          var priceLabel = document.getElementById("price");
+          secondsLabel.innerHTML = pad(Math.floor(totalSeconds % 60));
+          minutesLabel.innerHTML = pad(Math.floor(Number(totalSeconds / 60)));
+          if (Number(pad(Math.floor(Number(totalSeconds / 60)))) != 0)
+            priceLabel.innerHTML = ((Number(pad(Math.floor(Number(totalSeconds / 60)))) + 1) * Number(localStorage.getItem('price'))).toString();
+          else
+            priceLabel.innerHTML = (Number(localStorage.getItem('price'))).toString();
+        }
+
+        function pad(val) {
+          var valString = val + "";
+          if (valString.length < 2) {
+            return "0" + valString;
+          } else {
+            return valString;
+          }
+        }
+      }, 4000);
     });
 
     this.agoraService.client.on('stream-removed', (evt) => {
@@ -133,10 +169,7 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // this.auth.socket.emit('closestream', localStorage.getItem('token'));
-    this.leave();
-  }
-
-  leave() {
+    this.remoteCalls = [];
     this.agoraService.client.leave(() => {
       console.log("Leavel channel successfully");
     }, (err) => {
@@ -147,6 +180,21 @@ export class StreamComponent implements OnInit, OnDestroy {
       user1: this.user1,
       user2: this.user2,
     });
+  }
+
+  leave() {
+    this.remoteCalls = [];
+    this.agoraService.client.leave(() => {
+      console.log("Leavel channel successfully");
+    }, (err) => {
+      console.log("Leave channel failed");
+    });
+    this.auth.socket.emit('endstreamlog', {
+      token: localStorage.getItem('token'),
+      user1: this.user1,
+      user2: this.user2,
+    });
+    this.router.navigateByUrl('/review?connection1=' + window.btoa(this.user1) + '&connection2=' + window.btoa(this.user2));
   }
 
 }

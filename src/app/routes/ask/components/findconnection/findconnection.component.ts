@@ -26,6 +26,7 @@ export class FindconnectionComponent implements OnInit {
     for (var i = 0; i < 5; i++) {
       this.range.push(i);
     }
+    this.getConnections();
   }
 
   getConnections() {

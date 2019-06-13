@@ -8,6 +8,8 @@ const userSchema = mongoose.Schema({
   username2: {type: String, required: false},
   duration: {type: String, required: false},
   price: {type: String, required: false},
+  // reviewuser1: {type: Boolean, required: false},
+  // reviewuser2: {type: Boolean, required: false},
 });
 
 userSchema.plugin(uniqueValidator);
