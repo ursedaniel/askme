@@ -1,7 +1,29 @@
 <div class="container mt-80">
 
-    <div class="header">
-      <span *ngIf="currentUser == user1">Review {{user2}}</span>
-      <span *ngIf="currentUser == user2">Review {{user1}}</span>
-    </div>
+  <div class="header">
+    <span>
+    You finished the connection with
+    <span *ngIf="currentUser == user1">{{user2}}</span>
+    <span *ngIf="currentUser == user2">{{user1}}</span>
+      </span>
+  </div>
+  <h3 class="align-center mt-20">
+    <span *ngIf="currentUser == user1">Review {{user2}}</span>
+    <span *ngIf="currentUser == user2">Review {{user1}}</span>
+  </h3>
+  <div class="mt-40 align-center">
+  <span *ngFor="let star of stars; let i = index">
+       <i [class]="star.class" (mouseover)="changeStyle($event, star,i)"
+          (mouseout)="changeStyle($event, star,i)" (click)="chooseStar(star,i)"></i>
+  </span>
+  </div>
+  <div class="mt-40">
+    <form [formGroup]="reviewForm" class="form-question">
+      <mat-form-field>
+            <textarea matInput placeholder="Write your review" formControlName="review" [rows]="1"
+                      required [(ngModel)]="review"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <button type="button" mat-raised-button color="primary" class="center-button" [disabled]="checkedStar == null || review == ''">Save review</button>
 </div>

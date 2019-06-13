@@ -115,3 +115,6 @@ html  ::-webkit-scrollbar {
   display: block;
   margin: 0 auto;
 }
+/deep/ .rating.medium .star i {
+  font-size: 25px !important;
+}
