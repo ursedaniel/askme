@@ -4,6 +4,7 @@ import { ReviewComponent } from './components/review/review.component';
 import {routing} from './routes/routes';
 import {MatButtonModule, MatFormFieldModule, MatInputModule} from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReviewService} from "./services/review.service";
 
 @NgModule({
   declarations: [ReviewComponent],
@@ -16,6 +17,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     ReactiveFormsModule,
     MatButtonModule
   ],
-  providers: []
+  providers: [
+    ReviewService
+  ]
 })
 export class ReviewModule { }

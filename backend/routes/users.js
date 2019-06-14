@@ -42,6 +42,21 @@ router.get('/myuser', checkAuth, (req, res, next) => {
     });
 });
 
+router.post('/user', checkAuth, (req, res, next) => {
+  let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
+  if (fetchedUser != null)
+    User.findOne({username: req.body.username}).then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: 'Auth failed'
+        })
+      }
+      user.password = '';
+      user.email = '';
+      return res.status(200).json(user);
+    });
+});
+
 router.get('/connections', checkAuth, (req, res, next) => {
   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
   if (fetchedUser != null)

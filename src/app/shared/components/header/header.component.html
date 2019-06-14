@@ -22,7 +22,7 @@
         <span class="user-status"></span>
       </div>
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/myaccount">My profile</button>
+        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/account">My profile</button>
         <button mat-menu-item routerLinkActive="mat-accent" (click)="onLogout()">Logout</button>
       </mat-menu>
       <div class="float-right position-relative" *ngIf="userIsAuthenticated">

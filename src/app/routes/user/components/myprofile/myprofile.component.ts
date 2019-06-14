@@ -4,12 +4,14 @@ import {LoaderService} from "../../../../shared/services/loader.service";
 import {LoaderModel} from "../../../../shared/models/LoaderModel";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../auth/services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {RegisterValidator} from "../../../auth/validators/RegisterValidator";
 import {debounceTime} from "rxjs/operators";
 import {UserModel} from "../../models/UserModel";
 import {UserValidator} from "../../validators/UserValidator";
+import {ReviewService} from "../../../review/services/review.service";
+import {ReviewModel} from "../../../review/models/ReviewModel";
 
 @Component({
   selector: 'app-myprofile',
@@ -18,11 +20,15 @@ import {UserValidator} from "../../validators/UserValidator";
 })
 export class MyprofileComponent implements OnInit {
 
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   user: UserModel = new UserModel();
   registerForm: FormGroup;
   submitted = false;
   range = [];
-
+  panelOpenState = false;
+  reviews: Array<ReviewModel> = [];
+  currentUser: string;
+  myuser: string;
 
   constructor(
     private us: UserService,
@@ -31,12 +37,20 @@ export class MyprofileComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
+    private rs: ReviewService,
+    private route: ActivatedRoute,
   ) {
+    this.myuser = this.route.snapshot.queryParams["user"];
   }
 
   ngOnInit() {
+    this.currentUser = localStorage.getItem('username');
     this.buildForm();
     this.getMyProfile();
+    this.getReviews();
+    console.log(this.myuser);
+    if (this.myuser != undefined)
+      this.getOtherUser();
 
     for (var i = 0; i < 5; i++) {
       this.range.push(i);
@@ -53,12 +67,33 @@ export class MyprofileComponent implements OnInit {
     }
   };
 
+  getOtherUser() {
+    this.us.getOtherUser('haboks321').subscribe(
+      (response) => {
+        this.user = response;
+      }
+    )
+  }
+
   getMyProfile() {
     this.ls.update(new LoaderModel(true, null));
     this.us.getUser().subscribe((response) => {
       this.user = response.user;
       this.ls.update(null);
     })
+  }
+
+  connectUser(username) {
+    let myusername = window.btoa(localStorage.getItem('username'));
+    this.router.navigateByUrl('/stream?connection1=' + myusername + '&connection2=' + window.btoa(username));
+  }
+
+  getReviews() {
+    this.rs.getReviews().subscribe(
+      (response) => {
+        this.reviews = response;
+      }
+    )
   }
 
   // register() {
@@ -92,7 +127,7 @@ export class MyprofileComponent implements OnInit {
       password: [this.user.password, [Validators.required]],
       name: [this.user.name, [Validators.required]],
       price: [this.user.price, [Validators.required]],
-      username: [this.user.username,  [Validators.required]],
+      username: [this.user.username, [Validators.required]],
     }, {
       validator: UserValidator.validatePassowrd,
     });

@@ -8,6 +8,7 @@ app.io = require('socket.io')({
 const postsRoutes = require('./routes/posts');
 const usersRoutes = require('./routes/users');
 const notificationsRoutes = require('./routes/notifications');
+const reviewRoutes = require('./routes/review');
 const authRoutes = require('./routes/auth')(app.io);
 mongoose.connect("mongodb+srv://haboks:SP6gpTHYEuBd2sk9@cluster0-qcgyi.mongodb.net/askme?retryWrites=true", {useNewUrlParser: true})
   .then(() => {
@@ -37,6 +38,7 @@ app.use('/api/auth',authRoutes);
 app.use('/api/posts',postsRoutes);
 app.use('/api/users',usersRoutes);
 app.use('/api/notifications',notificationsRoutes);
+app.use('/api/reviews',reviewRoutes);
 
 /**
  * Socket events

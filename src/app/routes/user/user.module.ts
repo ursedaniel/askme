@@ -3,8 +3,15 @@ import { CommonModule } from '@angular/common';
 import { MyprofileComponent } from './components/myprofile/myprofile.component';
 import {routing} from './routes/routes';
 import {UserService} from "./services/user.service";
-import {MatButtonModule, MatFormFieldModule, MatInputModule} from "@angular/material";
+import {
+  MatButtonModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatTableModule
+} from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReviewService} from "../review/services/review.service";
 
 @NgModule({
   declarations: [MyprofileComponent],
@@ -15,10 +22,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatButtonModule,
     ReactiveFormsModule,
     FormsModule,
-    routing
+    routing,
+    MatExpansionModule,
+    MatTableModule
   ],
   providers: [
-    UserService
+    UserService,
+    ReviewService
   ]
 })
 export class UserModule { }

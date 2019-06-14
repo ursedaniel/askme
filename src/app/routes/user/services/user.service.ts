@@ -42,6 +42,10 @@ export class UserService {
     return this.http.get<{ message: string, user: UserModel }>(this.userAPI + 'myuser');
   }
 
+  getOtherUser(username) {
+    return this.http.post<UserModel>(this.userAPI + 'user',{username: username});
+  }
+
   getConnections() {
     return this.http.get<{ message: string, connections: Array<UserModel> }>(this.userAPI + 'connections');
   }

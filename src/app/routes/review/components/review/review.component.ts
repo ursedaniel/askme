@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../../../auth/services/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ReviewService} from "../../services/review.service";
+import {ReviewModel} from "../../models/ReviewModel";
 
 @Component({
   selector: 'app-review',
@@ -24,11 +25,12 @@ export class ReviewComponent implements OnInit {
   checkedStar: number;
   reviewForm: FormGroup;
   review: string = '';
+  reviewModel: ReviewModel = new ReviewModel;
 
   constructor(
     private _formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private auth: AuthService,
+    private rs: ReviewService,
     private router: Router
   ) {
     this.user1 = window.atob(this.route.snapshot.queryParams["connection1"]);
@@ -80,6 +82,22 @@ export class ReviewComponent implements OnInit {
     star.checked = !star.checked;
     this.checkedStar = star.value;
     this.changeStyle({type: 'mouseover'}, star, i);
+  }
+
+  reviewUser() {
+    this.reviewModel.review = this.review;
+    this.reviewModel.rating = this.checkedStar;
+    if (this.currentUser == this.user1) {
+      this.reviewModel.username1 = this.user1;
+      this.reviewModel.username2 = this.user2;
+    } else {
+      this.reviewModel.username1 = this.user2;
+      this.reviewModel.username2 = this.user1;
+    }
+    this.reviewModel.date = new Date();
+    this.rs.reviewUser(this.reviewModel).subscribe((success)=> {
+      console.log(success);
+    })
   }
 
 

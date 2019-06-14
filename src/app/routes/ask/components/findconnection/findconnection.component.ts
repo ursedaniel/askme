@@ -53,8 +53,7 @@ export class FindconnectionComponent implements OnInit {
   };
 
   connectUser(username) {
-    let myusername = window.btoa(localStorage.getItem('username'));
-    this.router.navigateByUrl('/stream?connection1=' + myusername + '&connection2=' + window.btoa(username));
+    this.router.navigateByUrl('/user/account?user=' + username);
   }
 
 

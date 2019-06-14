@@ -25,5 +25,5 @@
       </mat-form-field>
     </form>
   </div>
-  <button type="button" mat-raised-button color="primary" class="center-button" [disabled]="checkedStar == null || review == ''">Save review</button>
+  <button type="button" mat-raised-button color="primary" class="center-button" [disabled]="checkedStar == null || review == ''" (click)="reviewUser()">Save review</button>
 </div>

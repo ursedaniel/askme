@@ -34,8 +34,16 @@ input:-webkit-autofill {
   display:block !important;
 }
 
+.pickers {
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .form-validate {
-  width: 40%;
+  width: 50%;
   margin: auto;
   margin-top: 20px;
 }
@@ -63,4 +71,13 @@ input:-webkit-autofill {
   .to-display{
     padding: 0 2px;
   }
+}
+
+table {
+   width: 100%;
+}
+
+.align-center-block {
+  margin: 0 auto !important;
+  display: block !important;
 }
