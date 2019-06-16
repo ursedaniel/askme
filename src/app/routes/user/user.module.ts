@@ -12,9 +12,10 @@ import {
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ReviewService} from "../review/services/review.service";
+import { LogsComponent } from './components/logs/logs.component';
 
 @NgModule({
-  declarations: [MyprofileComponent],
+  declarations: [MyprofileComponent, LogsComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,

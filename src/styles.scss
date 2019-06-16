@@ -118,3 +118,7 @@ html  ::-webkit-scrollbar {
 /deep/ .rating.medium .star i {
   font-size: 25px !important;
 }
+
+.container {
+  animation: bounceInUp 1s;
+}

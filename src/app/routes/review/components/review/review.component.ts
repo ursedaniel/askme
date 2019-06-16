@@ -96,7 +96,7 @@ export class ReviewComponent implements OnInit {
     }
     this.reviewModel.date = new Date();
     this.rs.reviewUser(this.reviewModel).subscribe((success)=> {
-      console.log(success);
+      this.router.navigateByUrl('/user/logs');
     })
   }
 

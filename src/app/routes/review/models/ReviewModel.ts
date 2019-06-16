@@ -1,5 +1,5 @@
 export class ReviewModel {
-  date: Date;
+  date: any;
   username1: string;
   username2: string;
   rating: number;
