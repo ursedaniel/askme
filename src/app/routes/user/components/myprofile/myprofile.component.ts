@@ -46,11 +46,13 @@ export class MyprofileComponent implements OnInit {
   ngOnInit() {
     this.currentUser = localStorage.getItem('username');
     this.buildForm();
-    this.getMyProfile();
-    this.getReviews();
-    console.log(this.myuser);
-    if (this.myuser != undefined)
+    if (this.myuser != undefined) {
+      this.getOtherReviews();
       this.getOtherUser();
+    } else {
+      this.getMyProfile();
+      this.getReviews();
+    }
 
     for (var i = 0; i < 5; i++) {
       this.range.push(i);
@@ -68,7 +70,7 @@ export class MyprofileComponent implements OnInit {
   };
 
   getOtherUser() {
-    this.us.getOtherUser('haboks321').subscribe(
+    this.us.getOtherUser(this.myuser).subscribe(
       (response) => {
         this.user = response;
       }
@@ -90,6 +92,14 @@ export class MyprofileComponent implements OnInit {
 
   getReviews() {
     this.rs.getReviews().subscribe(
+      (response) => {
+        this.reviews = response;
+      }
+    )
+  }
+
+  getOtherReviews() {
+    this.rs.getOtherReviews(this.myuser).subscribe(
       (response) => {
         this.reviews = response;
       }

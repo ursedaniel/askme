@@ -26,4 +26,8 @@ export class ReviewService {
   getReviews() {
     return this.http.get<Array<ReviewModel>>(this.reviewAPI);
   }
+
+  getOtherReviews(username) {
+    return this.http.get<Array<ReviewModel>>(this.reviewAPI + '?username=' + username);
+  }
 }

@@ -36,21 +36,24 @@ router.post('', (req, res, next) => {
 router.get('', checkAuth, (req, res, next) => {
   fetchedReviews = [];
   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
-  if (fetchedUser != null)
+  if (fetchedUser != null) {
+    if (req.query.username != null)
+      fetchedUser.username = req.query.username;
     Review.find({username2: fetchedUser.username}).then(reviews => {
-        for(let i = 0; i < reviews.length; i++) {
+        for (let i = 0; i < reviews.length; i++) {
           fetchedReviews.push({
-          date: reviews[i].date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-          username1: reviews[i].username1,
-          username2: reviews[i].username2,
-          rating: reviews[i].rating,
-          review: reviews[i].review,
-          logId: reviews[i].logId,
+            date: reviews[i].date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            username1: reviews[i].username1,
+            username2: reviews[i].username2,
+            rating: reviews[i].rating,
+            review: reviews[i].review,
+            logId: reviews[i].logId,
           });
-          return res.status(200).json(fetchedReviews);
         }
+        return res.status(200).json(fetchedReviews);
       }
     );
-});
+  }}
+);
 
 module.exports = router;
