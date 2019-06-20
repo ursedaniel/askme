@@ -42,10 +42,15 @@
              title="Notifications"></i>
           <span class="notifications-counter" *ngIf="notifications?.length > 0">{{newNots}}</span>
         </div>
-        <div [ngClass]="{'in': showNotifications}" *ngIf="showNotifications" class="notifications-block">
+        <div [ngClass]="{'in': showNotifications}" class="notifications-block"
+             *ngIf="showNotifications">
+          <div class="top-notifications">
+            <div class="float-left w-50"><span class="pointer">Mark all as read</span></div>
+            <div class="float-right w-50 align-right"><span class="pointer">Delete all</span></div>
+          </div>
           <div *ngFor="let n of notifications; let i = index"
                [ngClass]="{'new-not': n.checked == false, 'checked-not': n.checked == true}"
-               [ngStyle]="{'border-top' : i==0 ? 'none' : '1px solid white'}">
+               [ngStyle]="{'border-top' : i==0 ? 'none' : '1px solid white'}" style="clear:both;">
             {{n.message}}
             <i class="fas fa-circle" title="Mark as read" (click)="readNotification(n)"></i>
           </div>
