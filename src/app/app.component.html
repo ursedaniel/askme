@@ -3,4 +3,4 @@
   <router-outlet></router-outlet>
 </main>
 <loader></loader>
-<app-connectionmodal *ngIf="showModal" [conn]="conn" (notify)="showModal = $event"></app-connectionmodal>
+<app-connectionmodal *ngIf="showModal" [conn]="conn" (notify)="showModal = $event" [connCanceled]="connCanceled"></app-connectionmodal>

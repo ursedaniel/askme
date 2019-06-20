@@ -5,7 +5,8 @@
   </div>
 
   <div class="container flex mt-20">
-    <div class="user-image" title="Change your image"></div>
+    <img  class="user-image" [src]="user.imagePath ? '../../../../../assets/images/profiles/' + user.imagePath : '../../../../assets/icons/user-icon.png'" (click)="filePicker.click()" />
+    <input type="file" #filePicker (change)="onImagePicked($event)">
   </div>
 
   <div class="rating align-center">
@@ -15,6 +16,7 @@
       <i *ngFor='let n of range; let $index = index;' class="to-display" [ngClass]='isMarked($index)'></i>
     </ng-container>
     </span>
+    <span><i class="far fa-calendar-alt"></i> {{user.joinDate}}</span>
   </div>
 
   <div class="pickers flex mt-20">
@@ -34,8 +36,15 @@
 
           <div class="input-material">
             <mat-form-field>
-              <input matInput placeholder="Full name" formControlName="name" required class="name" [(ngModel)]="user.name">
+              <input matInput placeholder="Full name" formControlName="name" required class="name"
+                     [(ngModel)]="user.name">
               <mat-error>{{ formErrors.name }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="input-material" >
+            <mat-form-field>
+              <input matInput placeholder="Username" formControlName="username" [(ngModel)]="user.username">
             </mat-form-field>
           </div>
 
@@ -46,20 +55,15 @@
             </mat-form-field>
           </div>
 
-          <div class="input-material">
+          <div class="input-material" *ngIf="currentUser == user.username">
             <mat-form-field>
-              <input matInput placeholder="Username" formControlName="username" [(ngModel)]="user.username">
-            </mat-form-field>
-          </div>
-
-          <div class="input-material"   *ngIf="currentUser == user.username">
-            <mat-form-field>
-              <input matInput placeholder="Email" formControlName="email" required type="email" [(ngModel)]="user.email">
+              <input matInput placeholder="Email" formControlName="email" required type="email"
+                     [(ngModel)]="user.email">
               <mat-error>{{ formErrors.email }}</mat-error>
             </mat-form-field>
           </div>
 
-          <div class="input-material"  *ngIf="currentUser == user.username">
+          <div class="input-material" *ngIf="currentUser == user.username">
             <mat-form-field>
               <input matInput placeholder="Password" formControlName="password" required type="password"
                      [(ngModel)]="user.password">
@@ -67,6 +71,27 @@
             </mat-form-field>
           </div>
 
+          <div class="input-material">
+            <mat-form-field>
+              <textarea matInput placeholder="Description" formControlName="description"
+                        [(ngModel)]="user.description"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="input-material" *ngIf="currentUser == user.username">
+            <mat-form-field>
+              <mat-label>Categories</mat-label>
+              <mat-select formControlName="categories" multiple [(ngModel)]="user.categories">
+                <mat-option *ngFor="let category of categoriesList" [value]="category.title" >{{category.title}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="input-material" *ngIf="currentUser != user.username">
+            <mat-chip-list>
+              <mat-chip color="primary" selected *ngFor="let cat of user.categories">{{cat}}</mat-chip>
+            </mat-chip-list>
+          </div>
 
           <div class="form-group mt-20" *ngIf="currentUser == user.username">
             <button type="submit" mat-raised-button color="primary">Update profile</button>
@@ -94,25 +119,32 @@
 
           <!-- Position Column -->
           <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <th mat-header-cell *matHeaderCellDef> Date</th>
             <td mat-cell *matCellDef="let review"> {{review.date}} </td>
           </ng-container>
 
           <!-- Name Column -->
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> User </th>
+            <th mat-header-cell *matHeaderCellDef> User</th>
             <td mat-cell *matCellDef="let review"> {{review.username1}} </td>
           </ng-container>
 
           <!-- Weight Column -->
           <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef> Rating </th>
-            <td mat-cell *matCellDef="let review"> {{review.rating}} </td>
+            <th mat-header-cell *matHeaderCellDef> Rating</th>
+            <td mat-cell *matCellDef="let review">
+                <span class='star-rating' [title]="review.rating">
+                <ng-container>
+                  <i *ngFor='let n of range; let $index = index;' class="to-display"
+                     [ngClass]='isMarkedReviews($index,review.rating)'></i>
+                </ng-container>
+                </span>
+            </td>
           </ng-container>
 
           <!-- Symbol Column -->
           <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef> Review </th>
+            <th mat-header-cell *matHeaderCellDef> Review</th>
             <td mat-cell *matCellDef="let review"> {{review.review}} </td>
           </ng-container>
 
@@ -126,10 +158,11 @@
     </mat-accordion>
 
     <div class="form-group mt-20" *ngIf="currentUser != user.username">
-      <button type="button" mat-raised-button color="primary" class="align-center-block" (click)="connectUser(user.username)">Connect</button>
+      <button type="button" mat-raised-button color="primary" class="align-center-block"
+              (click)="connectUser(user.username)">Connect
+      </button>
     </div>
   </div>
-
 
 
 </div>

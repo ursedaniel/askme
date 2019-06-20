@@ -16,16 +16,25 @@
       </button>
       <!--      <button [routerLink]="['/posts']" mat-button class="float-right" routerLinkActive="mat-accent" *ngIf="userIsAuthenticated">Posts</button>-->
       <!--      <button [routerLink]="['/stream']" mat-button class="float-right" routerLinkActive="mat-accent" *ngIf="userIsAuthenticated">Stream</button>-->
-      <img src="../../../../assets/icons/user-icon.png" class="user-icon" *ngIf="userIsAuthenticated"
-           [matMenuTriggerFor]="menu">
+      <img class="user-icon"
+           [src]="user.imagePath ? '../../../../../assets/images/profiles/' + user.imagePath : '../../../../assets/icons/user-icon.png'"
+           *ngIf="userIsAuthenticated" [matMenuTriggerFor]="menu"/>
       <div class="status-container" *ngIf="userIsAuthenticated">
         <span class="user-status"></span>
       </div>
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/account"><i class="fas fa-user-edit mr-1"></i>My profile</button>
-        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/logs" *ngIf="userType == 'false'"><i class="fas fa-hand-holding-usd mr-1"></i>Earnings</button>
-        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/logs" *ngIf="userType == 'true'"><i class="fas fa-wallet mr-1"></i>Payments</button>
-        <button mat-menu-item routerLinkActive="mat-accent" (click)="onLogout()"><i class="fas fa-sign-out-alt mr-1"></i>Logout</button>
+        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/account"><i
+          class="fas fa-user-edit mr-1"></i>My profile
+        </button>
+        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/logs" *ngIf="userType == 'false'"><i
+          class="fas fa-hand-holding-usd mr-1"></i>Earnings
+        </button>
+        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/logs" *ngIf="userType == 'true'"><i
+          class="fas fa-wallet mr-1"></i>Payments
+        </button>
+        <button mat-menu-item routerLinkActive="mat-accent" (click)="onLogout()"><i
+          class="fas fa-sign-out-alt mr-1"></i>Logout
+        </button>
       </mat-menu>
       <div class="float-right position-relative" *ngIf="userIsAuthenticated">
         <div (click)="showNotifications = !showNotifications">

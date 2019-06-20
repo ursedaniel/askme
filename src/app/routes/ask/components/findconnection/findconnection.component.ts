@@ -31,7 +31,7 @@ export class FindconnectionComponent implements OnInit {
 
   getConnections() {
     this.ls.update(new LoaderModel(true, null));
-    this.us.getConnections().subscribe(
+    this.us.getConnections(localStorage.getItem('categoryName')).subscribe(
       (response) => {
         this.connections = response.connections;
         this.ls.update(null);

@@ -3,6 +3,9 @@ import {AuthService} from '../../../routes/auth/services/auth.service';
 import {Subscription} from 'rxjs';
 import {NotificationModel} from "../../models/NotificationModel";
 import {NotificationService} from "../../services/notification.service";
+import {UserModel} from "../../../routes/user/models/UserModel";
+import {LoaderModel} from "../../models/LoaderModel";
+import {UserService} from "../../../routes/user/services/user.service";
 
 @Component({
   selector: 'app-header',
@@ -16,9 +19,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notifications: Array<NotificationModel> = [];
   newNots: number = 0;
   showNotifications: boolean;
+  user: UserModel = new UserModel();
 
   constructor(
     private auth: AuthService,
+    private us: UserService,
     private ns: NotificationService
   ) {
   }
@@ -32,10 +37,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.getType();
       this.userType = localStorage.getItem('type');
       this.getNotifications();
+      this.getUser();
     });
 
-    if (this.userIsAuthenticated)
+    if (this.userIsAuthenticated) {
       this.getNotifications();
+      this.getUser();
+    }
 
     this.auth.socket.on('updatenotifications', notifications => {
       this.notifications = notifications;
@@ -44,6 +52,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (notification.checked == false)
           this.newNots++;
       })
+    })
+  }
+
+  getUser() {
+    this.us.getUser().subscribe((response) => {
+      this.user = response.user;
     })
   }
 

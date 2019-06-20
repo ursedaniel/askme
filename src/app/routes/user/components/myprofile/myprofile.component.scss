@@ -10,6 +10,7 @@
   background-image: url('../../../../../assets/icons/user-icon.png');
   background-repeat: no-repeat;
   background-size: cover;
+  border-radius: 50%;
 }
 
 .name {
@@ -35,7 +36,7 @@ input:-webkit-autofill {
 }
 
 .pickers {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   display: block;
   padding-left: 20px;
@@ -80,4 +81,13 @@ table {
 .align-center-block {
   margin: 0 auto !important;
   display: block !important;
+}
+
+.pickers:nth-last-child(1) {
+margin-bottom: 40px;
+}
+
+input[type='file'] {
+  visibility: hidden;
+  position: absolute;
 }

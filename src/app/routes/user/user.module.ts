@@ -4,10 +4,10 @@ import { MyprofileComponent } from './components/myprofile/myprofile.component';
 import {routing} from './routes/routes';
 import {UserService} from "./services/user.service";
 import {
-  MatButtonModule,
+  MatButtonModule, MatChipsModule,
   MatExpansionModule,
   MatFormFieldModule,
-  MatInputModule,
+  MatInputModule, MatSelectModule,
   MatTableModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -25,7 +25,9 @@ import { LogsComponent } from './components/logs/logs.component';
     FormsModule,
     routing,
     MatExpansionModule,
-    MatTableModule
+    MatTableModule,
+    MatSelectModule,
+    MatChipsModule
   ],
   providers: [
     UserService,

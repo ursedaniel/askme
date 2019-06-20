@@ -61,10 +61,6 @@ export class StreamComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.auth.socket.on('hostcancelstream', data => {
-      alert('canceled stream');
-      this.isLoading = false;
-    });
     this.auth.socket.open();
   }
 
@@ -168,18 +164,18 @@ export class StreamComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.auth.socket.emit('closestream', localStorage.getItem('token'));
+    this.auth.socket.emit('closestream', localStorage.getItem('token'));
     this.remoteCalls = [];
     this.agoraService.client.leave(() => {
       console.log("Leavel channel successfully");
     }, (err) => {
       console.log("Leave channel failed");
     });
-    this.auth.socket.emit('endstreamlog', {
-      token: localStorage.getItem('token'),
-      user1: this.user1,
-      user2: this.user2,
-    });
+    // this.auth.socket.emit('endstreamlog', {
+    //   token: localStorage.getItem('token'),
+    //   user1: this.user1,
+    //   user2: this.user2,
+    // });
   }
 
   leave() {

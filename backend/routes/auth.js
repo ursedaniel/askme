@@ -19,7 +19,8 @@ router.post('/register', (req, res, next) => {
       price: 0,
       rating: 0.0,
       name: req.body.name,
-      online: false
+      online: false,
+      joinDate: new Date()
     });
     user.save().then(result => {
       res.status(201).json({
@@ -336,6 +337,10 @@ module.exports = function (io) {
           obj.streaming = 0;
           obj.conn = '';
           io.sockets.connected[obj.socket].emit("hostcancelstream", obj);
+          addNotification({
+            username: data.conn,
+            socket: obj.socket
+          }, {username: data.username}, io, ' declined the connection request.');
         }
         if (obj.username === data.username) {
           obj.streaming = 0;

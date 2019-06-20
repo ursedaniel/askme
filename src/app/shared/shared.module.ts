@@ -6,6 +6,7 @@ import {RouterModule} from '@angular/router';
 import {LoaderComponent} from "./components/loader/loader.component";
 import { ConnectionmodalComponent } from './components/connectionmodal/connectionmodal.component';
 import {NotificationService} from "./services/notification.service";
+import {UserService} from "../routes/user/services/user.service";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {NotificationService} from "./services/notification.service";
     ConnectionmodalComponent
   ],
   providers: [
-    NotificationService
+    NotificationService,
+    UserService
   ]
 })
 export class SharedModule { }

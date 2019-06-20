@@ -1,6 +1,10 @@
+mat-card {
+  margin-bottom: 40px;
+}
+
 .connections .col-lg-4 {
   margin-top: 40px;
-  float: left;
+  display: inline-block;
 }
 
 .user-image {
@@ -10,6 +14,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   margin: 0 auto;
+  border-radius: 50%;
 }
 
 .user-name {

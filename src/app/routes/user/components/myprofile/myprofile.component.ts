@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer, Renderer2, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {LoaderService} from "../../../../shared/services/loader.service";
 import {LoaderModel} from "../../../../shared/models/LoaderModel";
@@ -29,6 +29,30 @@ export class MyprofileComponent implements OnInit {
   reviews: Array<ReviewModel> = [];
   currentUser: string;
   myuser: string;
+  imagePreview: string;
+  userImage: File;
+
+  categoriesList = [
+    {title: 'A.I.', class: 'fas fa-robot'},
+    {title: 'ANALYTICS', class: 'fas fa-chart-pie'},
+    {title: 'ANIMALS', class: 'fas fa-dragon'},
+    {title: 'AUDIO', class: 'fas fa-headphones'},
+    {title: 'AUTOMOTIVE', class: 'fas fa-car'},
+    {title: 'BUILDINGS', class: 'fas fa-building'},
+    {title: 'CODING', class: 'fas fa-code'},
+    {title: 'COMPUTERS', class: 'fas fa-laptop'},
+    {title: 'DATABASE', class: 'fas fa-database'},
+    {title: 'DESIGN', class: 'fas fa-palette'},
+    {title: 'GAMING', class: 'fas fa-gamepad'},
+    {title: 'HEALTH', class: 'fas fa-heart'},
+    {title: 'MARKETING', class: 'fas fa-bullhorn'},
+    {title: 'MATHEMATICS', class: 'fas fa-superscript'},
+    {title: 'NETWORK', class: 'fas fa-sitemap'},
+    {title: 'SCHOOL', class: 'fas fa-user-graduate'},
+    {title: 'SCIENCE', class: 'fas fa-atom'},
+    {title: 'WRITING', class: 'fas fa-pencil-alt'},
+  ];
+
 
   constructor(
     private us: UserService,
@@ -69,10 +93,21 @@ export class MyprofileComponent implements OnInit {
     }
   };
 
+  public isMarkedReviews = (index, rating) => {
+    if (rating >= index + 1) {
+      return 'fas fa-star';
+    } else if (rating > index && rating < index + 1) {
+      return 'fas fa-star-half-alt';
+    } else {
+      return 'far fa-star';
+    }
+  };
+
   getOtherUser() {
     this.us.getOtherUser(this.myuser).subscribe(
       (response) => {
         this.user = response;
+        this.imagePreview = this.user.imagePath;
       }
     )
   }
@@ -81,6 +116,7 @@ export class MyprofileComponent implements OnInit {
     this.ls.update(new LoaderModel(true, null));
     this.us.getUser().subscribe((response) => {
       this.user = response.user;
+      this.imagePreview = this.user.imagePath;
       this.ls.update(null);
     })
   }
@@ -98,6 +134,17 @@ export class MyprofileComponent implements OnInit {
     )
   }
 
+  onImagePicked(event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.userImage = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      // this.imagePreview = reader.result as string;
+      this.changeUserImage();
+    };
+    reader.readAsDataURL(file);
+  }
+
   getOtherReviews() {
     this.rs.getOtherReviews(this.myuser).subscribe(
       (response) => {
@@ -106,27 +153,40 @@ export class MyprofileComponent implements OnInit {
     )
   }
 
-  // register() {
-  //   this.isLoading = true;
-  //   this.auth.register(this.user).subscribe(
-  //     (succes) => {
-  //       this.toastr.success('Succes', 'Te-ai inregistrat cu succes. Te rugam sa te autentifici.');
-  //       this.isLoading = false;
-  //       this.router.navigateByUrl('auth/login');
-  //     },
-  //     (error) => {
-  //       this.isLoading = false;
-  //       this.toastr.error('Eroare', 'Aceasta adresa de email este deja utilizata.');
-  //     }
-  //   );
-  // }
+  updateUser() {
+    this.ls.update(new LoaderModel(true, null));
+    this.us.updateUser(this.user).subscribe(
+      (succes) => {
+        this.toastr.success('Success', 'You updated your profile.');
+        this.ls.update(null);
+      },
+      (error) => {
+        this.toastr.error('Error', 'Profile update failed.');
+        this.ls.update(null);
+      }
+    );
+  }
+
+  changeUserImage() {
+    this.ls.update(new LoaderModel(true, null));
+    this.us.changeUserImage(this.userImage).subscribe(
+      (succes) => {
+        this.toastr.success('Success', 'You changed your photo.');
+        this.ls.update(null);
+      },
+      (error) => {
+        this.toastr.error('Error', 'Profile update failed.');
+        this.ls.update(null);
+      }
+    );
+  }
 
   onSubmit(isvalid) {
     this.submitted = true;
     this.setObjectForm(this.registerForm.value);
     this.onValueChanged();
     if (isvalid) {
-      // this.register();
+      this.updateUser();
     }
   }
 
@@ -138,6 +198,8 @@ export class MyprofileComponent implements OnInit {
       name: [this.user.name, [Validators.required]],
       price: [this.user.price, [Validators.required]],
       username: [this.user.username, [Validators.required]],
+      description: [this.user.description],
+      categories: [this.user.categories],
     }, {
       validator: UserValidator.validatePassowrd,
     });

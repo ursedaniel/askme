@@ -13,6 +13,7 @@ export class ConnectionmodalComponent implements OnInit {
   @Input() visible: boolean;
   @Input() visible2: boolean;
   @Input() conn: any;
+  @Input() connCanceled: boolean;
   visibleAnimate: boolean = true;
 
   constructor(

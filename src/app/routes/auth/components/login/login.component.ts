@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.auth.logIn(form.value.username, form.value.password).subscribe(
       (succes) => {
-        this.toastr.success('Succes', 'Te-ai autentificat');
+        this.toastr.success('Success', 'You logged in');
         this.isLoading = false;
       },
       (error) => {

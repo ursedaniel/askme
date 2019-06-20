@@ -38,13 +38,13 @@ export class RegisterComponent implements OnInit {
     this.isLoading = true;
     this.auth.register(this.registerModel).subscribe(
       (succes) => {
-        this.toastr.success('Succes', 'Te-ai inregistrat cu succes. Te rugam sa te autentifici.');
+        this.toastr.success('Success', 'You register is now complete. You can sign in.');
         this.isLoading = false;
         this.router.navigateByUrl('auth/login');
       },
       (error) => {
         this.isLoading = false;
-        this.toastr.error('Eroare', 'Aceasta adresa de email este deja utilizata.');
+        this.toastr.error('Error', 'This username is already in use.');
       }
     );
   }

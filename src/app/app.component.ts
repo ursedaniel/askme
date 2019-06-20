@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './routes/auth/services/auth.service';
-import {Router, NavigationStart, NavigationEnd} from "@angular/router";
+import {Router, NavigationStart, NavigationEnd, ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -12,10 +12,13 @@ export class AppComponent implements OnInit {
   showModal: boolean;
   conn: any;
   currentRoute: string;
+  user2: string;
+  connCanceled = false;
 
   constructor(
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     router.events.forEach((event) => {
         if (event instanceof NavigationEnd) {
@@ -27,7 +30,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.socket.on('stream', (data) => {
-      console.log(data);
       console.log('Request stream');
       if (data.streaming == 2)
         this.showModal = true;
@@ -43,6 +45,17 @@ export class AppComponent implements OnInit {
         this.router.navigateByUrl('/home');
     });
     this.auth.autoAuthUser();
+
+    this.auth.socket.on('hostcancelstream', data => {
+      this.user2 = window.atob(this.route.snapshot.queryParams["connection2"]);
+      this.conn = data;
+      this.conn.conn = this.user2;
+      this.conn.streaming = 0;
+      this.showModal = true;
+      this.connCanceled = true;
+      if (this.currentRoute == '/stream' || this.currentRoute == '/review')
+        this.router.navigateByUrl('/home');
+    });
   }
 
 }

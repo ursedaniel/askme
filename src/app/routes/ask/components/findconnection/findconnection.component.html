@@ -6,15 +6,21 @@
     </div>
 
     <div class="connections" *ngIf="connections?.length > 0">
-      <div class="col-lg-4 align-center" *ngFor="let con of connections; let conIndex = index">
-        <div class="user-image pointer" (click)="connectUser(con.username)"></div>
-        <div class="user-name pointer" (click)="connectUser(con.username)">{{con.username}}</div>
-        <span class='star-rating' [title]="con.rating">
+      <mat-card>
+        <div class="col-lg-4 align-center" *ngFor="let con of connections; let conIndex = index">
+          <!--          <div class="user-image pointer" (click)="connectUser(con.username)" *ngIf="!con.imagePath"  ></div>-->
+          <img class="user-image pointer"
+               [src]="con.imagePath ? '../../../../../assets/images/profiles/' + con.imagePath : '../../../../assets/icons/user-icon.png'"
+               *ngIf="con.imagePath" (click)="connectUser(con.username)"/>
+          <div class="user-name pointer" (click)="connectUser(con.username)">{{con.username}}</div>
+          <span class='star-rating' [title]="con.rating">
         <span>{{con.reviews}} reviews</span> <br/>
         <i *ngFor='let n of range; let $index = index;' class="to-display" [ngClass]='isMarked($index, conIndex)'></i>
         </span>
-        <div>Price: {{con.price}}</div>
-      </div>
+          <div>Price: {{con.price}}</div>
+        </div>
+      </mat-card>
+
     </div>
   </div>
 </div>

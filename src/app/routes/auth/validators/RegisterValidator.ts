@@ -8,7 +8,7 @@ export class RegisterValidator {
     let hasNumber = /\d/.test(control.get('password').value);
     let hasUpper = /[A-Z]/.test(control.get('password').value);
     let hasLower = /[a-z]/.test(control.get('password').value);
-    let hasOnlyLetters = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/.test(username);
+    let hasOnlyLetters = /^[a-zA-Z0-9]+$/.test(username);
     let hasSpecialCh = /\W/.test(control.get('password').value);
     let valid = hasUpper && hasLower && (hasNumber || hasSpecialCh);
     if (password != confirmPassword) {
