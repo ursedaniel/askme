@@ -32,6 +32,9 @@
         <button mat-menu-item routerLinkActive="mat-accent" routerLink="/user/logs" *ngIf="userType == 'true'"><i
           class="fas fa-wallet mr-1"></i>Payments
         </button>
+        <button mat-menu-item routerLinkActive="mat-accent" routerLink="/statistics" *ngIf="userType == 'false'"><i
+          class="fas fa-chart-area mr-1"></i>Statistics
+        </button>
         <button mat-menu-item routerLinkActive="mat-accent" (click)="onLogout()"><i
           class="fas fa-sign-out-alt mr-1"></i>Logout
         </button>

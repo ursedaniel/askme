@@ -12,6 +12,7 @@ export const routes = [
   {path: 'ask', loadChildren: './routes/ask/ask.module#AskModule', canActivate: [AuthGuard]},
   {path: 'user', loadChildren: './routes/user/user.module#UserModule', canActivate: [AuthGuard]},
   {path: 'review', loadChildren: './routes/review/review.module#ReviewModule', canActivate: [AuthGuard]},
+  {path: 'statistics', loadChildren: './routes/statistics/statistics.module#StatisticsModule', canActivate: [AuthGuard]},
 
   // Not lazy-loaded routes
   // { path: 'login', component: LoginComponent },

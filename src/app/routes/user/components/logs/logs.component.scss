@@ -1,7 +1,17 @@
 table {
-   width: 100%;
+  width: 100%;
+  margin-bottom: 40px;
 }
 
 i {
   margin-right: 10px;
+}
+
+.chart {
+  display: block;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width: 80%;
+  height: 500px;
 }

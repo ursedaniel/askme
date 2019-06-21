@@ -97,6 +97,38 @@ router.get('/type', checkAuth, (req, res, next) => {
     });
 });
 
+async function time(user) {
+  var ratingScore = user.rating / 5 * 100;
+  var viewsScore = user.dailyViews < 100 ? user.dailyViews : 100;
+  var durationScore = 0;
+  var reviewsScore = 0;
+  var avgDuration = 0;
+  var avgReviews = 0;
+  var totalScore = 0;
+  Log.find().then((logs) => {
+    var secondsNoMins = 0;
+    logs.forEach((log) => {
+      secondsNoMins = secondsNoMins + Number(log.duration.split(':')[0]) * 60 + Number(log.duration.split(':')[1]);
+    });
+    avgDuration = secondsNoMins / logs.length;
+    let userSeconds = Number(user.responseTime.split(':')[0]) * 60 + Number(user.responseTime.split(':')[1]);
+    if (userSeconds === 0)
+      durationScore = 0;
+    else
+      durationScore = (userSeconds < avgDuration) ? (userSeconds / avgDuration) * 100 : 100;
+    User.find().then((users) => {
+      users.forEach(userNew => {
+        avgReviews = avgReviews + userNew.reviews;
+      });
+      avgReviews = avgReviews / users.length;
+      reviewsScore = (user.reviews < avgReviews) ? (user.reviews / avgReviews) * 100 : 100;
+      totalScore = (2 * reviewsScore) + (3 * ratingScore) + (4 * viewsScore) + (durationScore);
+      user.score = Math.floor(totalScore);
+      user.save();
+    })
+  });
+}
+
 let users = [];
 
 async function verifyUser(token) {
@@ -187,7 +219,7 @@ function closeLog(data) {
           let totalSeconds = secondsNoMins / logs.length;
           let responseTime = Math.floor(totalSeconds / 60) + ':' + Math.floor(totalSeconds % 60);
           user.responseTime = responseTime;
-          user.save();
+          time(user);
         });
       });
     })

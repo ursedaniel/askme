@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ReviewService} from "../review/services/review.service";
 import { LogsComponent } from './components/logs/logs.component';
 import {StatisticsService} from "../statistics/services/statistics.service";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [MyprofileComponent, LogsComponent],
@@ -28,7 +29,8 @@ import {StatisticsService} from "../statistics/services/statistics.service";
     MatExpansionModule,
     MatTableModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    NgxChartsModule
   ],
   providers: [
     UserService,

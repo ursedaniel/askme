@@ -40,7 +40,7 @@ export class UserService {
   }
 
   getLogs(type) {
-    return this.http.get<Array<LogsModel>>(this.logsAPI + "?type=" + type);
+    return this.http.get<{logs: Array<LogsModel>, chart: Array<any>}>(this.logsAPI + "?type=" + type);
   }
 
   changeUserImage(image: File) {

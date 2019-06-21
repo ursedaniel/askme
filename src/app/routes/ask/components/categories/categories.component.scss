@@ -14,10 +14,15 @@
   margin-top:10px;
 }
 
+.grid {
+  transition: 0.5s all ease;
+  animation: 2s bounceIn;
+}
+
 .col-lg-2:hover, .selected-grid  {
   background-color: #673ab7;
   color: white;
-  animation: 1s bounceIn;
+  transform: scale(1.1);
 }
 
 

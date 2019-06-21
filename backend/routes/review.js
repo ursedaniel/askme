@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Review = require('../models/Review');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+const Log = require('../models/Log');
 
 router.post('', (req, res, next) => {
   const review = new Review({
@@ -24,7 +25,7 @@ router.post('', (req, res, next) => {
         }
         user.rating = rating / noReviews;
         user.reviews = noReviews;
-        user.save();
+        time(user);
         res.status(201).json({
           message: 'Review saved!',
         })
@@ -39,7 +40,7 @@ router.get('', checkAuth, (req, res, next) => {
   if (fetchedUser != null) {
     if (req.query.username != null)
       fetchedUser.username = req.query.username;
-    Review.find({username2: fetchedUser.username}).then(reviews => {
+    Review.find({username2: fetchedUser.username}).sort({date: 'desc'}).then(reviews => {
         for (let i = 0; i < reviews.length; i++) {
           fetchedReviews.push({
             date: reviews[i].date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
@@ -55,5 +56,37 @@ router.get('', checkAuth, (req, res, next) => {
     );
   }}
 );
+
+async function time(user) {
+  var ratingScore = user.rating / 5 * 100;
+  var viewsScore = user.dailyViews < 100 ? user.dailyViews : 100;
+  var durationScore = 0;
+  var reviewsScore = 0;
+  var avgDuration = 0;
+  var avgReviews = 0;
+  var totalScore = 0;
+  Log.find().then((logs) => {
+    var secondsNoMins = 0;
+    logs.forEach((log) => {
+      secondsNoMins = secondsNoMins + Number(log.duration.split(':')[0]) * 60 + Number(log.duration.split(':')[1]);
+    });
+    avgDuration = secondsNoMins / logs.length;
+    let userSeconds = Number(user.responseTime.split(':')[0]) * 60 + Number(user.responseTime.split(':')[1]);
+    if (userSeconds === 0)
+      durationScore = 0;
+    else
+      durationScore = (userSeconds < avgDuration) ? (userSeconds / avgDuration) * 100 : 100;
+    User.find().then((users) => {
+      users.forEach(userNew => {
+        avgReviews = avgReviews + userNew.reviews;
+      });
+      avgReviews = avgReviews / users.length;
+      reviewsScore = (user.reviews < avgReviews) ? (user.reviews / avgReviews) * 100 : 100;
+      totalScore = (2 * reviewsScore) + (3 * ratingScore) + (4 * viewsScore) + (durationScore);
+      user.score = Math.floor(totalScore);
+      user.save();
+    })
+  });
+}
 
 module.exports = router;

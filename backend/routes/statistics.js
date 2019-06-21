@@ -92,11 +92,7 @@ router.post("/user", checkAuth, (req, res, next) => {
             }).then((stats) => {
               User.findOne({username: req.body.username}).then(user => {
                 user.dailyViews = stats.length;
-                user.score = time(user).then( ()=> {
-                  user.save().then(result => {
-                    return res.status(200).json();
-                  });
-                });
+                time(user);
               });
             })
           });
@@ -134,7 +130,6 @@ async function time(user) {
       reviewsScore = (user.reviews < avgReviews) ? (user.reviews / avgReviews) * 100 : 100;
       totalScore = (2 * reviewsScore) + (3 * ratingScore) + (4 * viewsScore) + (durationScore);
       user.score = Math.floor(totalScore);
-      console.log(user);
       user.save();
     })
   })
