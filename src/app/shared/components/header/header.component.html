@@ -44,15 +44,19 @@
         </div>
         <div [ngClass]="{'in': showNotifications}" class="notifications-block"
              *ngIf="showNotifications">
-          <div class="top-notifications">
-            <div class="float-left w-50"><span class="pointer">Mark all as read</span></div>
-            <div class="float-right w-50 align-right"><span class="pointer">Delete all</span></div>
+          <div class="top-notifications" *ngIf="notifications?.length > 0">
+            <div class="float-left w-50"><span class="pointer" (click)="checkAll()">Mark all as read</span></div>
+            <div class="float-right w-50 align-right"><span class="pointer" (click)="deleteAll()" >Delete all</span></div>
           </div>
           <div *ngFor="let n of notifications; let i = index"
                [ngClass]="{'new-not': n.checked == false, 'checked-not': n.checked == true}"
                [ngStyle]="{'border-top' : i==0 ? 'none' : '1px solid white'}" style="clear:both;">
             {{n.message}}
             <i class="fas fa-circle" title="Mark as read" (click)="readNotification(n)"></i>
+            <div class="notifications-date">{{n.date}}</div>
+          </div>
+          <div class="checked-not" style="border-top: 1px solid white; clear: both" *ngIf="notifications?.length == 0">
+            You have 0 notifications.
           </div>
         </div>
       </div>

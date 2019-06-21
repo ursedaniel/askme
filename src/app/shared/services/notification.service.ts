@@ -23,4 +23,12 @@ export class NotificationService {
   getNotifications() {
     return this.http.get<Array<NotificationModel>>(this.notificationAPI);
   }
+
+  checkAll() {
+    return this.http.get<Array<NotificationModel>>(this.notificationAPI + '/checkAll');
+  }
+
+  deleteAll() {
+    return this.http.get<Array<NotificationModel>>(this.notificationAPI + '/deleteAll');
+  }
 }

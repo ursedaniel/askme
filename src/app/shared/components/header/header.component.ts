@@ -6,6 +6,7 @@ import {NotificationService} from "../../services/notification.service";
 import {UserModel} from "../../../routes/user/models/UserModel";
 import {LoaderModel} from "../../models/LoaderModel";
 import {UserService} from "../../../routes/user/services/user.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private us: UserService,
-    private ns: NotificationService
+    private ns: NotificationService,
+    private ts: ToastrService
   ) {
   }
 
@@ -102,6 +104,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.getNotifications();
         }, 500);
+      }
+    )
+  }
+
+  checkAll() {
+    this.ns.checkAll().subscribe(
+      (response) => {
+        this.ts.success('Success', 'You marked everything as checked.');
+        this.getNotifications();
+      }
+    )
+  }
+
+  deleteAll() {
+    this.ns.deleteAll().subscribe(
+      (response) => {
+        this.ts.success('Success', 'You deleted all notifications.');
+        this.getNotifications();
       }
     )
   }
