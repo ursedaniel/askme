@@ -20,7 +20,10 @@ router.post('/register', (req, res, next) => {
       rating: 0.0,
       name: req.body.name,
       online: false,
-      joinDate: new Date()
+      joinDate: new Date(),
+      score: 0,
+      responseTime: '0:00',
+      dailyViews: 0
     });
     user.save().then(result => {
       res.status(201).json({
@@ -166,12 +169,27 @@ function closeLog(data) {
     log.dateEnd = new Date();
     User.findOne({username: data.user2}).then((user) => {
       var diffMs = (log.dateEnd - log.dateStart);
+      var minutes = Math.ceil(diffMs / 60000);
+      var seconds = ((diffMs % 60000) / 1000).toFixed(0);
       if (diffMs >= 60000) {
-        var minutes = Math.ceil(diffMs / 60000);
         log.price = minutes * user.price;
-      } else
+        log.duration = Math.floor(diffMs / 60000) + ':' + seconds;
+      } else {
         log.price = user.price;
-      log.save();
+        log.duration = '0:' + seconds;
+      }
+      log.save().then(() => {
+        Log.find({username2: data.user2}).then(logs => {
+          let secondsNoMins = 0;
+          logs.forEach(logNew => {
+            secondsNoMins = secondsNoMins + Number(logNew.duration.split(':')[0]) * 60 + Number(logNew.duration.split(':')[1]);
+          });
+          let totalSeconds = secondsNoMins / logs.length;
+          let responseTime = Math.floor(totalSeconds / 60) + ':' + Math.floor(totalSeconds % 60);
+          user.responseTime = responseTime;
+          user.save();
+        });
+      });
     })
   });
 }
@@ -316,7 +334,7 @@ module.exports = function (io) {
             user.streaming = 1;
             user.conn = data.user2;
             users.map(user2 => {
-              if(user2.username == data.user2)
+              if (user2.username == data.user2)
                 user.price = user2.price;
             })
           }

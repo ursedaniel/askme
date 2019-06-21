@@ -16,7 +16,8 @@ router.get('', checkAuth, (req, res, next) => {
           dateEnd: logs[i].dateEnd.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
           price: logs[i].price,
           username1: logs[i].username1,
-          username2: logs[i].username2
+          username2: logs[i].username2,
+          duration: logs[i].duration
         });
       }
         res.status(200).json(fetchedLogs);
@@ -29,7 +30,8 @@ router.get('', checkAuth, (req, res, next) => {
             dateEnd: logs[i].dateEnd.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
             price: logs[i].price,
             username1: logs[i].username1,
-            username2: logs[i].username2
+            username2: logs[i].username2,
+            duration: logs[i].duration
           });
         }
         res.status(200).json(fetchedLogs);

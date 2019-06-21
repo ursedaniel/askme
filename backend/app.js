@@ -10,6 +10,7 @@ const usersRoutes = require('./routes/users');
 const notificationsRoutes = require('./routes/notifications');
 const reviewRoutes = require('./routes/review');
 const logsRoutes = require('./routes/logs');
+const statisticsRoutes = require('./routes/statistics');
 const authRoutes = require('./routes/auth')(app.io);
 mongoose.connect("mongodb+srv://haboks:SP6gpTHYEuBd2sk9@cluster0-qcgyi.mongodb.net/askme?retryWrites=true", {useNewUrlParser: true})
   .then(() => {
@@ -41,6 +42,7 @@ app.use('/api/users',usersRoutes);
 app.use('/api/notifications',notificationsRoutes);
 app.use('/api/reviews',reviewRoutes);
 app.use('/api/logs',logsRoutes);
+app.use('/api/statistics',statisticsRoutes);
 
 /**
  * Socket events

@@ -9,7 +9,7 @@ import {LogsModel} from '../../models/LogsModel';
 })
 export class LogsComponent implements OnInit {
 
-  displayedColumns: string[] = ['datestart', 'dateend','username1',  'username2', 'price'];
+  displayedColumns: string[] = ['datestart', 'dateend','duration','username1',  'username2', 'price'];
   logs: Array<LogsModel> = [];
   userType: string;
   totalPoints = 0;

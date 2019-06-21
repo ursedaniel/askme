@@ -94,7 +94,8 @@ router.get('/myuser', checkAuth, (req, res, next) => {
         description: user.description,
         categories: user.categories,
         imagePath: user.imagePath,
-        joinDate: user.joinDate.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0]
+        responseTime: user.responseTime,
+        joinDate: user.joinDate.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
       };
       return res.status(200).json({message: 'User found.', user: fetchedUser});
     });
@@ -122,7 +123,8 @@ router.post('/user', checkAuth, (req, res, next) => {
         description: user.description,
         categories: user.categories,
         imagePath: user.imagePath,
-        joinDate: user.joinDate.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0]
+        joinDate: user.joinDate.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+        responseTime: user.responseTime
       };
       return res.status(200).json(fetchedUser);
     });
@@ -136,7 +138,7 @@ router.get('/connections', checkAuth, (req, res, next) => {
       username: {$ne: fetchedUser.username},
       type: false,
       categories: req.query.category
-    }).then(connections => {
+    }).sort({score: 'desc'}).then(connections => {
       return res.status(200).json({message: 'Connections found', connections: connections});
     });
   else

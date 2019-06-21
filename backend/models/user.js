@@ -16,7 +16,10 @@ const userSchema = mongoose.Schema({
   price: {type: Number, required: false},
   joinDate: {type: Date, required: false},
   categories: {type: {}, required: false},
-  imagePath: {type: String, required: false}
+  imagePath: {type: String, required: false},
+  dailyViews: {type: Number, required: false},
+  responseTime: {type: String, required: false},
+  score: {type: Number, required: false}
 });
 
 userSchema.plugin(uniqueValidator);

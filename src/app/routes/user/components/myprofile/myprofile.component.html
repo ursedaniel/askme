@@ -15,8 +15,9 @@
       <span>{{user.reviews}} reviews</span> <br/>
       <i *ngFor='let n of range; let $index = index;' class="to-display" [ngClass]='isMarked($index)'></i>
     </ng-container>
-    </span>
-    <span><i class="far fa-calendar-alt"></i> {{user.joinDate}}</span>
+    </span> <br/>
+    <span><i class="far fa-calendar-alt"></i> {{user.joinDate}}</span> <br/>
+    <span><i class="far fa-clock"></i> Duration: {{user.responseTime}}</span>
   </div>
 
   <div class="pickers flex mt-20">

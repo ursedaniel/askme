@@ -14,6 +14,7 @@ export class UserModel {
   description: string;
   categories: Array<string>;
   imagePath: any;
+  responseTime: string;
   constructor() {
   }
 }

@@ -6,6 +6,7 @@ import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatS
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FindconnectionComponent } from './components/findconnection/findconnection.component';
 import {UserService} from "../user/services/user.service";
+import {StatisticsService} from "../statistics/services/statistics.service";
 
 @NgModule({
   declarations: [CategoriesComponent, FindconnectionComponent],
@@ -21,7 +22,8 @@ import {UserService} from "../user/services/user.service";
     MatCardModule
   ],
   providers: [
-    UserService
+    UserService,
+    StatisticsService
   ]
 })
 export class AskModule { }

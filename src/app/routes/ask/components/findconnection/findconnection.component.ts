@@ -4,6 +4,7 @@ import {UserModel} from "../../../user/models/UserModel";
 import {LoaderService} from "../../../../shared/services/loader.service";
 import {LoaderModel} from "../../../../shared/models/LoaderModel";
 import {Router} from "@angular/router";
+import {StatisticsService} from "../../../statistics/services/statistics.service";
 
 @Component({
   selector: 'app-findconnection',
@@ -18,7 +19,8 @@ export class FindconnectionComponent implements OnInit {
   constructor(
     private us: UserService,
     private ls: LoaderService,
-    private router: Router
+    private router: Router,
+    private ss: StatisticsService
   ) {
   }
 
@@ -35,11 +37,16 @@ export class FindconnectionComponent implements OnInit {
       (response) => {
         this.connections = response.connections;
         this.ls.update(null);
+        this.addStatistic();
       },
       (error) => {
         this.ls.update(null);
       }
     );
+  }
+
+  addStatistic() {
+    this.ss.addStat(this.connections).subscribe();
   }
 
   public isMarked = (index, conIndex) => {

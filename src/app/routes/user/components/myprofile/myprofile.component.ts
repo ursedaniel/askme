@@ -12,6 +12,7 @@ import {UserModel} from "../../models/UserModel";
 import {UserValidator} from "../../validators/UserValidator";
 import {ReviewService} from "../../../review/services/review.service";
 import {ReviewModel} from "../../../review/models/ReviewModel";
+import {StatisticsService} from "../../../statistics/services/statistics.service";
 
 @Component({
   selector: 'app-myprofile',
@@ -63,6 +64,7 @@ export class MyprofileComponent implements OnInit {
     private toastr: ToastrService,
     private rs: ReviewService,
     private route: ActivatedRoute,
+    private ss: StatisticsService
   ) {
     this.myuser = this.route.snapshot.queryParams["user"];
   }
@@ -108,8 +110,13 @@ export class MyprofileComponent implements OnInit {
       (response) => {
         this.user = response;
         this.imagePreview = this.user.imagePath;
+        this.addStatistic();
       }
     )
+  }
+
+  addStatistic() {
+    this.ss.addStatProfile(this.user.username).subscribe();
   }
 
   getMyProfile() {

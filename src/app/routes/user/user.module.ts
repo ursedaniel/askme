@@ -13,6 +13,7 @@ import {
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ReviewService} from "../review/services/review.service";
 import { LogsComponent } from './components/logs/logs.component';
+import {StatisticsService} from "../statistics/services/statistics.service";
 
 @NgModule({
   declarations: [MyprofileComponent, LogsComponent],
@@ -31,7 +32,8 @@ import { LogsComponent } from './components/logs/logs.component';
   ],
   providers: [
     UserService,
-    ReviewService
+    ReviewService,
+    StatisticsService
   ]
 })
 export class UserModule { }
