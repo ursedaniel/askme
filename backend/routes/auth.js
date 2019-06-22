@@ -341,7 +341,7 @@ module.exports = function (io) {
 
     socket.on('stream', data => {
       let fetchedUser = jwt.decode(data.token, 'secret_this_should_be_longer');
-      // this information should come from your cache or database
+
       User.findOne({username: fetchedUser.username}).then(user => {
 
         if (!user) {
