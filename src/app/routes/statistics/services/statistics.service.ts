@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import * as io from 'socket.io-client';
 import {UserModel} from "../../user/models/UserModel";
+import {StatsModel} from "../models/StatsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +25,33 @@ export class StatisticsService {
   }
 
   addStatProfile(username: string) {
-    return this.http.post(this.statsAPI + '/user', {username:username});
+    return this.http.post(this.statsAPI + '/user', {username: username});
   }
 
-  // getConnections(categoryName) {
-  //   return this.http.get<{ message: string, connections: Array<UserModel> }>(this.userAPI + 'connections?category=' + categoryName);
-  // }
+  getStats() {
+    return this.http.get<{
+      statsTodayInitial: Array<StatsModel>,
+      todayStats: Array<any>,
+      statsWeekInitial: Array<StatsModel>,
+      weekStats: Array<any>
+    }>(this.statsAPI);
+  }
+
+  getStatsProfile() {
+    return this.http.get<{
+      statsTodayInitial: Array<StatsModel>,
+      todayStats: Array<any>,
+      statsWeekInitial: Array<StatsModel>,
+      weekStats: Array<any>
+    }>(this.statsAPI + '/profile');
+  }
+
+  getStatsTable() {
+    return this.http.get<{
+      statsTodayInitial: Array<StatsModel>,
+      todayStats: Array<any>,
+      statsWeekInitial: Array<StatsModel>,
+      weekStats: Array<any>
+    }>(this.statsAPI + '/table');
+  }
 }

@@ -5,26 +5,225 @@ const checkAuth = require('../middleware/check-auth');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const today = moment().startOf('day');
+const week = moment().startOf('week');
+const month = moment().startOf('month');
 const User = require('../models/User');
 const Log = require('../models/Log');
 
-// router.get('', checkAuth, (req, res, next) => {
-//   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
-//   if (fetchedUser != null)
-//     Notification.find({username: fetchedUser.username}).sort({checked: 'asc', date: 'desc'}).then(notifications => {
-//       let newNotifications = [];
-//       notifications.filter(notification => {
-//         newNotifications.push({
-//           date: notification.date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-//           username: notification.username,
-//           message: notification.message,
-//           checked: notification.checked,
-//           _id: notification.id
-//         })
-//       });
-//       res.status(200).json(newNotifications);
-//     });
-// });
+router.get('', checkAuth, (req, res, next) => {
+  let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
+  var todayStats = [];
+  var weekStats = [];
+  if (fetchedUser != null)
+    Statistic.find({
+      date: {
+        $gte: today.toDate(),
+        $lte: moment(today).endOf('day').toDate()
+      },
+      username: fetchedUser.username
+    }).sort({date: 'desc'}).then(statsTodayInitial => {
+      todayStats.push({
+        name: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+        value: statsTodayInitial.length
+      });
+      Statistic.find({
+        date: {
+          $gte: moment().startOf('week'),
+          $lte: moment().endOf('week').toDate()
+        },
+        username: fetchedUser.username
+      }).sort({date: 'desc'}).then(statsWeekInitial => {
+        statsWeekInitial.forEach(statWeek => {
+          let ok = false;
+          if (weekStats.length > 0) {
+            for (let i = 0; i < weekStats.length; i++) {
+              if (weekStats[i].name === statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0]) {
+                ok = true;
+                weekStats[i].value = weekStats[i].value + 1;
+              }
+            }
+            if (!ok) {
+              weekStats.push({
+                name: statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+                value: 1
+              });
+            }
+          } else
+            weekStats.push({
+              name: statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+              value: 1
+            });
+        });
+        let fetchedStatsToday = [];
+        statsTodayInitial.forEach(statTodayLast => {
+          fetchedStatsToday.push({
+            date: statTodayLast.date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            viewer: statTodayLast.viewer,
+            profile: statTodayLast.profile
+          });
+        });
+        let fetchedStatsWeek = [];
+        statsWeekInitial.forEach(statWeekLast => {
+          fetchedStatsWeek.push({
+            date: statWeekLast.date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            viewer: statWeekLast.viewer,
+            profile: statWeekLast.profile
+          });
+        });
+        res.status(200).json({
+          statsTodayInitial: fetchedStatsToday,
+          todayStats: todayStats,
+          statsWeekInitial: fetchedStatsWeek,
+          weekStats: weekStats
+        });
+      });
+    });
+});
+
+router.get('/profile', checkAuth, (req, res, next) => {
+  let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
+  var todayStats = [];
+  var weekStats = [];
+  if (fetchedUser != null)
+    Statistic.find({
+      date: {
+        $gte: today.toDate(),
+        $lte: moment(today).endOf('day').toDate()
+      },
+      username: fetchedUser.username,
+      profile: true
+    }).sort({date: 'desc'}).then(statsTodayInitial => {
+      todayStats.push({
+        name: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+        value: statsTodayInitial.length
+      });
+      Statistic.find({
+        date: {
+          $gte: moment().startOf('week'),
+          $lte: moment().endOf('week').toDate()
+        },
+        username: fetchedUser.username,
+        profile: true
+      }).sort({date: 'desc'}).then(statsWeekInitial => {
+        statsWeekInitial.forEach(statWeek => {
+          let ok = false;
+          if (weekStats.length > 0) {
+            for (let i = 0; i < weekStats.length; i++) {
+              if (weekStats[i].name === statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0]) {
+                ok = true;
+                weekStats[i].value = weekStats[i].value + 1;
+              }
+            }
+            if (!ok) {
+              weekStats.push({
+                name: statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+                value: 1
+              });
+            }
+          } else
+            weekStats.push({
+              name: statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+              value: 1
+            });
+        });
+        let fetchedStatsToday = [];
+        statsTodayInitial.forEach(statTodayLast => {
+          fetchedStatsToday.push({
+            date: statTodayLast.date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            viewer: statTodayLast.viewer,
+            profile: statTodayLast.profile
+          });
+        });
+        let fetchedStatsWeek = [];
+        statsWeekInitial.forEach(statWeekLast => {
+          fetchedStatsWeek.push({
+            date: statWeekLast.date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            viewer: statWeekLast.viewer,
+            profile: statWeekLast.profile
+          });
+        });
+        res.status(200).json({
+          statsTodayInitial: fetchedStatsToday,
+          todayStats: todayStats,
+          statsWeekInitial: fetchedStatsWeek,
+          weekStats: weekStats
+        });
+      });
+    });
+});
+
+router.get('/table', checkAuth, (req, res, next) => {
+  let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
+  var todayStats = [];
+  var weekStats = [];
+  if (fetchedUser != null)
+    Statistic.find({
+      date: {
+        $gte: today.toDate(),
+        $lte: moment(today).endOf('day').toDate()
+      },
+      username: fetchedUser.username,
+      profile: false
+    }).sort({date: 'desc'}).then(statsTodayInitial => {
+      todayStats.push({
+        name: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+        value: statsTodayInitial.length
+      });
+      Statistic.find({
+        date: {
+          $gte: moment().startOf('week'),
+          $lte: moment().endOf('week').toDate()
+        },
+        username: fetchedUser.username,
+        profile: false
+      }).sort({date: 'desc'}).then(statsWeekInitial => {
+        statsWeekInitial.forEach(statWeek => {
+          let ok = false;
+          if (weekStats.length > 0) {
+            for (let i = 0; i < weekStats.length; i++) {
+              if (weekStats[i].name === statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0]) {
+                ok = true;
+                weekStats[i].value = weekStats[i].value + 1;
+              }
+            }
+            if (!ok) {
+              weekStats.push({
+                name: statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+                value: 1
+              });
+            }
+          } else
+            weekStats.push({
+              name: statWeek.date.toISOString().replace(/T/, ' ').replace(/\..+/, '').split(' ')[0],
+              value: 1
+            });
+        });
+        let fetchedStatsToday = [];
+        statsTodayInitial.forEach(statTodayLast => {
+          fetchedStatsToday.push({
+            date: statTodayLast.date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            viewer: statTodayLast.viewer,
+            profile: statTodayLast.profile
+          });
+        });
+        let fetchedStatsWeek = [];
+        statsWeekInitial.forEach(statWeekLast => {
+          fetchedStatsWeek.push({
+            date: statWeekLast.date.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            viewer: statWeekLast.viewer,
+            profile: statWeekLast.profile
+          });
+        });
+        res.status(200).json({
+          statsTodayInitial: fetchedStatsToday,
+          todayStats: todayStats,
+          statsWeekInitial: fetchedStatsWeek,
+          weekStats: weekStats
+        });
+      });
+    });
+});
+
 
 router.post("", checkAuth, (req, res, next) => {
   let fetchedUser = jwt.decode(req.get('Authorization').split(' ')[1], 'secret_this_should_be_longer');
@@ -41,6 +240,7 @@ router.post("", checkAuth, (req, res, next) => {
         if (stat === null) {
           let statistic = new Statistic({
             username: userFetched.username,
+            viewer: fetchedUser.username,
             date: new Date(),
             profile: false
           });
@@ -79,6 +279,7 @@ router.post("/user", checkAuth, (req, res, next) => {
         if (stat === null) {
           let statistic = new Statistic({
             username: req.body.username,
+            viewer: fetchedUser.username,
             date: new Date(),
             profile: true
           });
@@ -122,7 +323,7 @@ async function time(user) {
       durationScore = 0;
     else
       durationScore = (userSeconds < avgDuration) ? (userSeconds / avgDuration) * 100 : 100;
-    User.find().then((users)=> {
+    User.find().then((users) => {
       users.forEach(userNew => {
         avgReviews = avgReviews + userNew.reviews;
       });

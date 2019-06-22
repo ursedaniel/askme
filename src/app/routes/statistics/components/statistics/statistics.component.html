@@ -5,19 +5,225 @@
       <span>Statistics</span>
     </div>
   </div>
+  <mat-card>
+    <mat-tab-group  (selectedTabChange)="changeTabs($event)">
+      <mat-tab label="All stats">
+        <mat-tab-group  (selectedTabChange)="getStats()">
+          <mat-tab label="Today">
+            <div class="chart">
+              <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="allDayChart"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                (select)="onSelect($event)">
+              </ngx-charts-pie-chart>
+            </div>
+            <table mat-table [dataSource]="dayStats" class="mat-elevation-z8 mt-20" *ngIf="dayStats?.length > 0">
 
-  <ngx-charts-bar-vertical
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="single"
-    [gradient]="gradient"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="showLegend"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    (select)="onSelect($event)">
-  </ngx-charts-bar-vertical>
+              <!-- Position Column -->
+              <ng-container matColumnDef="viewer">
+                <th mat-header-cell *matHeaderCellDef>User</th>
+                <td mat-cell *matCellDef="let stat">
+                  <a routerLink='' (click)="connectUser(stat.viewer)">{{stat.viewer}}</a>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let stat"> {{stat.date}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="profile">
+                <th mat-header-cell *matHeaderCellDef>Location</th>
+                <td mat-cell *matCellDef="let stat">
+                  <span *ngIf="stat.profile">Profile</span>
+                  <span *ngIf="!stat.profile">Table</span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </mat-tab>
+          <mat-tab label="Week">
+            <div class="chart">
+              <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="allWeekChart"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                (select)="onSelect($event)">
+              </ngx-charts-pie-chart>
+            </div>
+            <table mat-table [dataSource]="weekStats" class="mat-elevation-z8 mt-20" *ngIf="weekStats?.length > 0">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="viewer">
+                <th mat-header-cell *matHeaderCellDef>User</th>
+                <td mat-cell *matCellDef="let stat">
+                  <a routerLink='' (click)="connectUser(stat.viewer)">{{stat.viewer}}</a>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let stat"> {{stat.date}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="profile">
+                <th mat-header-cell *matHeaderCellDef>Location</th>
+                <td mat-cell *matCellDef="let stat">
+                  <span *ngIf="stat.profile">Profile</span>
+                  <span *ngIf="!stat.profile">Table</span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+          </mat-tab >
+        </mat-tab-group>
+      </mat-tab>
+      <mat-tab label="Profile stats">
+        <mat-tab-group  (selectedTabChange)="getStatsProfile()">
+          <mat-tab label="Today">
+            <div class="chart">
+              <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="allDayChart"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                (select)="onSelect($event)">
+              </ngx-charts-pie-chart>
+            </div>
+            <table mat-table [dataSource]="dayStats" class="mat-elevation-z8 mt-20" *ngIf="dayStats?.length > 0">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="viewer">
+                <th mat-header-cell *matHeaderCellDef>User</th>
+                <td mat-cell *matCellDef="let stat">
+                  <a routerLink='' (click)="connectUser(stat.viewer)">{{stat.viewer}}</a>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let stat"> {{stat.date}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsPrivate"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsPrivate;"></tr>
+            </table>
+          </mat-tab>
+          <mat-tab label="Week">
+            <div class="chart">
+              <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="allWeekChart"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                (select)="onSelect($event)">
+              </ngx-charts-pie-chart>
+            </div>
+            <table mat-table [dataSource]="weekStats" class="mat-elevation-z8 mt-20" *ngIf="weekStats?.length > 0">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="viewer">
+                <th mat-header-cell *matHeaderCellDef>User</th>
+                <td mat-cell *matCellDef="let stat">
+                  <a routerLink='' (click)="connectUser(stat.viewer)">{{stat.viewer}}</a>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let stat"> {{stat.date}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsPrivate"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsPrivate;"></tr>
+            </table>
+
+          </mat-tab >
+        </mat-tab-group>
+      </mat-tab>
+      <mat-tab label="General stats">
+        <mat-tab-group  (selectedTabChange)="getStatsTable()">
+          <mat-tab label="Today">
+            <div class="chart">
+              <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="allDayChart"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                (select)="onSelect($event)">
+              </ngx-charts-pie-chart>
+            </div>
+            <table mat-table [dataSource]="dayStats" class="mat-elevation-z8 mt-20" *ngIf="dayStats?.length > 0">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="viewer">
+                <th mat-header-cell *matHeaderCellDef>User</th>
+                <td mat-cell *matCellDef="let stat">
+                  <a routerLink='' (click)="connectUser(stat.viewer)">{{stat.viewer}}</a>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let stat"> {{stat.date}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsPrivate"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsPrivate;"></tr>
+            </table>
+          </mat-tab>
+          <mat-tab label="Week">
+            <div class="chart">
+              <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="allWeekChart"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                (select)="onSelect($event)">
+              </ngx-charts-pie-chart>
+            </div>
+            <table mat-table [dataSource]="weekStats" class="mat-elevation-z8 mt-20" *ngIf="weekStats?.length > 0">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="viewer">
+                <th mat-header-cell *matHeaderCellDef>User</th>
+                <td mat-cell *matCellDef="let stat">
+                  <a routerLink='' (click)="connectUser(stat.viewer)">{{stat.viewer}}</a>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let stat"> {{stat.date}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsPrivate"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsPrivate;"></tr>
+            </table>
+
+          </mat-tab >
+        </mat-tab-group>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
 </div>

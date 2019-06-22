@@ -1,0 +1,23 @@
+.chart {
+  display: block;
+  margin: auto;
+  margin-top: 40px;
+  width: 50%;
+  height: 500px;
+}
+
+mat-tab-group:nth-of-type(even) {
+  width: 35% !important;
+  display: block !important;
+  margin: 0 auto !important;
+  margin-top: 10px !important;
+}
+
+table {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-top: -80px;
+}

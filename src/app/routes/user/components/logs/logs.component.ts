@@ -14,18 +14,7 @@ export class LogsComponent implements OnInit {
   userType: string;
   totalPoints = 0;
 
-  single: any[] = [ {
-    "name": "Germany",
-    "value": 8940000
-  },
-    {
-      "name": "USA",
-      "value": 5000000
-    },
-    {
-      "name": "France",
-      "value": 7200000
-    }];
+  single: any[] = [];
 
   view: any[] = [700, 400];
 

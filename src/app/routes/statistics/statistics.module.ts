@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {routing} from './routes/routes';
-import {MatCardModule} from "@angular/material";
+import {MatCardModule, MatTableModule, MatTabsModule} from "@angular/material";
+import {StatisticsService} from './services/statistics.service';
 
 @NgModule({
   declarations: [StatisticsComponent],
@@ -11,7 +12,12 @@ import {MatCardModule} from "@angular/material";
     CommonModule,
     NgxChartsModule,
     routing,
-    MatCardModule
+    MatCardModule,
+    MatTabsModule,
+    MatTableModule
+  ],
+  providers: [
+    StatisticsService
   ]
 })
 export class StatisticsModule { }
