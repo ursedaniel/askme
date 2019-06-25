@@ -22,7 +22,7 @@ export class StatisticsComponent implements OnInit {
   dayStats: Array<StatsModel> = [];
 
   colorScheme = {
-    domain: ['#673ab7', '#9642c4', '#9e43c4', '#9a70c4']
+    domain: ['#673ab7', '#ac81c4', '#9e43c4', '#5b55c4']
   };
 
   constructor(
