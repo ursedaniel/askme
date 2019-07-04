@@ -50,12 +50,12 @@
     <!-- Weight Column -->
     <ng-container matColumnDef="username1">
       <th mat-header-cell *matHeaderCellDef> Payer</th>
-      <td mat-cell *matCellDef="let log"> {{log.username1}} </td>
+      <td mat-cell *matCellDef="let log">  <a routerLink='' (click)="connectUser(log.username1)">{{log.username1}}</a> </td>
     </ng-container>
 
     <ng-container matColumnDef="username2">
       <th mat-header-cell *matHeaderCellDef> Earner</th>
-      <td mat-cell *matCellDef="let log"> {{log.username2}} </td>
+      <td mat-cell *matCellDef="let log">  <a routerLink='' (click)="connectUser(log.username2)">{{log.username2}}</a> </td>
     </ng-container>
 
     <!-- Symbol Column -->

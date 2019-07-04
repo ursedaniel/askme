@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {LogsModel} from '../../models/LogsModel';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-logs',
@@ -37,6 +38,7 @@ export class LogsComponent implements OnInit {
 
   constructor(
     private us: UserService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -65,6 +67,10 @@ export class LogsComponent implements OnInit {
 
   onSelect(event) {
     console.log(event);
+  }
+
+  connectUser(username) {
+    this.router.navigateByUrl('/user/account?user=' + username);
   }
 
 }

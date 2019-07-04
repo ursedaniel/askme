@@ -1,0 +1,609 @@
+@charset "UTF-8";
+
+/*!
+ * animate.css -https://daneden.github.io/animate.css/
+ * Version - 3.7.2
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2019 Daniel Eden
+ */
+
+@-webkit-keyframes bounce {
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -30px, 0);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -15px, 0);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(0, -4px, 0);
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes bounce {
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -30px, 0);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -15px, 0);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(0, -4px, 0);
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+.bounce {
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
+  -webkit-transform-origin: center bottom;
+  transform-origin: center bottom;
+}
+
+@-webkit-keyframes flash {
+  from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+@keyframes flash {
+  from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+
+/*AICI IP Behavioral Patterns*/
+/*◦ Chain of Responsibility*/
+/*◦ Command*/
+/*◦ Interpreter*/
+/*◦ Iterator*/
+/*◦ Mediator*/
+/*◦ Memento*/
+/*◦ Observer ++++++*/
+/*◦ State*/
+/*◦ Strategy*/
+/*◦ Template Method*/
+/*◦ Visitor*/
+
+}
+
+@keyframes pulse {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.pulse {
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
+}
+
+@-webkit-keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+
+
+    /*AICI IP CREATIONAL PATTERNS*/
+    /*Abstract Factory - computer components*/
+    /* Builder - children meal*/
+    /* Factory Method - Hello <Mr/Ms>*/
+    /* Prototype - Cell division*/
+    /* Singleton - server log files*/
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+
+    /*AICI IP STRUCTURAL PATTERNS*/
+    /*Adapter - socket-plug*/
+    /*Bridge - drawing API*/
+    /*Composite - employee hierarchy*/
+    /*Decorator - Christmas tree*/
+    /*Façade - store keeper*/
+    /*Flyweight - FontData*/
+    /*Proxy - ATM access*/
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+}
+
+@-webkit-keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+
+
+    /*AICI IP CREATIONAL PATTERNS*/
+    /*Abstract Factory - computer components*/
+    /* Builder - children meal*/
+    /* Factory Method - Hello <Mr/Ms>*/
+    /* Prototype - Cell division*/
+    /* Singleton - server log files*/
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+
+    /*AICI IP SOFTWARE TESTING*/
+    /*An empirical investigation conducted to provide*/
+    /*information about the quality of the product or*/
+    /*service under test, with respect to the context in*/
+    /*which it is intended to operate.*/
+
+    /* Allow the business to appreciate and understand*/
+    /*the risks at implementation of the software*/
+    /* Test techniques include the process of*/
+    /*executing a program or application with the*/
+    /*intent of finding software bugs*/
+
+    /* The process of validating and verifying that a*/
+    /*software program/application/product meets*/
+    /*the business and technical requirements that*/
+    /*guided its design and development*/
+
+    /*Software Testing is NOT a phase*/
+    /* It is integrated in all phases of*/
+    /*software development*/
+    /* Each development step has an*/
+    /*attached testing documentation*/
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+}
+
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+
+    /*AICI IP layers TESTARE*/
+    /*Unit testing or debugging*/
+
+    /*  Testing a function, program screen, feature*/
+    /*   Run by programmers*/
+    /*   Predefined*/
+    /*   Results must be documented*/
+    /*   Input and Output simulators are used*/
+
+    /* Module/Sub-System*/
+    /* Integration*/
+    /*    Testing of several modules at the same time*/
+    /*     Testing coexistence*/
+    /*     Run by programmers or testers*/
+    /*     Pre-planned testing*/
+    /*     Results must be documented*/
+    /* System*/
+    /* Acceptance*/
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+}
+
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+
+  /*  AICI IP METODE TESTARE testing*/
+  /*  White Box*/
+  /*    The tester has access to the internal data structures and algorithms*/
+  /*     Types of white box testing*/
+  /*    ◦ api testing - Testing of the application using Public and Private APIs*/
+  /*    ◦ code coverage - creating tests to satisfy some criteria  of code coverage*/
+  /*    ◦ fault injection methods*/
+  /*    ◦ mutation testing methods*/
+  /*    ◦ static testing - White box testing includes all static testing*/
+
+  /*   Black Box*/
+  /*      Specification-based testing*/
+  /*       Black box testing methods include: equivalence*/
+  /*    partitioning, boundary value analysis, all-pairs*/
+  /*    testing, fuzz testing, model-based testing,*/
+  /*    traceability matrix, exploratory testing and*/
+  /*    specification-based testing.*/
+
+  /*   Gray Box*/
+  /*    This involves having access to internal data structures and algorithms for purposes of designing the test cases, but testing at the user,*/
+  /*    or black-box level*/
+  /*     Manipulating input data and formatting output  do not qualify as "grey-box," because the input*/
+  /*    and output are clearly outside of the "blackbox" that we are calling "the software under test"*/
+
+  /*   Graphical user Interface Testing*/
+  /*    In computer science, GUI software testing is the process of testing a product that uses a graphical user interface, to ensure it meets its*/
+  /*    written specifications.*/
+  /*     The variety of errors found in GUI applications: ◦ Data validation, Incorrect field defaults, Mandatory   fields, not mandatory, Wrong fields retrieved by*/
+  /*    queries, Incorrect search criteria*/
+  /*    ◦ Field order, Multiple database rows returned, single row expected*/
+  /*    ◦ Currency of data on screens, Correct window modality?*/
+  /*    ◦ Control state alignment with state of data in window?*/
+
+  /* Acceptance Testing*/
+  /*   A black-box testing performed on a system prior to its delivery*/
+  /*   In software development, acceptance testing by the system provider is often distinguished from*/
+  /*  acceptance testing by the customer (the user or client) prior to accepting transfer of ownership.*/
+  /*   In such environments, acceptance testing   performed by the customer is known as user acceptance testing (UAT).*/
+
+  /* Regression Testing*/
+  /*  Regression testing is any type of software  testing which seeks to uncover software  regressions.*/
+  /*   Such regressions occur whenever software  functionality that was previously working  correctly, stops working as intended.*/
+  /*   Typically regressions occur as an unintended  consequence of program changes.*/
+  /*   Common methods of regression testing include re-running previously run tests and checking*/
+  /*  whether previously fixed faults have re-emerged*/
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+}
+
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+
+     /* AICI IP CICLU TESTARE TESTING*/
+     /* There is a typical cycle for testing: Requirements*/
+     /*Analysis, Test Planning, Test Development, Test*/
+     /*Reporting, Test Result Analysis, Retesting the*/
+     /* Resolved Defects, Regression Testing, Test*/
+     /*  Closure*/
+
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+}
+
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+
+     /*AICI IP CALITATEA UNUI PROGRAM*/
+    /* Atunci când vorbim despre calitatea unui*/
+    /* program trebuie:*/
+    /*◦ Să definim atribute ale calității care ne interesează;*/
+    /*◦ Să căutăm modalități de măsurare a lor;*/
+    /*◦ Să putem da o reprezentare a designului;*/
+    /*◦ Să scriem specificații care să ghideze programatorii*/
+    /*(calitățile designului să fie respectate și de*/
+    /*implementare).*/
+    /*Codul sursa sa fie ok*/
+    /* Măsoară cât de bine se potriveste un program*/
+    /* mediului său.*/
+
+  /*   Siguranță (safety)*/
+  /* Eficiență (efficiency)*/
+  /* Întreținere (maintenance)*/
+  /* Uzabilitate (usability)*/
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  -webkit-animation-name: rubberBand;
+  animation-name: rubberBand;
+}

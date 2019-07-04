@@ -49,7 +49,7 @@
             </mat-form-field>
           </div>
 
-          <div class="input-material">
+          <div class="input-material" *ngIf="userType == 'false' || currentUser != user.username">
             <mat-form-field>
               <input matInput placeholder="Price per minute" formControlName="price" required [(ngModel)]="user.price">
               <mat-error>{{ formErrors.price }}</mat-error>
@@ -79,7 +79,7 @@
             </mat-form-field>
           </div>
 
-          <div class="input-material" *ngIf="currentUser == user.username">
+          <div class="input-material" *ngIf="currentUser == user.username && userType == 'false'">
             <mat-form-field>
               <mat-label>Categories</mat-label>
               <mat-select formControlName="categories" multiple [(ngModel)]="user.categories">

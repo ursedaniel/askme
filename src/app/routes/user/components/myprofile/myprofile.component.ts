@@ -32,6 +32,7 @@ export class MyprofileComponent implements OnInit {
   myuser: string;
   imagePreview: string;
   userImage: File;
+  userType: string;
 
   categoriesList = [
     {title: 'A.I.', class: 'fas fa-robot'},
@@ -70,6 +71,7 @@ export class MyprofileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userType = localStorage.getItem('type');
     this.currentUser = localStorage.getItem('username');
     this.buildForm();
     if (this.myuser != undefined) {
